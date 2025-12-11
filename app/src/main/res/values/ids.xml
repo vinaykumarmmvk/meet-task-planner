@@ -1,0 +1,4 @@
+<resources>
+    <item name="tag_start_time" type="id" />
+    <item name="tag_task_id" type="id" />
+</resources>

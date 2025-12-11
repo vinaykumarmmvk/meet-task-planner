@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_margin="8dp"
+    android:layout_height="wrap_content"
+    android:padding="12dp"
+    android:background="@drawable/bg_card_input"
+    android:elevation="4dp">
+
+    <!-- Title -->
+    <EditText
+        android:id="@+id/edit_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter title"
+        android:inputType="text"
+        android:importantForAutofill="no" />
+
+    <!-- Description -->
+    <EditText
+        android:id="@+id/edit_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Description"
+        android:minLines="3"
+        android:maxLines="20"
+        android:inputType="textMultiLine" />
+
+    <!-- Radio group: All day / Enter duration -->
+    <RadioGroup
+        android:id="@+id/radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/radio_clockin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Clockin"
+            android:layout_marginRight="10dp"
+            android:checked="true" /> <!-- ✅ default checked -->
+
+        <RadioButton
+            android:id="@+id/radio_all_day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:text="All day" />
+
+        <RadioButton
+            android:id="@+id/radio_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter duration" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/text_start_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+    <!-- Date Inputs -->
+    <EditText
+        android:id="@+id/edit_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Date (for All Day)"
+        android:focusable="false"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/layout_duration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <EditText
+            android:id="@+id/edit_from"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="From"
+            android:focusable="false" />
+
+        <EditText
+            android:id="@+id/edit_to"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="To"
+            android:focusable="false" />
+    </LinearLayout>
+    <Button
+        android:id="@+id/btn_stop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="STOP"
+        android:visibility="gone" />
+
+    <!-- Submit & Remove -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btn_submit"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="START"
+            android:layout_margin="8dp"
+            android:enabled="false" />
+
+        <Button
+            android:id="@+id/btn_remove"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="REMOVE"
+            android:backgroundTint="#F25C54"/>
+    </LinearLayout>
+</LinearLayout>
