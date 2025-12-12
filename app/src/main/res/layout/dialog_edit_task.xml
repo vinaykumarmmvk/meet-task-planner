@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:padding="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/edit_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Title" />
+
+        <EditText
+            android:id="@+id/edit_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Description"
+            android:inputType="textMultiLine"
+            android:minLines="2"
+            android:gravity="top"
+            android:layout_marginTop="8dp" />
+
+        <!-- All-day date -->
+        <TextView
+            android:id="@+id/text_all_day_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="All-day date"
+            android:layout_marginTop="16dp"
+            android:visibility="gone" />
+
+        <EditText
+            android:id="@+id/edit_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="dd.MM.yyyy"
+            android:inputType="text"
+            android:visibility="gone" />
+
+        <!-- Duration FROM / TO -->
+        <TextView
+            android:id="@+id/text_duration_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Duration (from / to)"
+            android:layout_marginTop="16dp"
+            android:visibility="gone" />
+
+        <EditText
+            android:id="@+id/edit_from"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="From (dd.MM.yyyy)"
+            android:inputType="text"
+            android:visibility="gone" />
+
+        <EditText
+            android:id="@+id/edit_to"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="To (dd.MM.yyyy)"
+            android:inputType="text"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/text_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textColor="@android:color/darker_gray" />
+
+    </LinearLayout>
+</ScrollView>
