@@ -24,26 +24,11 @@ public class TasksFragment extends Fragment {
     private TaskAdapter adapter;
     private RecyclerView recyclerView;
     private SearchView searchView;
-    private List<Task> taskList;
-
-    public TasksFragment() {}
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_tasks, container, false);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        reloadTasks(); // reload task list from database
-    }
-
-    public void reloadTasks() {
-        taskList.clear();
-        taskList.addAll(AppDatabase.getInstance(getContext()).taskDao().getAllTasks());
-        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -53,19 +38,40 @@ public class TasksFragment extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        taskList = AppDatabase.getInstance(getContext()).taskDao().getAllTasks();
-        adapter = new TaskAdapter(taskList);
+        // 🔹 Load initial list from DB
+        List<Task> tasks = AppDatabase.getInstance(getContext())
+                .taskDao()
+                .getAllTasks();
+
+        adapter = new TaskAdapter(tasks);
         recyclerView.setAdapter(adapter);
 
+        // 🔹 Search always uses adapter.updateList(...)
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override public boolean onQueryTextSubmit(String query) { return false; }
+
             @Override
             public boolean onQueryTextChange(String newText) {
                 List<Task> filtered = AppDatabase.getInstance(getContext())
-                        .taskDao().searchByTitle(newText);
+                        .taskDao()
+                        .searchByTitle(newText);
                 adapter.updateList(filtered);
                 return true;
             }
         });
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        reloadTasks();   // every time you come to this tab, reload from DB
+    }
+
+    private void reloadTasks() {
+        List<Task> latest = AppDatabase.getInstance(getContext())
+                .taskDao()
+                .getAllTasks();
+        adapter.updateList(latest);   // 🔑 refresh the adapter's internal list
+    }
 }
+

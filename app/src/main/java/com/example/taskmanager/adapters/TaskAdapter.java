@@ -75,6 +75,26 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         }
         holder.duration.setText(durationDisplay);
 
+        // 🔹 Detect ongoing clock-in
+        boolean isClockInOngoing =
+                !task.isAllDay
+                        && task.fromDate == null
+                        && task.toDate == null
+                        && task.isOngoing;
+
+        if (isClockInOngoing) {
+            // 🔒 Ongoing clock-in: hide edit & delete
+            holder.imgEdit.setVisibility(View.GONE);
+            holder.imgDelete.setVisibility(View.GONE);
+
+            // Optional: show “(In progress…)”
+            holder.duration.setText("In progress …");   //durationDisplay
+        } else {
+            // ✅ finished / normal task: allow edit & delete
+            holder.imgEdit.setVisibility(View.VISIBLE);
+            holder.imgDelete.setVisibility(View.VISIBLE);
+        }
+
         holder.imgDelete.setOnClickListener(v ->
                 confirmDeleteTask(v.getContext(), holder.getAdapterPosition()));
 
