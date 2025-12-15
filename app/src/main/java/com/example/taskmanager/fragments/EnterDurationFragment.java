@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment;
 import com.example.taskmanager.R;
 import com.example.taskmanager.database.AppDatabase;
 import com.example.taskmanager.models.Task;
+import com.example.taskmanager.notifications.ReminderUtils;
 import com.example.taskmanager.utils.DateUtils;
 import com.example.taskmanager.utils.DialogUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -110,6 +111,7 @@ public class EnterDurationFragment extends Fragment {
             task.isOngoing = false;
 
             AppDatabase.getInstance(getContext()).taskDao().update(task);
+            ReminderUtils.scheduleReminderForTask(getContext(), task);
 
             String durationStr = DateUtils.formatDuration(task.durationMillis);
 
@@ -232,6 +234,7 @@ public class EnterDurationFragment extends Fragment {
                 task.date = formattedDate;
 
                 long taskId = AppDatabase.getInstance(getContext()).taskDao().insertAndReturnId(task); // you must create this DAO method
+                ReminderUtils.scheduleReminderForTask(getContext(), task);
                 task.id = (int) taskId;
 
                 // Disable input, show stop button
@@ -308,6 +311,7 @@ public class EnterDurationFragment extends Fragment {
 
             //replaced - AppDatabase.getInstance(getContext()).taskDao().insert(task);
             long taskId = AppDatabase.getInstance(getContext()).taskDao().insertAndReturnId(task);
+            ReminderUtils.scheduleReminderForTask(getContext(), task);
             task.id = (int) taskId;
             taskView.setTag(R.id.tag_task_id, task.id); // ✅ ADD THIS
 
@@ -342,6 +346,7 @@ public class EnterDurationFragment extends Fragment {
                 task.date = currentDateStr;
 
                 AppDatabase.getInstance(getContext()).taskDao().update(task);
+                ReminderUtils.scheduleReminderForTask(getContext(), task);
 
                 String durationStr = DateUtils.formatDuration(task.durationMillis);
                 DialogUtils.showSuccessDialog(getContext(),

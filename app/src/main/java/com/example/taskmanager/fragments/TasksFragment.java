@@ -1,13 +1,17 @@
 package com.example.taskmanager.fragments;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +24,9 @@ import com.example.taskmanager.adapters.TaskAdapter;
 import com.example.taskmanager.database.AppDatabase;
 import com.example.taskmanager.models.Task;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -32,6 +39,7 @@ public class TasksFragment extends Fragment {
     private TaskAdapter adapter;
     private SearchView searchView;
     private Spinner spinnerSort;
+    private Button btnExport;
 
     private final List<Task> allTasks = new ArrayList<>();
     private String currentQuery = "";
@@ -57,6 +65,7 @@ public class TasksFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recycler_tasks);
         searchView = view.findViewById(R.id.search_tasks);
         spinnerSort = view.findViewById(R.id.spinner_sort);
+        Button btnExport = view.findViewById(R.id.button_export_csv);
 
         // Always show full search bar with hint
         searchView.setIconifiedByDefault(false);
@@ -66,6 +75,8 @@ public class TasksFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new TaskAdapter(new ArrayList<Task>());
         recyclerView.setAdapter(adapter);
+
+        btnExport.setOnClickListener(v -> exportTasksToCsv());
 
         // Set up sort spinner
         ArrayAdapter<CharSequence> sortAdapter = ArrayAdapter.createFromResource(
@@ -107,6 +118,79 @@ public class TasksFragment extends Fragment {
         // Initial load
         reloadTasks();
     }
+
+    private void exportTasksToCsv() {
+        if (allTasks.isEmpty()) {
+            Toast.makeText(getContext(), "No tasks to export", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        StringBuilder sb = new StringBuilder();
+        // Header row
+        sb.append("Title,Description,Type,Date,From,To,DurationMinutes\n");
+
+        for (Task task : allTasks) {
+            String type;
+            if (task.isAllDay) {
+                type = "All-day";
+            } else if (task.fromDate != null && task.toDate != null) {
+                type = "Duration";
+            } else {
+                type = "Clock-in";
+            }
+
+            long durationMinutes = task.durationMillis / (60 * 1000);
+
+            String title = task.title == null ? "" : task.title.replace("\"", "\"\"");
+            String desc = task.description == null ? "" : task.description.replace("\"", "\"\"");
+
+            sb.append("\"").append(title).append("\",")
+                    .append("\"").append(desc).append("\",")
+                    .append(type).append(",")
+                    .append(task.date == null ? "" : task.date).append(",")
+                    .append(task.fromDate == null ? "" : task.fromDate).append(",")
+                    .append(task.toDate == null ? "" : task.toDate).append(",")
+                    .append(durationMinutes)
+                    .append("\n");
+        }
+
+        try {
+            // 1) Create CSV file in cache dir
+            File cacheDir = requireContext().getCacheDir();
+            java.text.SimpleDateFormat sdf =
+                    new java.text.SimpleDateFormat("yyMMdd_HHmmss", java.util.Locale.getDefault());
+            String timestamp = sdf.format(new java.util.Date());
+            String fileName = "tasks_export_" + timestamp + ".csv";
+
+            File csvFile = new File(cacheDir, fileName);
+
+            FileWriter writer = new FileWriter(csvFile);
+            writer.write(sb.toString());
+            writer.flush();
+            writer.close();
+
+            // 2) Get URI via FileProvider
+            Uri uri = androidx.core.content.FileProvider.getUriForFile(
+                    requireContext(),
+                    requireContext().getPackageName() + ".fileprovider",
+                    csvFile
+            );
+
+            // 3) Share the file
+            Intent sendIntent = new Intent(Intent.ACTION_SEND);
+            sendIntent.setType("text/csv");
+            sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Meet & Task Planner - Export");
+            sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
+            sendIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+            startActivity(Intent.createChooser(sendIntent, "Share CSV via"));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(getContext(), "Failed to export CSV", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     @Override
     public void onResume() {

@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.taskmanager.R;
 import com.example.taskmanager.database.AppDatabase;
 import com.example.taskmanager.models.Task;
+import com.example.taskmanager.notifications.ReminderUtils;
 import com.example.taskmanager.utils.DateUtils;
 
 import java.text.ParseException;
@@ -86,6 +87,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             // 🔒 Ongoing clock-in: hide edit & delete
             holder.imgEdit.setVisibility(View.GONE);
             holder.imgDelete.setVisibility(View.GONE);
+            holder.badgeInProgress.setVisibility(View.VISIBLE);
 
             // Optional: show “(In progress…)”
             holder.duration.setText("In progress …");   //durationDisplay
@@ -93,6 +95,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             // ✅ finished / normal task: allow edit & delete
             holder.imgEdit.setVisibility(View.VISIBLE);
             holder.imgDelete.setVisibility(View.VISIBLE);
+            holder.badgeInProgress.setVisibility(View.GONE);
         }
 
         holder.imgDelete.setOnClickListener(v ->
@@ -253,6 +256,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
                 // Persist changes
                 AppDatabase.getInstance(context).taskDao().update(task);
+                ReminderUtils.scheduleReminderForTask(context, task);
 
                 // Update list + UI
                 taskList.set(position, task);
@@ -267,7 +271,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     }
 
     static class TaskViewHolder extends RecyclerView.ViewHolder {
-        TextView title, description, duration;
+        TextView title, description, duration, badgeInProgress;
         ImageView imgDelete, imgEdit;
 
         TaskViewHolder(View view) {
@@ -277,6 +281,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             duration = view.findViewById(R.id.text_duration);
             imgDelete = view.findViewById(R.id.img_delete);
             imgEdit = view.findViewById(R.id.img_edit);
+            badgeInProgress = view.findViewById(R.id.badge_in_progress);
         }
     }
 }

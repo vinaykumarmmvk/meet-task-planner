@@ -22,15 +22,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="8dp"
-        android:gravity="center_vertical">
-
-        <TextView
-            android:id="@+id/text_sort_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sort by"
-            android:textSize="14sp"
-            android:textColor="@android:color/black" />
+        android:gravity="center_vertical"
+        android:background="@drawable/bg_card_input">
 
         <!-- Container so we can overlay the arrow icon on top of the spinner -->
         <FrameLayout
@@ -38,6 +31,15 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginStart="8dp">
+
+            <TextView
+                android:id="@+id/text_sort_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sort by"
+                android:textSize="14sp"
+                android:layout_gravity="center_vertical"
+                android:textColor="@android:color/black" />
 
             <Spinner
                 android:id="@+id/spinner_sort"
@@ -47,6 +49,7 @@
                 android:paddingStart="20dp"
                 android:paddingEnd="0dp"
                 android:gravity="center_vertical"
+                android:layout_marginStart="55dp"
                 android:spinnerMode="dropdown" />
 
             <!-- Dropdown arrow icon -->
@@ -54,10 +57,17 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center_vertical"
-                android:layout_margin="4dp"
+                android:layout_marginStart="60dp"
                 android:src="@drawable/ic_arrow_drop_down"
                 android:contentDescription="Sort options" />
         </FrameLayout>
+
+        <Button
+            android:id="@+id/button_export_csv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:text="Export to CSV" />
 
     </LinearLayout>
 
