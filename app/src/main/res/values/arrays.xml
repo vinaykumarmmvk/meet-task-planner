@@ -1,0 +1,9 @@
+<resources>
+
+    <string-array name="task_sort_options">
+        <item>Latest first</item>
+        <item>Oldest first</item>
+        <item>Duration (longest)</item>
+    </string-array>
+
+</resources>

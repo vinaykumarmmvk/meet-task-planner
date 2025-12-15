@@ -1,20 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="8dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- Search by title -->
     <SearchView
         android:id="@+id/search_tasks"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:queryHint="Search by title" />
+        android:iconifiedByDefault="false"
+        android:queryHint="Search task..."
+        android:background="@drawable/bg_searchview"/>
 
+
+    <!-- Sort row: label + spinner with custom background + arrow -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/text_sort_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sort by"
+            android:textSize="14sp"
+            android:textColor="@android:color/black" />
+
+        <!-- Container so we can overlay the arrow icon on top of the spinner -->
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp">
+
+            <Spinner
+                android:id="@+id/spinner_sort"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:background="@drawable/bg_spinner"
+                android:paddingStart="20dp"
+                android:paddingEnd="0dp"
+                android:gravity="center_vertical"
+                android:spinnerMode="dropdown" />
+
+            <!-- Dropdown arrow icon -->
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="4dp"
+                android:src="@drawable/ic_arrow_drop_down"
+                android:contentDescription="Sort options" />
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <!-- Task list -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_tasks"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:paddingTop="8dp"/>
 </LinearLayout>
