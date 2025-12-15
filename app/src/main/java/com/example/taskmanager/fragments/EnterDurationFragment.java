@@ -140,6 +140,8 @@ public class EnterDurationFragment extends Fragment {
         EditText editDate = taskView.findViewById(R.id.edit_date);
         EditText editFrom = taskView.findViewById(R.id.edit_from);
         EditText editTo = taskView.findViewById(R.id.edit_to);
+        EditText editFromTime = taskView.findViewById(R.id.edit_from_time);
+        EditText editToTime = taskView.findViewById(R.id.edit_to_time);
         LinearLayout layoutDuration = taskView.findViewById(R.id.layout_duration);
         Button btnSubmit = taskView.findViewById(R.id.btn_submit);
         Button btnRemove = taskView.findViewById(R.id.btn_remove);
@@ -190,9 +192,11 @@ public class EnterDurationFragment extends Fragment {
         // Date picker for All Day
         editDate.setOnClickListener(v -> DialogUtils.showDatePicker(getContext(), editDate));
 
-        // Date pickers for From / To
+        // Date and Time pickers for From / To(duration)
         editFrom.setOnClickListener(v -> DialogUtils.showDatePicker(getContext(), editFrom));
         editTo.setOnClickListener(v -> DialogUtils.showDatePicker(getContext(), editTo));
+        editFromTime.setOnClickListener(v -> DialogUtils.showTimePicker(getContext(), editFromTime));
+        editToTime.setOnClickListener(v -> DialogUtils.showTimePicker(getContext(), editToTime));
 
         // Remove task view
         btnRemove.setOnClickListener(v -> taskContainer.removeView(taskView));
@@ -207,6 +211,8 @@ public class EnterDurationFragment extends Fragment {
             String dateStr = editDate.getText().toString().trim();
             String fromStr = editFrom.getText().toString().trim();
             String toStr = editTo.getText().toString().trim();
+            String fromTimeStr = editFromTime.getText().toString().trim();
+            String toTimeStr = editToTime.getText().toString().trim();
 
             long currentTimeMillis = System.currentTimeMillis();
             SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault());
@@ -229,12 +235,12 @@ public class EnterDurationFragment extends Fragment {
                 task.isOngoing = true;
                 task.dateTime = formattedDateTime;
 
-                SimpleDateFormat sdf4 = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+                // Save date (for calendar)
+                SimpleDateFormat sdf4 = new SimpleDateFormat("dd.MM.yyyy", Locale.US);
                 String formattedDate = sdf4.format(new Date(currentTimeMillis));
                 task.date = formattedDate;
 
-                long taskId = AppDatabase.getInstance(getContext()).taskDao().insertAndReturnId(task); // you must create this DAO method
-                ReminderUtils.scheduleReminderForTask(getContext(), task);
+                long taskId = AppDatabase.getInstance(getContext()).taskDao().insertAndReturnId(task);
                 task.id = (int) taskId;
 
                 // Disable input, show stop button
@@ -251,7 +257,6 @@ public class EnterDurationFragment extends Fragment {
                 btnStop.setVisibility(View.VISIBLE);
 
                 textStart.setVisibility(View.VISIBLE);
-
                 textStart.setText("Started on: " + formattedDateTime);
                 taskView.setTag(R.id.tag_task_id, task.id);
                 return;
@@ -269,28 +274,58 @@ public class EnterDurationFragment extends Fragment {
                     return;
                 }
 
-                try {
-                    SimpleDateFormat sdf1 = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
-                    Date fromDate = sdf1.parse(fromStr);
-                    Date toDate = sdf1.parse(toStr);
+                // Defaults for times when user leaves blank
+                if (fromTimeStr.isEmpty()) {
+                    fromTimeStr = "00:00";
+                }
+                if (toTimeStr.isEmpty()) {
+                    toTimeStr = "23:59";
+                }
+            }
 
-                    if (fromDate.after(toDate)) {
-                        Toast.makeText(getContext(), "FROM date must be before or equal to TO date", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
+            long eventStartMillis = 0L;
+            long eventEndMillis = 0L;
+            long duration;
+
+            if (isAllDay) {
+                // All-day = full day duration starting from selected date at 00:00
+                try {
+                    SimpleDateFormat dayFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+                    Date allDayDate = dayFormat.parse(dateStr);
+                    if (allDayDate == null) throw new ParseException("Invalid date", 0);
+                    eventStartMillis = allDayDate.getTime();
                 } catch (ParseException e) {
                     Toast.makeText(getContext(), "Invalid date format", Toast.LENGTH_SHORT).show();
                     return;
                 }
-            }
 
-            // Calculate duration
-            long duration;
-            if (isAllDay) {
-                duration = 24 * 60 * 60 * 1000L; // 1 day
+                duration = 24 * 60 * 60 * 1000L; // 1 full day
+                eventEndMillis = eventStartMillis + duration;
             } else {
-                int days = DateUtils.calculateDaysInclusive(fromStr, toStr);
-                duration = days * 24 * 60 * 60 * 1000L;
+                // Duration with date + optional time
+                try {
+                    SimpleDateFormat dateTimeFormat =
+                            new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault());
+
+                    Date fromDateTime = dateTimeFormat.parse(fromStr + " " + fromTimeStr);
+                    Date toDateTime = dateTimeFormat.parse(toStr + " " + toTimeStr);
+
+                    if (fromDateTime == null || toDateTime == null) {
+                        throw new ParseException("Invalid date/time", 0);
+                    }
+
+                    if (fromDateTime.after(toDateTime)) {
+                        Toast.makeText(getContext(), "FROM date/time must be before TO date/time", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    eventStartMillis = fromDateTime.getTime();
+                    eventEndMillis = toDateTime.getTime();
+                    duration = eventEndMillis - eventStartMillis;
+                } catch (ParseException e) {
+                    Toast.makeText(getContext(), "Invalid date/time format", Toast.LENGTH_SHORT).show();
+                    return;
+                }
             }
 
             // Create Task
@@ -300,8 +335,8 @@ public class EnterDurationFragment extends Fragment {
             task.isAllDay = isAllDay;
             task.fromDate = isDuration ? fromStr : null;
             task.toDate = isDuration ? toStr : null;
-            task.startTimestamp = System.currentTimeMillis();
-            task.stopTimestamp = task.startTimestamp + duration;
+            task.startTimestamp = eventStartMillis;
+            task.stopTimestamp = eventEndMillis;
             task.durationMillis = duration;
             task.dateTime = formattedDateTime;
 
@@ -309,12 +344,9 @@ public class EnterDurationFragment extends Fragment {
             String currentDateStr = sdf3.format(new Date(task.startTimestamp));
             task.date = isAllDay ? dateStr : (isDuration ? fromStr : currentDateStr);
 
-            //replaced - AppDatabase.getInstance(getContext()).taskDao().insert(task);
             long taskId = AppDatabase.getInstance(getContext()).taskDao().insertAndReturnId(task);
-            ReminderUtils.scheduleReminderForTask(getContext(), task);
             task.id = (int) taskId;
-            taskView.setTag(R.id.tag_task_id, task.id); // ✅ ADD THIS
-
+            taskView.setTag(R.id.tag_task_id, task.id);
 
             String durationStr = DateUtils.formatDuration(duration);
             DialogUtils.showSuccessDialog(getContext(),
@@ -325,6 +357,7 @@ public class EnterDurationFragment extends Fragment {
 
             taskContainer.removeView(taskView);
         });
+
 
 
         // STOP button clicked

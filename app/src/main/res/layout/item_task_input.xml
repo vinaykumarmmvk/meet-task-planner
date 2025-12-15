@@ -28,7 +28,7 @@
         android:maxLines="20"
         android:inputType="textMultiLine" />
 
-    <!-- Radio group: All day / Enter duration -->
+    <!-- Radio group: Clockin / All day / Enter duration -->
     <RadioGroup
         android:id="@+id/radio_group"
         android:layout_width="match_parent"
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:text="Clockin"
             android:layout_marginRight="10dp"
-            android:checked="true" /> <!-- ✅ default checked -->
+            android:checked="true" />
 
         <RadioButton
             android:id="@+id/radio_all_day"
@@ -62,7 +62,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"/>
-    <!-- Date Inputs -->
+
+    <!-- Date input for All Day -->
     <EditText
         android:id="@+id/edit_date"
         android:layout_width="match_parent"
@@ -71,29 +72,62 @@
         android:focusable="false"
         android:visibility="gone" />
 
+    <!-- Duration inputs: From date/time and To date/time -->
     <LinearLayout
         android:id="@+id/layout_duration"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:visibility="gone">
 
-        <EditText
-            android:id="@+id/edit_from"
-            android:layout_width="0dp"
+        <!-- From row -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="From"
-            android:focusable="false" />
+            android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/edit_to"
-            android:layout_width="0dp"
+            <EditText
+                android:id="@+id/edit_from"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="From date"
+                android:focusable="false" />
+
+            <EditText
+                android:id="@+id/edit_from_time"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="From time"
+                android:focusable="false" />
+        </LinearLayout>
+
+        <!-- To row -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="To"
-            android:focusable="false" />
+            android:orientation="horizontal"
+            android:layout_marginTop="4dp">
+
+            <EditText
+                android:id="@+id/edit_to"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="To date"
+                android:focusable="false" />
+
+            <EditText
+                android:id="@+id/edit_to_time"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="To time"
+                android:focusable="false" />
+        </LinearLayout>
     </LinearLayout>
+
     <Button
         android:id="@+id/btn_stop"
         android:layout_width="match_parent"

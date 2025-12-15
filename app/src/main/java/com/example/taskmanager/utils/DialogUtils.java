@@ -2,6 +2,7 @@ package com.example.taskmanager.utils;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.widget.EditText;
 
@@ -26,6 +27,28 @@ public class DialogUtils {
                 calendar.get(Calendar.DAY_OF_MONTH));
 
         datePicker.show();
+    }
+
+    public static void showTimePicker(Context context, EditText targetEditText) {
+        final Calendar calendar = Calendar.getInstance();
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+
+        TimePickerDialog timePicker = new TimePickerDialog(
+                context,
+                (view, hourOfDay, minute1) -> {
+                    calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                    calendar.set(Calendar.MINUTE, minute1);
+                    String formatted = new SimpleDateFormat("HH:mm", Locale.getDefault())
+                            .format(calendar.getTime());
+                    targetEditText.setText(formatted);
+                },
+                hour,
+                minute,
+                true   // 24-hour format
+        );
+
+        timePicker.show();
     }
 
     public static void showSuccessDialog(Context context, String message) {

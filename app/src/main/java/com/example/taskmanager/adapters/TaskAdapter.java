@@ -19,6 +19,7 @@ import com.example.taskmanager.database.AppDatabase;
 import com.example.taskmanager.models.Task;
 import com.example.taskmanager.notifications.ReminderUtils;
 import com.example.taskmanager.utils.DateUtils;
+import com.example.taskmanager.utils.DialogUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -138,37 +139,93 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         EditText editDescription = dialogView.findViewById(R.id.edit_description);
         EditText editDate = dialogView.findViewById(R.id.edit_date);
         EditText editFrom = dialogView.findViewById(R.id.edit_from);
+        EditText editFromTime = dialogView.findViewById(R.id.edit_from_time);
         EditText editTo = dialogView.findViewById(R.id.edit_to);
+        EditText editToTime = dialogView.findViewById(R.id.edit_to_time);
         TextView labelAllDay = dialogView.findViewById(R.id.text_all_day_label);
         TextView labelDuration = dialogView.findViewById(R.id.text_duration_label);
+        View layoutDuration = dialogView.findViewById(R.id.layout_duration);
         TextView textInfo = dialogView.findViewById(R.id.text_info);
 
         // Prefill title & description
         editTitle.setText(task.title);
-        editDescription.setText(task.description);
+        editDescription.setText(task.description == null ? "" : task.description);
 
-        // Show appropriate time controls
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+
+        // Decide which section to show
         if (task.isAllDay) {
+            // ALL-DAY
             labelAllDay.setVisibility(View.VISIBLE);
             editDate.setVisibility(View.VISIBLE);
+            labelDuration.setVisibility(View.GONE);
+            layoutDuration.setVisibility(View.GONE);
+
             editDate.setText(task.date != null ? task.date : "");
-            textInfo.setText("Change the date for this all-day task (dd.MM.yyyy).");
+
+            // Date picker for all-day date
+            editDate.setOnClickListener(v -> DialogUtils.showDatePicker(context, editDate));
+
+            textInfo.setText("Change the date for this all-day task.");
+
         } else if (task.fromDate != null && task.toDate != null) {
+            // ENTER DURATION task (from/to with times)
+            labelAllDay.setVisibility(View.GONE);
+            editDate.setVisibility(View.GONE);
             labelDuration.setVisibility(View.VISIBLE);
-            editFrom.setVisibility(View.VISIBLE);
-            editTo.setVisibility(View.VISIBLE);
-            editFrom.setText(task.fromDate);
-            editTo.setText(task.toDate);
-            textInfo.setText("Change FROM and TO dates for this duration task (dd.MM.yyyy).");
+            layoutDuration.setVisibility(View.VISIBLE);
+
+            // Prefill dates
+            editFrom.setText(task.fromDate != null ? task.fromDate : "");
+            editTo.setText(task.toDate != null ? task.toDate : "");
+
+            // Prefill times from timestamps, if available
+            if (task.startTimestamp > 0) {
+                Date start = new Date(task.startTimestamp);
+                String timeStr = timeFormat.format(start);
+                editFromTime.setText(timeStr);
+
+                // if fromDate was empty for some reason, recover it from timestamp
+                if (editFrom.getText().toString().trim().isEmpty()) {
+                    editFrom.setText(dateFormat.format(start));
+                }
+            }
+
+            if (task.stopTimestamp > 0) {
+                Date stop = new Date(task.stopTimestamp);
+                String timeStr = timeFormat.format(stop);
+                editToTime.setText(timeStr);
+
+                if (editTo.getText().toString().trim().isEmpty()) {
+                    editTo.setText(dateFormat.format(stop));
+                }
+            }
+
+            // Date pickers
+            editFrom.setOnClickListener(v -> DialogUtils.showDatePicker(context, editFrom));
+            editTo.setOnClickListener(v -> DialogUtils.showDatePicker(context, editTo));
+
+            // Time pickers
+            editFromTime.setOnClickListener(v -> DialogUtils.showTimePicker(context, editFromTime));
+            editToTime.setOnClickListener(v -> DialogUtils.showTimePicker(context, editToTime));
+
+            textInfo.setText("Change FROM and TO date/time for this duration task.");
+
         } else {
-            // Clock-in task
+            // CLOCK-IN task (only title & description)
+            labelAllDay.setVisibility(View.GONE);
+            editDate.setVisibility(View.GONE);
+            labelDuration.setVisibility(View.GONE);
+            layoutDuration.setVisibility(View.GONE);
+
             textInfo.setText("Clock-in task: you can edit title and description. Time comes from the clock-in/stop.");
         }
 
         AlertDialog dialog = new AlertDialog.Builder(context)
                 .setTitle("Edit task")
                 .setView(dialogView)
-                .setPositiveButton("Save", null) // override in onShow
+                .setPositiveButton("Save", null) // override later
                 .setNegativeButton("Cancel", null)
                 .create();
 
@@ -186,7 +243,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                 task.title = newTitle;
                 task.description = newDesc;
 
-                // Time update for All-day
+                // ALL-DAY save logic
                 if (task.isAllDay) {
                     String newDate = editDate.getText().toString().trim();
                     if (newDate.isEmpty()) {
@@ -194,9 +251,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                         return;
                     }
 
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
                     try {
-                        Date d = sdf.parse(newDate);
+                        Date d = dateFormat.parse(newDate);
                         if (d == null) throw new ParseException("null", 0);
 
                         task.date = newDate;
@@ -208,10 +264,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                         return;
                     }
 
-                    // Time update for Duration
+                    // ENTER DURATION save logic
                 } else if (task.fromDate != null && task.toDate != null) {
                     String fromStr = editFrom.getText().toString().trim();
                     String toStr = editTo.getText().toString().trim();
+                    String fromTimeStr = editFromTime.getText().toString().trim();
+                    String toTimeStr = editToTime.getText().toString().trim();
 
                     if (fromStr.isEmpty()) {
                         editFrom.setError("Required");
@@ -222,43 +280,56 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                         return;
                     }
 
-                    if (!DateUtils.isFromBeforeTo(fromStr, toStr)) {
-                        editTo.setError("TO must be after or same as FROM");
+                    // Defaults if user leaves times blank
+                    if (fromTimeStr.isEmpty()) {
+                        fromTimeStr = "00:00";
+                    }
+                    if (toTimeStr.isEmpty()) {
+                        toTimeStr = "23:59";
+                    }
+
+                    SimpleDateFormat dateTimeFormat =
+                            new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault());
+
+                    try {
+                        Date fromDateTime = dateTimeFormat.parse(fromStr + " " + fromTimeStr);
+                        Date toDateTime = dateTimeFormat.parse(toStr + " " + toTimeStr);
+
+                        if (fromDateTime == null || toDateTime == null) {
+                            throw new ParseException("Invalid", 0);
+                        }
+
+                        if (fromDateTime.after(toDateTime)) {
+                            editToTime.setError("TO must be after FROM");
+                            Toast.makeText(context,
+                                    "FROM date/time must be before TO date/time",
+                                    Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        task.fromDate = fromStr;
+                        task.toDate = toStr;
+                        task.startTimestamp = fromDateTime.getTime();
+                        task.stopTimestamp = toDateTime.getTime();
+                        task.durationMillis = task.stopTimestamp - task.startTimestamp;
+
+                    } catch (ParseException e) {
                         Toast.makeText(context,
-                                "FROM must be before or equal to TO",
+                                "Use format dd.MM.yyyy HH:mm",
                                 Toast.LENGTH_SHORT).show();
                         return;
                     }
 
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
-                    try {
-                        Date fromDate = sdf.parse(fromStr);
-                        if (fromDate == null) throw new ParseException("null", 0);
-
-                        int days = DateUtils.calculateDaysInclusive(fromStr, toStr);
-                        long duration = days * 24L * 60L * 60L * 1000L;
-
-                        task.fromDate = fromStr;
-                        task.toDate = toStr;
-                        task.startTimestamp = fromDate.getTime();
-                        task.durationMillis = duration;
-                        task.stopTimestamp = task.startTimestamp + duration;
-                    } catch (ParseException e) {
-                        editFrom.setError("Use format dd.MM.yyyy");
-                        return;
-                    }
+                    // Clock-in tasks: nothing to do for time here – they keep their timestamps
                 }
 
-                // Optional: update "last changed" dateTime
+                // Update last-changed dateTime string
                 SimpleDateFormat sdfFull =
                         new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault());
                 task.dateTime = sdfFull.format(new Date());
 
-                // Persist changes
+                // Persist and refresh UI
                 AppDatabase.getInstance(context).taskDao().update(task);
-                ReminderUtils.scheduleReminderForTask(context, task);
-
-                // Update list + UI
                 taskList.set(position, task);
                 notifyItemChanged(position);
 
@@ -269,6 +340,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
         dialog.show();
     }
+
 
     static class TaskViewHolder extends RecyclerView.ViewHolder {
         TextView title, description, duration, badgeInProgress;
