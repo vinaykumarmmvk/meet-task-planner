@@ -24,4 +24,8 @@ public class Task {
     public long durationMillis;
 
     public boolean isOngoing; // true = started but not yet stopped
+
+    @androidx.room.ColumnInfo(name = "attachment_uris")
+    public String attachmentUris; // URIs separated by ';'
+
 }

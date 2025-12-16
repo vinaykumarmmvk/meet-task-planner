@@ -24,9 +24,44 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Description"
+        android:inputType="textMultiLine"
         android:minLines="3"
-        android:maxLines="20"
-        android:inputType="textMultiLine" />
+        android:gravity="top"
+        android:scrollbars="vertical" />
+
+    <!-- Attachments block: pin + list -->
+    <LinearLayout
+        android:id="@+id/layout_attachments"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="4dp">
+
+        <!-- Row with pin icon -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end">
+
+            <ImageView
+                android:id="@+id/img_attach"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_attach"
+                android:contentDescription="Attach files"
+                android:padding="4dp" />
+        </LinearLayout>
+
+        <!-- Dynamic list of attachments (filename + delete icon) -->
+        <LinearLayout
+            android:id="@+id/layout_attachment_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="4dp" />
+    </LinearLayout>
+
 
     <!-- Radio group: Clockin / All day / Enter duration -->
     <RadioGroup

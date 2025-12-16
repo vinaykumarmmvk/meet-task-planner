@@ -1,14 +1,26 @@
 package com.example.taskmanager.fragments;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -17,6 +29,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.taskmanager.R;
@@ -27,8 +41,10 @@ import com.example.taskmanager.utils.DateUtils;
 import com.example.taskmanager.utils.DialogUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -37,8 +53,221 @@ public class EnterDurationFragment extends Fragment {
 
     private LinearLayout taskContainer;
     private FloatingActionButton fabAddTask;
+    private static final int REQ_PICK_IMAGE = 2001;
+    private static final int REQ_PICK_FILE = 2002;
+    private static final int REQ_TAKE_PHOTO = 2003;
+    private static final int REQ_CAMERA_PERMISSION = 2004;
+
+    // Types for display naming
+    private static final int ATTACH_TYPE_IMAGE = 1;
+    private static final int ATTACH_TYPE_FILE = 2;
+
+    private View currentAttachmentTaskView = null;
+    private Uri pendingCameraUri = null;
+
 
     public EnterDurationFragment() {
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode != Activity.RESULT_OK || currentAttachmentTaskView == null) {
+            return;
+        }
+
+        Uri uri = null;
+        int attachType = ATTACH_TYPE_FILE; // default
+
+        if (requestCode == REQ_PICK_IMAGE) {
+            if (data != null) {
+                uri = data.getData();
+                attachType = ATTACH_TYPE_IMAGE;
+            }
+        } else if (requestCode == REQ_PICK_FILE) {
+            if (data != null) {
+                uri = data.getData();
+                attachType = ATTACH_TYPE_FILE;
+            }
+        } else if (requestCode == REQ_TAKE_PHOTO) {
+            uri = pendingCameraUri;
+            attachType = ATTACH_TYPE_IMAGE;
+        }
+
+        if (uri != null) {
+            addAttachmentToTaskView(currentAttachmentTaskView, uri, attachType);
+            Toast.makeText(getContext(), "Attachment added", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    @SuppressWarnings("unchecked")
+    private void addAttachmentToTaskView(View taskView, Uri uri, int attachType) {
+        ArrayList<Uri> uriList = (ArrayList<Uri>) taskView.getTag(R.id.tag_attachment_list);
+        if (uriList == null) {
+            uriList = new ArrayList<>();
+        }
+        uriList.add(uri);
+        taskView.setTag(R.id.tag_attachment_list, uriList);
+
+        ArrayList<String> nameList = (ArrayList<String>) taskView.getTag(R.id.tag_attachment_names);
+        if (nameList == null) {
+            nameList = new ArrayList<>();
+        }
+        String displayName = generateAttachmentDisplayName(uri, attachType);
+        nameList.add(displayName);
+        taskView.setTag(R.id.tag_attachment_names, nameList);
+
+        renderAttachments(taskView);
+    }
+
+    private String generateAttachmentDisplayName(Uri uri, int attachType) {
+        // Timestamp: YYMMDD_HHMMSS
+        SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd_HHmmss", Locale.getDefault());
+        String ts = sdf.format(new Date());
+
+        if (attachType == ATTACH_TYPE_IMAGE) {
+            // Photo/image → always .jpg as requested
+            return "img_" + ts + ".jpg";
+        } else {
+            // File/document → doc_YYMMDD_HHMMSS.extension (extension from original name if possible)
+            String ext = "";
+
+            // Try to get original display name
+            String originalName = null;
+            try {
+                if (uri != null && "content".equals(uri.getScheme())) {
+                    Cursor c = requireContext().getContentResolver()
+                            .query(uri, new String[]{OpenableColumns.DISPLAY_NAME},
+                                    null, null, null);
+                    if (c != null) {
+                        if (c.moveToFirst()) {
+                            originalName = c.getString(0);
+                        }
+                        c.close();
+                    }
+                }
+            } catch (Exception ignored) {
+            }
+
+            if (originalName == null && uri != null) {
+                String last = uri.getLastPathSegment();
+                if (last != null) originalName = last;
+            }
+
+            if (originalName != null) {
+                int dot = originalName.lastIndexOf('.');
+                if (dot >= 0 && dot < originalName.length() - 1) {
+                    ext = originalName.substring(dot); // includes the dot
+                }
+            }
+
+            return "doc_" + ts + ext;
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private void renderAttachments(View taskView) {
+        Context ctx = getContext();
+        if (ctx == null) return;
+
+        LinearLayout container = taskView.findViewById(R.id.layout_attachment_list);
+        if (container == null) return;
+
+        container.removeAllViews();
+
+        ArrayList<Uri> uriList = (ArrayList<Uri>) taskView.getTag(R.id.tag_attachment_list);
+        ArrayList<String> nameList = (ArrayList<String>) taskView.getTag(R.id.tag_attachment_names);
+
+        if (uriList == null || uriList.isEmpty()) {
+            container.setVisibility(View.GONE);
+            return;
+        }
+
+        container.setVisibility(View.VISIBLE);
+
+        float density = ctx.getResources().getDisplayMetrics().density;
+        int marginTopPx = (int) (4 * density);
+        int paddingPx = (int) (4 * density);
+
+        for (int i = 0; i < uriList.size(); i++) {
+            Uri uri = uriList.get(i);
+            String displayName = (nameList != null && i < nameList.size())
+                    ? nameList.get(i)
+                    : "Attachment";
+
+            // Row: [filename          (x)]
+            LinearLayout row = new LinearLayout(ctx);
+            row.setOrientation(LinearLayout.HORIZONTAL);
+            LinearLayout.LayoutParams rowParams = new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+            );
+            if (i > 0) {
+                rowParams.topMargin = marginTopPx;
+            }
+            row.setLayoutParams(rowParams);
+
+            TextView tv = new TextView(ctx);
+            LinearLayout.LayoutParams tvParams = new LinearLayout.LayoutParams(
+                    0,
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    1f
+            );
+            tv.setLayoutParams(tvParams);
+            tv.setSingleLine(true);
+            tv.setEllipsize(TextUtils.TruncateAt.END);
+            tv.setText(displayName);   // 👈 only filename, no "Image: " or "Document: "
+            row.addView(tv);
+
+            ImageView imgDelete = new ImageView(ctx);
+            LinearLayout.LayoutParams delParams = new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+            );
+            imgDelete.setLayoutParams(delParams);
+            imgDelete.setImageResource(R.drawable.ic_delete);
+            imgDelete.setPadding(paddingPx, paddingPx, paddingPx, paddingPx);
+
+            int index = i;
+            imgDelete.setOnClickListener(v -> {
+                ArrayList<Uri> currentUris =
+                        (ArrayList<Uri>) taskView.getTag(R.id.tag_attachment_list);
+                ArrayList<String> currentNames =
+                        (ArrayList<String>) taskView.getTag(R.id.tag_attachment_names);
+
+                if (currentUris != null && index < currentUris.size()) {
+                    currentUris.remove(index);
+                }
+                if (currentNames != null && index < currentNames.size()) {
+                    currentNames.remove(index);
+                }
+
+                taskView.setTag(R.id.tag_attachment_list, currentUris);
+                taskView.setTag(R.id.tag_attachment_names, currentNames);
+                renderAttachments(taskView);
+            });
+
+            row.addView(imgDelete);
+            container.addView(row);
+        }
+    }
+
+
+    private String getFileNameFromUri(Uri uri) {
+        if (uri == null) return "Attachment";
+
+        String last = uri.getLastPathSegment();
+        if (last == null) return "Attachment";
+
+        // Strip path part if present
+        int slash = last.lastIndexOf('/');
+        if (slash >= 0 && slash < last.length() - 1) {
+            last = last.substring(slash + 1);
+        }
+
+        return last;
     }
 
     @Override
@@ -51,6 +280,7 @@ public class EnterDurationFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         taskContainer = view.findViewById(R.id.task_container);
         fabAddTask = view.findViewById(R.id.fab_add_task);
+
 
         List<Task> ongoingTasks = AppDatabase.getInstance(getContext())
                 .taskDao().getOngoingTasks();
@@ -83,6 +313,7 @@ public class EnterDurationFragment extends Fragment {
         RadioButton radioAllDay = taskView.findViewById(R.id.radio_all_day);
         RadioButton radioDuration = taskView.findViewById(R.id.radio_duration);
         RadioGroup radioGroup = taskView.findViewById(R.id.radio_group);
+        ImageView imgAttach = taskView.findViewById(R.id.img_attach);
 
         // Fill previous data
         editTitle.setText(task.title);
@@ -103,6 +334,29 @@ public class EnterDurationFragment extends Fragment {
         btnSubmit.setVisibility(View.GONE);
         btnStop.setVisibility(View.VISIBLE);
         btnRemove.setVisibility(View.GONE);
+
+        imgAttach.setOnClickListener(v -> {
+            currentAttachmentTaskView = taskView;
+
+            String[] options = {"Take photo", "Choose photo", "Choose file"};
+            new AlertDialog.Builder(requireContext())
+                    .setTitle("Add attachment")
+                    .setItems(options, (dialog, which) -> {
+                        switch (which) {
+                            case 0: // Take photo
+                                launchCamera();
+                                break;
+                            case 1: // Choose photo
+                                launchImagePicker();
+                                break;
+                            case 2: // Choose file
+                                launchFilePicker();
+                                break;
+                        }
+                    })
+                    .show();
+        });
+
 
         btnStop.setOnClickListener(v -> {
             long stopTime = System.currentTimeMillis();
@@ -127,6 +381,57 @@ public class EnterDurationFragment extends Fragment {
         return taskView;
     }
 
+    private void launchImagePicker() {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("image/*");
+        startActivityForResult(intent, REQ_PICK_IMAGE);
+    }
+
+    private void launchFilePicker() {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("*/*");
+        startActivityForResult(intent, REQ_PICK_FILE);
+    }
+
+    private void launchCamera() {
+        Context ctx = getContext();
+        if (ctx == null) return;
+
+        // 🔐 Runtime permission check for CAMERA (Android 6+)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.CAMERA)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                // Ask user for permission, result in onRequestPermissionsResult
+                requestPermissions(
+                        new String[]{Manifest.permission.CAMERA},
+                        REQ_CAMERA_PERMISSION
+                );
+                return;
+            }
+        }
+
+        // ✅ Permission granted → proceed with camera intent
+        SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd_HHmmss", Locale.getDefault());
+        String ts = sdf.format(new Date());
+        File photoFile = new File(ctx.getCacheDir(),
+                "img_" + ts + ".jpg");
+
+        pendingCameraUri = androidx.core.content.FileProvider.getUriForFile(
+                ctx,
+                ctx.getPackageName() + ".fileprovider",
+                photoFile
+        );
+
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, pendingCameraUri);
+        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        startActivityForResult(intent, REQ_TAKE_PHOTO);
+    }
+
+
     private void addTaskSection(@Nullable String prefillTitle) {
         View taskView = LayoutInflater.from(getContext())
                 .inflate(R.layout.item_task_input, taskContainer, false);
@@ -147,6 +452,7 @@ public class EnterDurationFragment extends Fragment {
         Button btnRemove = taskView.findViewById(R.id.btn_remove);
         Button btnStop = taskView.findViewById(R.id.btn_stop);
         TextView textStart = taskView.findViewById(R.id.text_start_time);
+        ImageView imgAttach = taskView.findViewById(R.id.img_attach);
 
         if (prefillTitle != null) {
             editTitle.setText(prefillTitle);
@@ -188,6 +494,28 @@ public class EnterDurationFragment extends Fragment {
             }
         });
 
+
+        imgAttach.setOnClickListener(v -> {
+            currentAttachmentTaskView = taskView;
+
+            String[] options = {"Take photo", "Choose photo", "Choose file"};
+            new AlertDialog.Builder(requireContext())
+                    .setTitle("Add attachment")
+                    .setItems(options, (dialog, which) -> {
+                        switch (which) {
+                            case 0: // Take photo
+                                launchCamera();
+                                break;
+                            case 1: // Choose photo
+                                launchImagePicker();
+                                break;
+                            case 2: // Choose file
+                                launchFilePicker();
+                                break;
+                        }
+                    })
+                    .show();
+        });
 
         // Date picker for All Day
         editDate.setOnClickListener(v -> DialogUtils.showDatePicker(getContext(), editDate));
@@ -239,6 +567,20 @@ public class EnterDurationFragment extends Fragment {
                 SimpleDateFormat sdf4 = new SimpleDateFormat("dd.MM.yyyy", Locale.US);
                 String formattedDate = sdf4.format(new Date(currentTimeMillis));
                 task.date = formattedDate;
+
+                // Attachments for this task view
+                ArrayList<Uri> attachments =
+                        (ArrayList<Uri>) taskView.getTag(R.id.tag_attachment_list);
+                if (attachments != null && !attachments.isEmpty()) {
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = 0; i < attachments.size(); i++) {
+                        if (i > 0) sb.append(";");
+                        sb.append(attachments.get(i).toString());
+                    }
+                    task.attachmentUris = sb.toString();
+                } else {
+                    task.attachmentUris = null;
+                }
 
                 long taskId = AppDatabase.getInstance(getContext()).taskDao().insertAndReturnId(task);
                 task.id = (int) taskId;
@@ -344,6 +686,21 @@ public class EnterDurationFragment extends Fragment {
             String currentDateStr = sdf3.format(new Date(task.startTimestamp));
             task.date = isAllDay ? dateStr : (isDuration ? fromStr : currentDateStr);
 
+            // Attachments for this task view
+            ArrayList<Uri> attachments =
+                    (ArrayList<Uri>) taskView.getTag(R.id.tag_attachment_list);
+            if (attachments != null && !attachments.isEmpty()) {
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < attachments.size(); i++) {
+                    if (i > 0) sb.append(";");
+                    sb.append(attachments.get(i).toString());
+                }
+                task.attachmentUris = sb.toString();
+            } else {
+                task.attachmentUris = null;
+            }
+
+
             long taskId = AppDatabase.getInstance(getContext()).taskDao().insertAndReturnId(task);
             task.id = (int) taskId;
             taskView.setTag(R.id.tag_task_id, task.id);
@@ -357,7 +714,6 @@ public class EnterDurationFragment extends Fragment {
 
             taskContainer.removeView(taskView);
         });
-
 
 
         // STOP button clicked
@@ -396,6 +752,25 @@ public class EnterDurationFragment extends Fragment {
         taskContainer.addView(taskView);
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == REQ_CAMERA_PERMISSION) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // User said "Allow" → try camera again
+                launchCamera();
+            } else {
+                // User denied
+                Toast.makeText(getContext(),
+                        "Camera permission is required to take photos",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 
     private void filterTasks(String query) {
         for (int i = 0; i < taskContainer.getChildCount(); i++) {

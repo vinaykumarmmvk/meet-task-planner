@@ -99,6 +99,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             holder.badgeInProgress.setVisibility(View.GONE);
         }
 
+        // ✅ Show pin if attachments exist
+        if (task.attachmentUris != null && !task.attachmentUris.trim().isEmpty()) {
+            holder.imgAttachmentPin.setVisibility(View.VISIBLE);
+        } else {
+            holder.imgAttachmentPin.setVisibility(View.GONE);
+        }
+
         holder.imgDelete.setOnClickListener(v ->
                 confirmDeleteTask(v.getContext(), holder.getAdapterPosition()));
 
@@ -343,8 +350,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
 
     static class TaskViewHolder extends RecyclerView.ViewHolder {
+
         TextView title, description, duration, badgeInProgress;
-        ImageView imgDelete, imgEdit;
+        ImageView imgDelete, imgEdit, imgAttachmentPin;
 
         TaskViewHolder(View view) {
             super(view);
@@ -354,6 +362,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             imgDelete = view.findViewById(R.id.img_delete);
             imgEdit = view.findViewById(R.id.img_edit);
             badgeInProgress = view.findViewById(R.id.badge_in_progress);
+            imgAttachmentPin = view.findViewById(R.id.img_attachment_pin);
         }
     }
 }

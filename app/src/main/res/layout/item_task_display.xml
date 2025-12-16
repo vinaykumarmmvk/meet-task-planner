@@ -41,6 +41,15 @@
             android:textColor="@android:color/white"
             android:background="@drawable/bg_badge_in_progress"
             android:visibility="gone" />
+        <!-- Attachment pin indicator -->
+        <ImageView
+            android:id="@+id/img_attachment_pin"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/ic_attach"
+            android:contentDescription="Has attachments"
+            android:visibility="gone" />
     </LinearLayout>
 
     <TextView
