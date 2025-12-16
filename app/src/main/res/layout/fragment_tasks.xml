@@ -62,12 +62,15 @@
                 android:contentDescription="Sort options" />
         </FrameLayout>
 
-        <Button
-            android:id="@+id/button_export_csv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:text="Export to CSV" />
+        <ImageView
+            android:id="@+id/img_export"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="60dp"
+            android:src="@drawable/ic_download"
+            android:contentDescription="Sort options" />
+
 
     </LinearLayout>
 

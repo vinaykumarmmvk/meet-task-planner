@@ -3,6 +3,7 @@ package com.example.taskmanager.adapters;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.taskmanager.R;
@@ -91,13 +93,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             // Hide edit/delete, show badge
             holder.imgEdit.setVisibility(View.GONE);
             holder.imgDelete.setVisibility(View.GONE);
-            holder.badgeInProgress.setVisibility(View.VISIBLE);
             holder.duration.setText("In progress …");
 
             // 🔒 Disable click + different background
             holder.itemView.setOnClickListener(null);
             holder.itemView.setClickable(false);
-            holder.itemView.setBackgroundResource(R.drawable.bg_task_inprogress);
         } else {
             if (task.status != null && !task.status.trim().isEmpty()) {
                 statusText = task.status;
@@ -106,11 +106,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             }
             holder.imgEdit.setVisibility(View.VISIBLE);
             holder.imgDelete.setVisibility(View.VISIBLE);
-            holder.badgeInProgress.setVisibility(View.GONE);
 
             // ✅ Normal clickable item
             holder.itemView.setClickable(true);
-            holder.itemView.setBackgroundResource(R.drawable.bg_task_normal);
 
             holder.itemView.setOnClickListener(v -> {
                 Context ctx = v.getContext();
@@ -120,7 +118,23 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             });
         }
 
-        holder.status.setText("Status: " + statusText);
+        holder.status.setText(statusText);
+
+        // Background color based on status
+        if (Task.STATUS_COMPLETED.equals(statusText)) {
+            holder.itemView.setBackgroundResource(R.drawable.bg_task_completed);
+            holder.status.setBackgroundResource(R.drawable.bg_badge_completed);
+            holder.status.setTextColor(Color.parseColor("#000000"));
+        } else if (Task.STATUS_IN_PROGRESS.equals(statusText)) {
+            holder.itemView.setBackgroundResource(R.drawable.bg_task_in_progress);
+            holder.status.setBackgroundResource(R.drawable.bg_badge_in_progress);
+            holder.status.setTextColor(Color.parseColor("#000000"));
+        } else { // Not started or anything else
+            holder.itemView.setBackgroundResource(R.drawable.bg_task_not_started);
+            holder.status.setBackgroundResource(R.drawable.bg_badge_not_started);
+            holder.status.setTextColor(Color.parseColor("#FFFFFF"));
+        }
+
 
         // ✅ Show pin if attachments exist
         if (task.attachmentUris != null && !task.attachmentUris.trim().isEmpty()) {
@@ -374,7 +388,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
     static class TaskViewHolder extends RecyclerView.ViewHolder {
 
-        TextView title, description, duration, badgeInProgress, status;
+        TextView title, description, duration, status;
         ImageView imgDelete, imgEdit, imgAttachmentPin;
 
         TaskViewHolder(View view) {
@@ -384,7 +398,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             duration = view.findViewById(R.id.text_duration);
             imgDelete = view.findViewById(R.id.img_delete);
             imgEdit = view.findViewById(R.id.img_edit);
-            badgeInProgress = view.findViewById(R.id.badge_in_progress);
             imgAttachmentPin = view.findViewById(R.id.img_attachment_pin);
             status = view.findViewById(R.id.text_status);
         }

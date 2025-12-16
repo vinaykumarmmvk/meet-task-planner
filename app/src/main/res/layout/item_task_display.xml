@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@drawable/bg_task_normal">
+    android:background="@drawable/bg_task_not_started">
 
     <!-- Title row with optional badge -->
     <LinearLayout
@@ -28,7 +28,7 @@
 
         <!-- In progress badge -->
         <TextView
-            android:id="@+id/badge_in_progress"
+            android:id="@+id/text_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="8dp"
@@ -37,10 +37,10 @@
             android:paddingBottom="2dp"
             android:layout_marginStart="8dp"
             android:text="In progress"
-            android:textSize="11sp"
-            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            android:textColor="@color/black"
             android:background="@drawable/bg_badge_in_progress"
-            android:visibility="gone" />
+           />
         <!-- Attachment pin indicator -->
         <ImageView
             android:id="@+id/img_attachment_pin"
@@ -61,15 +61,6 @@
         android:textColor="@color/black"
         android:maxLines="1"
         android:ellipsize="end" />
-
-    <TextView
-        android:id="@+id/text_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Status"
-        android:textSize="12sp"
-        android:textColor="@color/black"
-        android:layout_marginTop="2dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"

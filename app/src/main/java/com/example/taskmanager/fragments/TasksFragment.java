@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -39,7 +40,7 @@ public class TasksFragment extends Fragment {
     private TaskAdapter adapter;
     private SearchView searchView;
     private Spinner spinnerSort;
-    private Button btnExport;
+    private ImageView btnExport;
 
     private final List<Task> allTasks = new ArrayList<>();
     private String currentQuery = "";
@@ -65,7 +66,7 @@ public class TasksFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recycler_tasks);
         searchView = view.findViewById(R.id.search_tasks);
         spinnerSort = view.findViewById(R.id.spinner_sort);
-        Button btnExport = view.findViewById(R.id.button_export_csv);
+        btnExport = view.findViewById(R.id.img_export);
 
         // Always show full search bar with hint
         searchView.setIconifiedByDefault(false);
