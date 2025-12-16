@@ -79,7 +79,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         }
         holder.duration.setText(durationDisplay);
 
-        // 🔹 Detect ongoing clock-in
         boolean isClockInOngoing =
                 !task.isAllDay
                         && task.fromDate == null
@@ -87,18 +86,31 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                         && task.isOngoing;
 
         if (isClockInOngoing) {
-            // 🔒 Ongoing clock-in: hide edit & delete
+            // Hide edit/delete, show badge
             holder.imgEdit.setVisibility(View.GONE);
             holder.imgDelete.setVisibility(View.GONE);
             holder.badgeInProgress.setVisibility(View.VISIBLE);
+            holder.duration.setText("In progress …");
 
-            // Optional: show “(In progress…)”
-            holder.duration.setText("In progress …");   //durationDisplay
+            // 🔒 Disable click + different background
+            holder.itemView.setOnClickListener(null);
+            holder.itemView.setClickable(false);
+            holder.itemView.setBackgroundResource(R.drawable.bg_task_inprogress);
         } else {
-            // ✅ finished / normal task: allow edit & delete
             holder.imgEdit.setVisibility(View.VISIBLE);
             holder.imgDelete.setVisibility(View.VISIBLE);
             holder.badgeInProgress.setVisibility(View.GONE);
+
+            // ✅ Normal clickable item
+            holder.itemView.setClickable(true);
+            holder.itemView.setBackgroundResource(R.drawable.bg_task_normal);
+
+            holder.itemView.setOnClickListener(v -> {
+                Context ctx = v.getContext();
+                Intent intent = new Intent(ctx, ViewTaskActivity.class);
+                intent.putExtra("task_id", task.id);
+                ctx.startActivity(intent);
+            });
         }
 
         // ✅ Show pin if attachments exist
@@ -107,13 +119,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         } else {
             holder.imgAttachmentPin.setVisibility(View.GONE);
         }
-
-        holder.itemView.setOnClickListener(v -> {
-            Context ctx = v.getContext();
-            Intent intent = new Intent(ctx, ViewTaskActivity.class);
-            intent.putExtra("task_id", task.id);
-            ctx.startActivity(intent);
-        });
 
         holder.imgDelete.setOnClickListener(v ->
                 confirmDeleteTask(v.getContext(), holder.getAdapterPosition()));

@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@drawable/bg_card_input">
+    android:background="@drawable/bg_task_normal">
 
     <!-- Title row with optional badge -->
     <LinearLayout
