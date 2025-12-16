@@ -2,6 +2,7 @@ package com.example.taskmanager.adapters;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.taskmanager.R;
+import com.example.taskmanager.ViewTaskActivity;
 import com.example.taskmanager.database.AppDatabase;
 import com.example.taskmanager.models.Task;
 import com.example.taskmanager.notifications.ReminderUtils;
@@ -105,6 +107,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         } else {
             holder.imgAttachmentPin.setVisibility(View.GONE);
         }
+
+        holder.itemView.setOnClickListener(v -> {
+            Context ctx = v.getContext();
+            Intent intent = new Intent(ctx, ViewTaskActivity.class);
+            intent.putExtra("task_id", task.id);
+            ctx.startActivity(intent);
+        });
 
         holder.imgDelete.setOnClickListener(v ->
                 confirmDeleteTask(v.getContext(), holder.getAdapterPosition()));
