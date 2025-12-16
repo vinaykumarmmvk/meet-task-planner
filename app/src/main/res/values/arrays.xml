@@ -6,4 +6,10 @@
         <item>Duration (longest)</item>
     </string-array>
 
+    <string-array name="task_status_options">
+        <item>Not started</item>
+        <item>In Progress</item>
+        <item>Completed</item>
+    </string-array>
+
 </resources>

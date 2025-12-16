@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -364,6 +365,9 @@ public class EnterDurationFragment extends Fragment {
             task.durationMillis = stopTime - task.startTimestamp;
             task.isOngoing = false;
 
+            // 🔹 mark completed
+            task.status = Task.STATUS_COMPLETED;
+
             AppDatabase.getInstance(getContext()).taskDao().update(task);
             ReminderUtils.scheduleReminderForTask(getContext(), task);
 
@@ -454,6 +458,11 @@ public class EnterDurationFragment extends Fragment {
         TextView textStart = taskView.findViewById(R.id.text_start_time);
         ImageView imgAttach = taskView.findViewById(R.id.img_attach);
 
+        Spinner spinnerStatus = taskView.findViewById(R.id.spinner_status);
+        LinearLayout layoutStatusRow = taskView.findViewById(R.id.layout_status_row);
+
+        layoutStatusRow.setVisibility(View.GONE);
+
         if (prefillTitle != null) {
             editTitle.setText(prefillTitle);
         }
@@ -476,23 +485,25 @@ public class EnterDurationFragment extends Fragment {
 
 
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
-            if (checkedId == R.id.radio_clockin) {
-                // Hide all time fields
+            if (checkedId == -1) {
+                // Manual / clock-in (no radio selected)
                 editDate.setVisibility(View.GONE);
                 layoutDuration.setVisibility(View.GONE);
                 btnSubmit.setText("Start");
+                layoutStatusRow.setVisibility(View.GONE);   // 🔹 hide status for clock-in
             } else if (checkedId == R.id.radio_all_day) {
-                // Show only date
                 editDate.setVisibility(View.VISIBLE);
                 layoutDuration.setVisibility(View.GONE);
                 btnSubmit.setText("Submit");
+                layoutStatusRow.setVisibility(View.VISIBLE); // 🔹 show status
             } else if (checkedId == R.id.radio_duration) {
-                // Show only from/to layout
                 editDate.setVisibility(View.GONE);
                 layoutDuration.setVisibility(View.VISIBLE);
                 btnSubmit.setText("Submit");
+                layoutStatusRow.setVisibility(View.VISIBLE); // 🔹 show status
             }
         });
+
 
 
         imgAttach.setOnClickListener(v -> {
@@ -568,6 +579,8 @@ public class EnterDurationFragment extends Fragment {
                 String formattedDate = sdf4.format(new Date(currentTimeMillis));
                 task.date = formattedDate;
 
+                // 🔹 STATUS for clock-in
+                task.status = Task.STATUS_IN_PROGRESS;
                 // Attachments for this task view
                 ArrayList<Uri> attachments =
                         (ArrayList<Uri>) taskView.getTag(R.id.tag_attachment_list);
@@ -682,6 +695,21 @@ public class EnterDurationFragment extends Fragment {
             task.durationMillis = duration;
             task.dateTime = formattedDateTime;
 
+            // Status for non-clock-in (user chosen)
+            int statusPos = spinnerStatus.getSelectedItemPosition();
+            switch (statusPos) {
+                case 1:
+                    task.status = Task.STATUS_IN_PROGRESS;
+                    break;
+                case 2:
+                    task.status = Task.STATUS_COMPLETED;
+                    break;
+                case 0:
+                default:
+                    task.status = Task.STATUS_NOT_STARTED;
+                    break;
+            }
+
             SimpleDateFormat sdf3 = new SimpleDateFormat("dd.MM.yyyy", Locale.US);
             String currentDateStr = sdf3.format(new Date(task.startTimestamp));
             task.date = isAllDay ? dateStr : (isDuration ? fromStr : currentDateStr);
@@ -726,6 +754,7 @@ public class EnterDurationFragment extends Fragment {
                 task.stopTimestamp = stopTime;
                 task.durationMillis = stopTime - task.startTimestamp;
                 task.isOngoing = false;
+                task.status = Task.STATUS_COMPLETED;
 
                 // ✅ Fix: Set date for calendar display
                 //SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());

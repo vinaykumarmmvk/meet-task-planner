@@ -19,7 +19,6 @@ import com.example.taskmanager.R;
 import com.example.taskmanager.ViewTaskActivity;
 import com.example.taskmanager.database.AppDatabase;
 import com.example.taskmanager.models.Task;
-import com.example.taskmanager.notifications.ReminderUtils;
 import com.example.taskmanager.utils.DateUtils;
 import com.example.taskmanager.utils.DialogUtils;
 
@@ -79,6 +78,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         }
         holder.duration.setText(durationDisplay);
 
+        String statusText;
+
         boolean isClockInOngoing =
                 !task.isAllDay
                         && task.fromDate == null
@@ -86,6 +87,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                         && task.isOngoing;
 
         if (isClockInOngoing) {
+            statusText = Task.STATUS_IN_PROGRESS;
             // Hide edit/delete, show badge
             holder.imgEdit.setVisibility(View.GONE);
             holder.imgDelete.setVisibility(View.GONE);
@@ -97,6 +99,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             holder.itemView.setClickable(false);
             holder.itemView.setBackgroundResource(R.drawable.bg_task_inprogress);
         } else {
+            if (task.status != null && !task.status.trim().isEmpty()) {
+                statusText = task.status;
+            } else {
+                statusText = Task.STATUS_NOT_STARTED;
+            }
             holder.imgEdit.setVisibility(View.VISIBLE);
             holder.imgDelete.setVisibility(View.VISIBLE);
             holder.badgeInProgress.setVisibility(View.GONE);
@@ -112,6 +119,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                 ctx.startActivity(intent);
             });
         }
+
+        holder.status.setText("Status: " + statusText);
 
         // ✅ Show pin if attachments exist
         if (task.attachmentUris != null && !task.attachmentUris.trim().isEmpty()) {
@@ -365,7 +374,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
     static class TaskViewHolder extends RecyclerView.ViewHolder {
 
-        TextView title, description, duration, badgeInProgress;
+        TextView title, description, duration, badgeInProgress, status;
         ImageView imgDelete, imgEdit, imgAttachmentPin;
 
         TaskViewHolder(View view) {
@@ -377,6 +386,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             imgEdit = view.findViewById(R.id.img_edit);
             badgeInProgress = view.findViewById(R.id.badge_in_progress);
             imgAttachmentPin = view.findViewById(R.id.img_attachment_pin);
+            status = view.findViewById(R.id.text_status);
         }
     }
 }

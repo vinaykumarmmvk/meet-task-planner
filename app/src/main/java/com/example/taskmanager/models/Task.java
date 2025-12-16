@@ -1,5 +1,6 @@
 package com.example.taskmanager.models;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -28,4 +29,11 @@ public class Task {
     @androidx.room.ColumnInfo(name = "attachment_uris")
     public String attachmentUris; // URIs separated by ';'
 
+    @ColumnInfo(name = "status")
+    public String status;   // "Not started", "In Progress", "Completed"
+
+    // Optional constants to avoid typos:
+    public static final String STATUS_NOT_STARTED = "Not started";
+    public static final String STATUS_IN_PROGRESS = "In Progress";
+    public static final String STATUS_COMPLETED   = "Completed";
 }

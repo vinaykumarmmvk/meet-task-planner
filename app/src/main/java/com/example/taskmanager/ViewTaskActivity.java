@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,6 +57,8 @@ public class ViewTaskActivity extends AppCompatActivity {
     private EditText editAllDayDate;
     private EditText editFromDate, editFromTime, editToDate, editToTime;
     private TextView textClockinDate, textClockinDuration;
+    private Spinner spinnerStatus;
+
     private ImageView imgAddAttachment;
     private LinearLayout layoutAttachmentList;
     private ImageButton btnBack;
@@ -68,6 +71,23 @@ public class ViewTaskActivity extends AppCompatActivity {
     private final List<String> attachmentNames = new ArrayList<>();
 
     private Uri pendingCameraUri = null;
+
+    private int statusToPosition(String status) {
+        if (Task.STATUS_IN_PROGRESS.equals(status)) return 1;
+        if (Task.STATUS_COMPLETED.equals(status)) return 2;
+        return 0; // Not started / default
+    }
+
+    private String positionToStatus(int pos) {
+        switch (pos) {
+            case 1:
+                return Task.STATUS_IN_PROGRESS;
+            case 2:
+                return Task.STATUS_COMPLETED;
+            default:
+                return Task.STATUS_NOT_STARTED;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -204,6 +224,7 @@ public class ViewTaskActivity extends AppCompatActivity {
         editToTime = findViewById(R.id.edit_to_time);
         textClockinDate = findViewById(R.id.text_clockin_date);
         textClockinDuration = findViewById(R.id.text_clockin_duration);
+        spinnerStatus = findViewById(R.id.spinner_status);
         imgAddAttachment = findViewById(R.id.img_add_attachment);
         layoutAttachmentList = findViewById(R.id.layout_attachment_list);
         btnBack = findViewById(R.id.btn_back);
@@ -221,6 +242,24 @@ public class ViewTaskActivity extends AppCompatActivity {
         else if (task.fromDate != null && task.toDate != null) type = "Duration";
         else type = "Clock-in";
         textType.setText(type);
+
+        // ---------- Status ----------
+        String status = task.status;
+        boolean isClockInType = !task.isAllDay && task.fromDate == null && task.toDate == null;
+
+// For clock-in: derive status from isOngoing if missing
+        if (isClockInType) {
+            if (task.isOngoing) {
+                status = Task.STATUS_IN_PROGRESS;
+            } else {
+                status = Task.STATUS_COMPLETED;
+            }
+        }
+
+        if (status == null || status.trim().isEmpty()) {
+            status = Task.STATUS_NOT_STARTED;
+        }
+        spinnerStatus.setSelection(statusToPosition(status));
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
@@ -298,6 +337,8 @@ public class ViewTaskActivity extends AppCompatActivity {
 
         imgAddAttachment.setEnabled(false);
         imgAddAttachment.setAlpha(0.3f);
+        spinnerStatus.setEnabled(false);
+        spinnerStatus.setAlpha(0.6f);
 
         renderAttachments(); // delete icons disabled in view mode
     }
@@ -306,6 +347,17 @@ public class ViewTaskActivity extends AppCompatActivity {
         isEditMode = true;
         fabEdit.setVisibility(View.GONE);
         fabSave.setVisibility(View.VISIBLE);
+
+        boolean isClockInType = !task.isAllDay && task.fromDate == null && task.toDate == null;
+
+        if (isClockInType) {
+            // Clock-in: never editable
+            spinnerStatus.setEnabled(false);
+            spinnerStatus.setAlpha(0.6f);
+        } else {
+            spinnerStatus.setEnabled(true);
+            spinnerStatus.setAlpha(1f);
+        }
 
         // Title & description editable
         setEditable(editTitle, true);
@@ -361,6 +413,13 @@ public class ViewTaskActivity extends AppCompatActivity {
 
         task.title = newTitle;
         task.description = newDesc;
+
+        boolean isClockInType = !task.isAllDay && task.fromDate == null && task.toDate == null;
+        if (!isClockInType) {
+            int pos = spinnerStatus.getSelectedItemPosition();
+            task.status = positionToStatus(pos);
+        }
+        // For clock-in, status is controlled by start/stop logic only
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
         SimpleDateFormat dateTimeFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault());
@@ -546,7 +605,8 @@ public class ViewTaskActivity extends AppCompatActivity {
             if (mime != null && mime.startsWith("image/")) {
                 isImage = true;
             }
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
 
         String uriStr = uri != null ? uri.toString().toLowerCase() : "";
         if (!isImage) {
@@ -579,7 +639,8 @@ public class ViewTaskActivity extends AppCompatActivity {
                     c.close();
                 }
             }
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
 
         if (ext.isEmpty() && uriStr.contains(".")) {
             int dot = uriStr.lastIndexOf('.');

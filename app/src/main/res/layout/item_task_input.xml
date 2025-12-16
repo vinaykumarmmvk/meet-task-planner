@@ -29,6 +29,30 @@
         android:gravity="top"
         android:scrollbars="vertical" />
 
+    <LinearLayout
+        android:id="@+id/layout_status_row"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Status"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:layout_marginEnd="8dp"/>
+
+        <Spinner
+            android:id="@+id/spinner_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown"
+            android:entries="@array/task_status_options"/>
+    </LinearLayout>
+
     <!-- Attachments block: pin + list -->
     <LinearLayout
         android:id="@+id/layout_attachments"
