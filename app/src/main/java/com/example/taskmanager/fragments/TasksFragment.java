@@ -1,5 +1,6 @@
 package com.example.taskmanager.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,11 +27,15 @@ import com.example.taskmanager.database.AppDatabase;
 import com.example.taskmanager.models.Task;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -121,75 +126,237 @@ public class TasksFragment extends Fragment {
     }
 
     private void exportTasksToCsv() {
-        if (allTasks.isEmpty()) {
-            Toast.makeText(getContext(), "No tasks to export", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        Context ctx = getContext();
+        if (ctx == null) return;
+
+        List<Task> tasks = AppDatabase.getInstance(ctx).taskDao().getAllTasks();
+        // or getAll(), use whatever you currently use
 
         StringBuilder sb = new StringBuilder();
-        // Header row
-        sb.append("Title,Description,Type,Date,From,To,DurationMinutes\n");
+        // 1) Header: add Status, rename DurationMinutes -> Duration
+        sb.append("Title,Description,Type,Status,Date,From,To,Duration\n");
 
-        for (Task task : allTasks) {
+        SimpleDateFormat dateOnly = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+        SimpleDateFormat timeHms  = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+        SimpleDateFormat dateTimeFull = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault());
+        SimpleDateFormat timeHm  = new SimpleDateFormat("HH:mm", Locale.getDefault());
+
+        long now = System.currentTimeMillis();
+
+        for (Task task : tasks) {
+            // ---- Type detection ----
+            boolean isClockIn = !task.isAllDay
+                    && task.fromDate == null
+                    && task.toDate == null;
+
             String type;
             if (task.isAllDay) {
                 type = "All-day";
-            } else if (task.fromDate != null && task.toDate != null) {
+            } else if (!isClockIn && task.fromDate != null && task.toDate != null) {
                 type = "Duration";
             } else {
                 type = "Clock-in";
             }
 
-            long durationMinutes = task.durationMillis / (60 * 1000);
+            // ---- Status ----
+            String status = task.status;
+            if (isClockIn) {
+                // for clock-in, status comes from ongoing/completed
+                if (task.isOngoing) {
+                    status = Task.STATUS_IN_PROGRESS;
+                } else {
+                    if (status == null || status.trim().isEmpty()) {
+                        status = Task.STATUS_COMPLETED;
+                    }
+                }
+            }
+            if (status == null || status.trim().isEmpty()) {
+                status = Task.STATUS_NOT_STARTED;
+            }
 
-            String title = task.title == null ? "" : task.title.replace("\"", "\"\"");
-            String desc = task.description == null ? "" : task.description.replace("\"", "\"\"");
+            // ---- Date / From / To columns ----
+            String dateCol = "";
+            String fromCol = "";
+            String toCol   = "";
 
-            sb.append("\"").append(title).append("\",")
-                    .append("\"").append(desc).append("\",")
-                    .append(type).append(",")
-                    .append(task.date == null ? "" : task.date).append(",")
-                    .append(task.fromDate == null ? "" : task.fromDate).append(",")
-                    .append(task.toDate == null ? "" : task.toDate).append(",")
-                    .append(durationMinutes)
-                    .append("\n");
+            if (isClockIn) {
+                if (task.startTimestamp > 0) {
+                    Date start = new Date(task.startTimestamp);
+
+                    if (task.stopTimestamp > 0) {
+                        Date stop = new Date(task.stopTimestamp);
+
+                        String startDateStr = dateOnly.format(start);
+                        String stopDateStr  = dateOnly.format(stop);
+
+                        if (startDateStr.equals(stopDateStr)) {
+                            // same day → Date = dd.MM.yyyy; From/To = HH:mm:ss
+                            dateCol = startDateStr;
+                            fromCol = timeHms.format(start);
+                            toCol   = timeHms.format(stop);
+                        } else {
+                            // different days → Date empty; From/To = dd-MM-yyyy HH:mm:ss
+                            dateCol = "";
+                            fromCol = dateTimeFull.format(start);
+                            toCol   = dateTimeFull.format(stop);
+                        }
+                    } else {
+                        // ongoing clock-in: show start date + time
+                        dateCol = dateOnly.format(start);
+                        fromCol = timeHms.format(start);
+                        toCol   = ""; // not yet stopped
+                    }
+                }
+            } else {
+                // Non clock-in tasks (All-day or Duration)
+                if (task.isAllDay) {
+                    // same as earlier: Date = date, From/To empty
+                    dateCol = task.date != null ? task.date : "";
+                    fromCol = "";
+                    toCol   = "";
+                } else if (task.fromDate != null && task.toDate != null) {
+                    // Duration tasks: show from/to date + times
+                    if (task.fromDate.equals(task.toDate)) {
+                        dateCol = task.fromDate;
+                    } else {
+                        dateCol = task.fromDate + " - " + task.toDate;
+                    }
+
+                    if (task.startTimestamp > 0) {
+                        fromCol = dateTimeFull.format(new Date(task.startTimestamp));
+                    }
+                    if (task.stopTimestamp > 0) {
+                        toCol = dateTimeFull.format(new Date(task.stopTimestamp));
+                    }
+                }
+            }
+
+            // ---- Duration (human readable) ----
+            String durationCol = "";
+            long durationMillis = task.durationMillis;
+
+            if (durationMillis <= 0 && isClockIn && task.isOngoing && task.startTimestamp > 0) {
+                // For ongoing clock-in, show duration till now
+                durationMillis = now - task.startTimestamp;
+            }
+
+            if (durationMillis > 0) {
+                durationCol = formatDurationHuman(durationMillis);
+            }
+
+            // ---- CSV row ----
+            sb.append(csvEscape(task.title))
+                    .append(',')
+                    .append(csvEscape(task.description))
+                    .append(',')
+                    .append(csvEscape(type))
+                    .append(',')
+                    .append(csvEscape(status))
+                    .append(',')
+                    .append(csvEscape(dateCol))
+                    .append(',')
+                    .append(csvEscape(fromCol))
+                    .append(',')
+                    .append(csvEscape(toCol))
+                    .append(',')
+                    .append(csvEscape(durationCol))
+                    .append('\n');
         }
 
+        // ---- write file (keep your existing writing code, just use sb.toString()) ----
         try {
-            // 1) Create CSV file in cache dir
-            File cacheDir = requireContext().getCacheDir();
-            java.text.SimpleDateFormat sdf =
-                    new java.text.SimpleDateFormat("yyMMdd_HHmmss", java.util.Locale.getDefault());
-            String timestamp = sdf.format(new java.util.Date());
-            String fileName = "tasks_export_" + timestamp + ".csv";
+            SimpleDateFormat fileFmt = new SimpleDateFormat("yyMMdd_HHmmss", Locale.getDefault());
+            String ts = fileFmt.format(new Date());
+            String fileName = "tasks_export_" + ts + ".csv";
 
-            File csvFile = new File(cacheDir, fileName);
+            // 1) Write to app cache (temp export folder)
+            File exportDir = new File(ctx.getCacheDir(), "exports");
+            if (!exportDir.exists()) {
+                exportDir.mkdirs();
+            }
+            File file = new File(exportDir, fileName);
 
-            FileWriter writer = new FileWriter(csvFile);
-            writer.write(sb.toString());
-            writer.flush();
-            writer.close();
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(sb.toString().getBytes(StandardCharsets.UTF_8));
+            fos.flush();
+            fos.close();
 
-            // 2) Get URI via FileProvider
+            // 2) Share immediately via FileProvider
             Uri uri = androidx.core.content.FileProvider.getUriForFile(
-                    requireContext(),
-                    requireContext().getPackageName() + ".fileprovider",
-                    csvFile
+                    ctx,
+                    ctx.getPackageName() + ".fileprovider",
+                    file
             );
 
-            // 3) Share the file
-            Intent sendIntent = new Intent(Intent.ACTION_SEND);
-            sendIntent.setType("text/csv");
-            sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Meet & Task Planner - Export");
-            sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
-            sendIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("text/csv");
+            shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
-            startActivity(Intent.createChooser(sendIntent, "Share CSV via"));
+            ctx.startActivity(Intent.createChooser(shareIntent, "Share tasks CSV"));
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(getContext(), "Failed to export CSV", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ctx, "Failed to export CSV: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
+
+    }
+
+    private String csvEscape(String value) {
+        if (value == null) return "\"\"";
+        String v = value.replace("\"", "\"\"");
+        return "\"" + v + "\"";
+    }
+
+    private String formatDurationHuman(long millis) {
+        if (millis <= 0) return "";
+
+        long totalSeconds = millis / 1000;
+
+        long weeks  = totalSeconds / (7L * 24 * 3600);
+        totalSeconds %= 7L * 24 * 3600;
+
+        long days   = totalSeconds / (24L * 3600);
+        totalSeconds %= 24L * 3600;
+
+        long hours  = totalSeconds / 3600;
+        totalSeconds %= 3600;
+
+        long minutes = totalSeconds / 60;
+        long seconds = totalSeconds % 60;
+
+        // If we have weeks or days → show only weeks & days (as you described)
+        List<String> parts = new ArrayList<>();
+
+        if (weeks > 0 || days > 0) {
+            if (weeks > 0) {
+                parts.add(weeks + " week" + (weeks > 1 ? "s" : ""));
+            }
+            if (days > 0) {
+                parts.add(days + " day" + (days > 1 ? "s" : ""));
+            }
+            if (parts.isEmpty()) {
+                parts.add("0 days");
+            }
+        } else {
+            // No weeks/days → show hours/minutes/seconds
+            if (hours > 0) {
+                parts.add(hours + "h");
+            }
+            if (minutes > 0) {
+                parts.add(minutes + "m");
+            }
+            if (seconds > 0 || parts.isEmpty()) {
+                parts.add(seconds + "s");
+            }
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < parts.size(); i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(parts.get(i));
+        }
+        return sb.toString();
     }
 
 
