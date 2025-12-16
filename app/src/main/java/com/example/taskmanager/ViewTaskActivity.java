@@ -1,6 +1,7 @@
 package com.example.taskmanager;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -138,6 +139,7 @@ public class ViewTaskActivity extends AppCompatActivity {
         });
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void setupPickerTouchHandlers() {
         // Handles date fields
         View.OnTouchListener dateTouchListener = (v, event) -> {
