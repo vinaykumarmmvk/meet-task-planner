@@ -196,7 +196,7 @@ public class TasksFragment extends Fragment {
                             toCol   = timeHms.format(stop);
                         } else {
                             // different days → Date empty; From/To = dd-MM-yyyy HH:mm:ss
-                            dateCol = "";
+                            dateCol = dateOnly.format(start) + " - " + dateOnly.format(stop);
                             fromCol = dateTimeFull.format(start);
                             toCol   = dateTimeFull.format(stop);
                         }

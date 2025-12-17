@@ -13,7 +13,8 @@
         android:layout_height="wrap_content"
         android:iconifiedByDefault="false"
         android:queryHint="Search task..."
-        android:background="@drawable/bg_searchview"/>
+        android:background="@drawable/bg_searchview"
+        android:paddingBottom="5dp"/>
 
 
     <!-- Sort row: label + spinner with custom background + arrow -->

@@ -316,6 +316,18 @@ public class EnterDurationFragment extends Fragment {
         RadioGroup radioGroup = taskView.findViewById(R.id.radio_group);
         ImageView imgAttach = taskView.findViewById(R.id.img_attach);
 
+        // 🔹 NEW: status row + spinner
+        LinearLayout layoutStatusRow = taskView.findViewById(R.id.layout_status_row);
+        Spinner spinnerStatus = taskView.findViewById(R.id.spinner_status);
+
+        // For ongoing CLOCK-IN, Status must not be shown
+        if (layoutStatusRow != null) {
+            layoutStatusRow.setVisibility(View.GONE);
+        }
+        if (spinnerStatus != null) {
+            spinnerStatus.setEnabled(false);   // just in case
+        }
+
         // Fill previous data
         editTitle.setText(task.title);
         editDescription.setText(task.description);
