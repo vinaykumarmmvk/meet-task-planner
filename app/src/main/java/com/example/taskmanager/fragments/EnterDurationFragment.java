@@ -381,7 +381,7 @@ public class EnterDurationFragment extends Fragment {
             task.status = Task.STATUS_COMPLETED;
 
             AppDatabase.getInstance(getContext()).taskDao().update(task);
-            ReminderUtils.scheduleReminderForTask(getContext(), task);
+            ReminderUtils.notifyClockinStopped(getContext(), task);
 
             String durationStr = DateUtils.formatDuration(task.durationMillis);
 
@@ -517,7 +517,6 @@ public class EnterDurationFragment extends Fragment {
         });
 
 
-
         imgAttach.setOnClickListener(v -> {
             currentAttachmentTaskView = taskView;
 
@@ -609,6 +608,10 @@ public class EnterDurationFragment extends Fragment {
 
                 long taskId = AppDatabase.getInstance(getContext()).taskDao().insertAndReturnId(task);
                 task.id = (int) taskId;
+
+                // 🔔 Immediate notification when clock-in starts
+                com.example.taskmanager.notifications.ReminderUtils
+                        .notifyClockinStarted(requireContext(), task);
 
                 // Disable input, show stop button
                 editTitle.setEnabled(false);
@@ -744,6 +747,8 @@ public class EnterDurationFragment extends Fragment {
             long taskId = AppDatabase.getInstance(getContext()).taskDao().insertAndReturnId(task);
             task.id = (int) taskId;
             taskView.setTag(R.id.tag_task_id, task.id);
+            // 🔔 Schedule reminders for this task
+            ReminderUtils.scheduleReminderForTask(requireContext(), task);
 
             String durationStr = DateUtils.formatDuration(duration);
             DialogUtils.showSuccessDialog(getContext(),
@@ -776,7 +781,7 @@ public class EnterDurationFragment extends Fragment {
                 task.date = currentDateStr;
 
                 AppDatabase.getInstance(getContext()).taskDao().update(task);
-                ReminderUtils.scheduleReminderForTask(getContext(), task);
+                ReminderUtils.notifyClockinStopped(getContext(), task);
 
                 String durationStr = DateUtils.formatDuration(task.durationMillis);
                 DialogUtils.showSuccessDialog(getContext(),

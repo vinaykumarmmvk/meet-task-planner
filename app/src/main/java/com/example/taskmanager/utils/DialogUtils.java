@@ -6,8 +6,6 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.widget.EditText;
 
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -54,7 +52,7 @@ public class DialogUtils {
     }
 
     public static void showSuccessDialog(Context context, String message) {
-        new MaterialAlertDialogBuilder(context)
+        new AlertDialog.Builder(context)
                 .setTitle("Task Saved")
                 .setMessage(message)
                 .setPositiveButton("OK", null)

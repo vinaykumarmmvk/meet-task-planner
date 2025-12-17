@@ -32,7 +32,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ViewTaskActivity" />
+        <activity android:name=".ViewTaskActivity"
+            android:parentActivityName=".MainActivity"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"
