@@ -3,6 +3,8 @@ import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,8 +19,6 @@ import com.example.taskmanager.fragments.TasksFragment;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-import java.util.Arrays;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -57,17 +57,52 @@ public class MainActivity extends AppCompatActivity {
         pagerAdapter = new MainPagerAdapter(this);
         viewPager.setAdapter(pagerAdapter);
 
-        List<String> tabTitles = Arrays.asList("Enter Duration", "Calendar", "Tasks");
+        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
+            View custom = getLayoutInflater().inflate(R.layout.tab_icon_pill, null);
+            ImageView icon = custom.findViewById(R.id.tab_icon);
 
-        new TabLayoutMediator(tabLayout, viewPager,
-                (tab, position) -> tab.setText(tabTitles.get(position))
-        ).attach();
+            if (position == 0) icon.setImageResource(R.drawable.ic_tab_timer);
+            else if (position == 1) icon.setImageResource(R.drawable.ic_tab_calendar);
+            else icon.setImageResource(R.drawable.ic_tab_tasks);
+
+            tab.setCustomView(custom);
+        }).attach();
+
+        // initial highlight
+        updateSelectedTabPill(tabLayout, tabLayout.getSelectedTabPosition());
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override public void onTabSelected(TabLayout.Tab tab) {
+                updateSelectedTabPill(tabLayout, tab.getPosition());
+            }
+            @Override public void onTabUnselected(TabLayout.Tab tab) {
+                updateSelectedTabPill(tabLayout, tabLayout.getSelectedTabPosition());
+            }
+            @Override public void onTabReselected(TabLayout.Tab tab) {}
+        });
+
 
         int openTab = getIntent().getIntExtra("open_tab", -1);
         if (openTab >= 0 && openTab < 3) {
             viewPager.setCurrentItem(openTab, false);
         }
 
+    }
+
+    private void updateSelectedTabPill(TabLayout tabLayout, int selectedPos) {
+        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+            TabLayout.Tab t = tabLayout.getTabAt(i);
+            if (t == null || t.getCustomView() == null) continue;
+
+            View container = t.getCustomView().findViewById(R.id.tab_container);
+            if (container == null) continue;
+
+            if (i == selectedPos) {
+                container.setBackgroundResource(R.drawable.bg_tab_selected_oval);
+            } else {
+                container.setBackground(null);
+            }
+        }
     }
 
     @Override
