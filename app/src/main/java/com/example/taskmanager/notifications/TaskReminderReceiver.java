@@ -62,6 +62,7 @@ public class TaskReminderReceiver extends BroadcastReceiver {
                         .setSmallIcon(R.drawable.ic_launcher_foreground)
                         .setContentTitle("Task reminder: " + task.title)
                         .setContentText(message)
+                        .setContentIntent(ReminderUtils.getOpenTaskPendingIntent(context, taskId))
                         .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                         .setAutoCancel(true);

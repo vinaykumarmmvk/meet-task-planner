@@ -16,6 +16,7 @@ import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -260,6 +261,16 @@ public class ViewTaskActivity extends AppCompatActivity {
             status = Task.STATUS_NOT_STARTED;
         }
         spinnerStatus.setSelection(statusToPosition(status));
+
+        ArrayAdapter<CharSequence> adapter =
+                ArrayAdapter.createFromResource(
+                        this,
+                        R.array.task_status_options,
+                        R.layout.spinner_item_black
+                );
+
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item_black);
+        spinnerStatus.setAdapter(adapter);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());

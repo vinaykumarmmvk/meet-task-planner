@@ -5,9 +5,12 @@ import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+
+import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.widget.Toast;
 
@@ -16,6 +19,8 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.taskmanager.R;
+import com.example.taskmanager.MainActivity;
+import com.example.taskmanager.ViewTaskActivity;
 import com.example.taskmanager.models.Task;
 import com.example.taskmanager.utils.DateUtils;
 
@@ -178,6 +183,7 @@ public class ReminderUtils {
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle("Clock-in started")
                 .setContentText(text)
+                .setContentIntent(getOpenAppPendingIntent(context))
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(text))
                 .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
@@ -202,6 +208,7 @@ public class ReminderUtils {
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle("Clock-in finished")
                 .setContentText(text)
+                .setContentIntent(getOpenTaskPendingIntent(context, task.id))
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(text))
                 .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
@@ -212,6 +219,53 @@ public class ReminderUtils {
     }
 
     // ---------- Internal helpers ----------
+
+    /**
+     * PendingIntent that just opens the app (MainActivity).
+     * Used for "Clock-in started" notification click.
+     */
+    public static PendingIntent getOpenAppPendingIntent(Context context) {
+        Intent openApp = new Intent(context, MainActivity.class);
+        openApp.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        return PendingIntent.getActivity(
+                context,
+                1000,
+                openApp,
+                buildPendingIntentFlags()
+        );
+    }
+
+    /**
+     * PendingIntent that opens the ViewTaskActivity for the given task id.
+     * Uses TaskStackBuilder so the back button returns to MainActivity.
+     */
+    public static PendingIntent getOpenTaskPendingIntent(Context context, int taskId) {
+        Intent view = new Intent(context, ViewTaskActivity.class);
+        view.putExtra("task_id", taskId);
+
+        // ✅ Make intent unique per task (prevents stale PendingIntent extras)
+        view.setAction("com.example.taskmanager.ACTION_VIEW_TASK");
+        view.setData(Uri.parse("taskmanager://task/" + taskId));
+
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+        stackBuilder.addNextIntentWithParentStack(view);
+
+        int requestCode = 200000 + Math.abs(taskId);
+        return stackBuilder.getPendingIntent(
+                requestCode,
+                buildPendingIntentFlags()
+        );
+    }
+
+    private static int buildPendingIntentFlags() {
+        int flags = PendingIntent.FLAG_CANCEL_CURRENT;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            flags |= PendingIntent.FLAG_IMMUTABLE;
+        }
+        return flags;
+    }
+
+
 
     private static boolean canPostNotifications(Context context) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return true;

@@ -11,4 +11,9 @@
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/tab_unselected</item>
     </style>
+    <style name="SpinnerPopupTheme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:popupBackground">@drawable/spinner_popup_bg_white</item>
+        <item name="colorControlNormal">@android:color/black</item>
+    </style>
+
 </resources>
