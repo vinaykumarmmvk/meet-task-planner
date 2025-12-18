@@ -62,5 +62,22 @@ public class MainActivity extends AppCompatActivity {
         new TabLayoutMediator(tabLayout, viewPager,
                 (tab, position) -> tab.setText(tabTitles.get(position))
         ).attach();
+
+        int openTab = getIntent().getIntExtra("open_tab", -1);
+        if (openTab >= 0 && openTab < 3) {
+            viewPager.setCurrentItem(openTab, false);
+        }
+
     }
+
+    @Override
+    protected void onNewIntent(android.content.Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        int openTab = intent.getIntExtra("open_tab", -1);
+        if (openTab >= 0 && openTab < 3 && viewPager != null) {
+            viewPager.setCurrentItem(openTab, false);
+        }
+    }
+
 }

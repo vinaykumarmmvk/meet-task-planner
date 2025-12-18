@@ -31,6 +31,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
+import com.example.taskmanager.MainActivity;
 import com.example.taskmanager.database.AppDatabase;
 import com.example.taskmanager.models.Task;
 import com.example.taskmanager.utils.DateUtils;
@@ -120,7 +121,7 @@ public class ViewTaskActivity extends AppCompatActivity {
                 setModeView();
             } else {
                 // Back from view -> close activity (back to tabs)
-                finish();
+                goBackToTabIfNeeded();
             }
         });
 
@@ -507,6 +508,27 @@ public class ViewTaskActivity extends AppCompatActivity {
 
         AppDatabase.getInstance(this).taskDao().update(task);
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isEditMode) {
+            loadTaskIntoUi();
+            setModeView();
+        } else {
+            goBackToTabIfNeeded();
+        }
+    }
+
+    private void goBackToTabIfNeeded() {
+        int returnTab = getIntent().getIntExtra("return_tab", -1);
+        if (returnTab >= 0) {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra("open_tab", returnTab);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+        }
+        finish();
     }
 
     // ---------------- Delete ----------------

@@ -1,27 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/bg_card_input">
+    android:orientation="vertical"
+    android:background="@drawable/bg_card_input"
+    android:padding="8dp">
 
     <com.prolificinteractive.materialcalendarview.MaterialCalendarView
         android:id="@+id/calendar_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:mcv_showOtherDates="all"
         app:mcv_selectionColor="@color/blue"
         app:mcv_arrowColor="@color/blue" />
 
-
+    <!-- Selected date tasks -->
     <TextView
-        android:id="@+id/text_task_titles"
+        android:id="@+id/text_calendar_tasks_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="16dp"
+        android:layout_marginTop="10dp"
+        android:text="Select a date to view tasks"
+        android:textStyle="bold"
         android:textSize="16sp"
-        android:textColor="@color/black"
-        android:layout_marginTop="470dp"
-        android:text="Select a date to view tasks" />
+        android:textColor="@color/black" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/text_calendar_empty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="No tasks"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        android:visibility="gone" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_calendar_tasks"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="8dp"
+        android:clipToPadding="false"
+        android:paddingBottom="8dp"/>
+</LinearLayout>
