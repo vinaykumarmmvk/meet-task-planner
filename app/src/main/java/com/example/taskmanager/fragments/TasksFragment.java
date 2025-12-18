@@ -1,5 +1,6 @@
 package com.example.taskmanager.fragments;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -9,6 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.Spinner;
@@ -30,6 +34,7 @@ import java.io.FileOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -42,7 +47,7 @@ public class TasksFragment extends Fragment {
     private TaskAdapter adapter;
     private SearchView searchView;
     private Spinner spinnerSort;
-    private ImageView btnExport;
+    private ImageView btnExport, btnFilter;
 
     private final List<Task> allTasks = new ArrayList<>();
     private String currentQuery = "";
@@ -53,6 +58,16 @@ public class TasksFragment extends Fragment {
     private static final int SORT_DURATION = 2;
     private static final int SORT_CREATED_ASC = 3;
     private static final int SORT_CREATED_DESC = 4;
+
+    // Type filters
+    private boolean filterClockin = true;
+    private boolean filterAllDay = true;
+    private boolean filterDuration = true;
+
+    // Status filters
+    private boolean filterNotStarted = true;
+    private boolean filterInProgress = true;
+    private boolean filterCompleted = true;
 
     @Nullable
     @Override
@@ -71,6 +86,7 @@ public class TasksFragment extends Fragment {
         searchView = view.findViewById(R.id.search_tasks);
         spinnerSort = view.findViewById(R.id.spinner_sort);
         btnExport = view.findViewById(R.id.img_export);
+        btnFilter = view.findViewById(R.id.img_filter);
 
         // Always show full search bar with hint
         searchView.setIconifiedByDefault(false);
@@ -82,6 +98,7 @@ public class TasksFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
         btnExport.setOnClickListener(v -> exportTasksToCsv());
+        btnFilter.setOnClickListener(v -> showFilterDialog());
 
         // Set up sort spinner
         ArrayAdapter<CharSequence> sortAdapter = ArrayAdapter.createFromResource(
@@ -125,6 +142,108 @@ public class TasksFragment extends Fragment {
 
         // Initial load
         reloadTasks();
+    }
+
+    private void showFilterDialog() {
+        Context ctx = getContext();
+        if (ctx == null) return;
+
+        View dialogView = LayoutInflater.from(ctx).inflate(R.layout.dialog_filters, null);
+
+        CheckBox cbClockin = dialogView.findViewById(R.id.cb_clockin);
+        CheckBox cbAllDay = dialogView.findViewById(R.id.cb_allday);
+        CheckBox cbDuration = dialogView.findViewById(R.id.cb_duration);
+
+        CheckBox cbNotStarted = dialogView.findViewById(R.id.cb_not_started);
+        CheckBox cbInProgress = dialogView.findViewById(R.id.cb_in_progress);
+        CheckBox cbCompleted = dialogView.findViewById(R.id.cb_completed);
+        CheckBox cbSelectAll = dialogView.findViewById(R.id.cb_select_all);
+
+// Put all checkboxes (except SelectAll) into a list
+        List<CheckBox> allBoxes = Arrays.asList(
+                cbClockin, cbAllDay, cbDuration,
+                cbNotStarted, cbInProgress, cbCompleted
+        );
+
+// Guard to avoid infinite loops when we programmatically setChecked()
+        final boolean[] internalChange = {false};
+
+        // restore previous selections
+        cbClockin.setChecked(filterClockin);
+        cbAllDay.setChecked(filterAllDay);
+        cbDuration.setChecked(filterDuration);
+
+        cbNotStarted.setChecked(filterNotStarted);
+        cbInProgress.setChecked(filterInProgress);
+        cbCompleted.setChecked(filterCompleted);
+
+// 1) SelectAll -> (check/uncheck) all
+        cbSelectAll.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (internalChange[0]) return;
+
+            internalChange[0] = true;
+            for (CheckBox cb : allBoxes) {
+                cb.setChecked(isChecked);
+            }
+            internalChange[0] = false;
+        });
+
+// 2) Any individual checkbox change -> update SelectAll state
+        CompoundButton.OnCheckedChangeListener childListener = (buttonView, isChecked) -> {
+            if (internalChange[0]) return;
+
+            boolean allChecked = true;
+            for (CheckBox cb : allBoxes) {
+                if (!cb.isChecked()) {
+                    allChecked = false;
+                    break;
+                }
+            }
+
+            internalChange[0] = true;
+            cbSelectAll.setChecked(allChecked);
+            internalChange[0] = false;
+        };
+
+        for (CheckBox cb : allBoxes) {
+            cb.setOnCheckedChangeListener(childListener);
+        }
+
+// 3) Initial state: set SelectAll checked if everything is checked
+        boolean allCheckedInitially = true;
+        for (CheckBox cb : allBoxes) {
+            if (!cb.isChecked()) {
+                allCheckedInitially = false;
+                break;
+            }
+        }
+        internalChange[0] = true;
+        cbSelectAll.setChecked(allCheckedInitially);
+        internalChange[0] = false;
+
+        AlertDialog dialog = new AlertDialog.Builder(ctx)
+                .setView(dialogView)
+                .create();
+
+        Button btnApply = dialogView.findViewById(R.id.btn_apply_filter);
+        Button btnCancel = dialogView.findViewById(R.id.btn_cancel_filter);
+
+        btnApply.setOnClickListener(v -> {
+            filterClockin = cbClockin.isChecked();
+            filterAllDay = cbAllDay.isChecked();
+            filterDuration = cbDuration.isChecked();
+
+            filterNotStarted = cbNotStarted.isChecked();
+            filterInProgress = cbInProgress.isChecked();
+            filterCompleted = cbCompleted.isChecked();
+
+            dialog.dismiss();
+            applyFilterAndSort();
+        });
+
+        btnCancel.setOnClickListener(v -> dialog.dismiss());
+
+        dialog.show();
     }
 
     private void exportTasksToCsv() {
@@ -391,12 +510,41 @@ public class TasksFragment extends Fragment {
         // 1) Filter by title (in-memory)
         List<Task> filtered = new ArrayList<>();
         for (Task task : allTasks) {
+
+            // --- Type detection (same logic style as your exportTasksToCsv) ---
+            boolean isClockIn = !task.isAllDay && task.fromDate == null && task.toDate == null;
+            boolean isAllDay = task.isAllDay;
+            boolean isDuration = !task.isAllDay && task.fromDate != null && task.toDate != null;
+
+            boolean typeOk =
+                    (isClockIn && filterClockin) ||
+                            (isAllDay && filterAllDay) ||
+                            (isDuration && filterDuration);
+
+            if (!typeOk) continue;
+
+            // --- Status normalize ---
+            String status = task.status;
+
+            if (isClockIn) {
+                status = task.isOngoing ? Task.STATUS_IN_PROGRESS : Task.STATUS_COMPLETED;
+            }
+            if (status == null || status.trim().isEmpty()) status = Task.STATUS_NOT_STARTED;
+
+            boolean statusOk =
+                    (Task.STATUS_NOT_STARTED.equals(status) && filterNotStarted) ||
+                            (Task.STATUS_IN_PROGRESS.equals(status) && filterInProgress) ||
+                            (Task.STATUS_COMPLETED.equals(status) && filterCompleted);
+
+            if (!statusOk) continue;
+
+            // --- Search by title (your existing logic) ---
             String title = task.title == null ? "" : task.title;
-            if (queryLower.isEmpty()
-                    || title.toLowerCase(Locale.getDefault()).contains(queryLower)) {
+            if (queryLower.isEmpty() || title.toLowerCase(Locale.getDefault()).contains(queryLower)) {
                 filtered.add(task);
             }
         }
+
 
         // 2) Sort
         Collections.sort(filtered, new Comparator<Task>() {

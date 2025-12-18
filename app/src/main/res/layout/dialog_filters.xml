@@ -1,0 +1,122 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:text="Filter By"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+        <CheckBox
+            android:id="@+id/cb_select_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="SelectAll" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:padding="10dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="15dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Type"
+        android:textColor="@android:color/black"
+        android:textStyle="bold" />
+
+    <CheckBox
+        android:id="@+id/cb_clockin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Clockin" />
+
+    <CheckBox
+        android:id="@+id/cb_allday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Allday" />
+
+    <CheckBox
+        android:id="@+id/cb_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter Duration" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="15dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Status"
+        android:textColor="@android:color/black"
+        android:textStyle="bold" />
+
+    <CheckBox
+        android:id="@+id/cb_not_started"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Not started" />
+
+    <CheckBox
+        android:id="@+id/cb_in_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="In progress" />
+
+    <CheckBox
+        android:id="@+id/cb_completed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Completed" />
+    </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="end"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_cancel_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel" />
+
+        <Button
+            android:id="@+id/btn_apply_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="Filter" />
+    </LinearLayout>
+</LinearLayout>
