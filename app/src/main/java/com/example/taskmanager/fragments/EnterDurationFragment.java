@@ -584,6 +584,7 @@ public class EnterDurationFragment extends Fragment {
                 task.startTimestamp = startTime;
                 task.isOngoing = true;
                 task.dateTime = formattedDateTime;
+                task.createdAt = System.currentTimeMillis();
 
                 // Save date (for calendar)
                 SimpleDateFormat sdf4 = new SimpleDateFormat("dd.MM.yyyy", Locale.US);
@@ -709,6 +710,7 @@ public class EnterDurationFragment extends Fragment {
             task.stopTimestamp = eventEndMillis;
             task.durationMillis = duration;
             task.dateTime = formattedDateTime;
+            task.createdAt = System.currentTimeMillis();
 
             // Status for non-clock-in (user chosen)
             int statusPos = spinnerStatus.getSelectedItemPosition();

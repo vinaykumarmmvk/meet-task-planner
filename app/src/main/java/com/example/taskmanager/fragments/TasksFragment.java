@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.Spinner;
@@ -28,8 +27,6 @@ import com.example.taskmanager.models.Task;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -54,6 +51,8 @@ public class TasksFragment extends Fragment {
     private static final int SORT_LATEST = 0;
     private static final int SORT_OLDEST = 1;
     private static final int SORT_DURATION = 2;
+    private static final int SORT_CREATED_ASC = 3;
+    private static final int SORT_CREATED_DESC = 4;
 
     @Nullable
     @Override
@@ -111,7 +110,10 @@ public class TasksFragment extends Fragment {
 
         // Search (in-memory, on current list)
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override public boolean onQueryTextSubmit(String query) { return false; }
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
 
             @Override
             public boolean onQueryTextChange(String newText) {
@@ -137,9 +139,9 @@ public class TasksFragment extends Fragment {
         sb.append("Title,Description,Type,Status,Date,From,To,Duration\n");
 
         SimpleDateFormat dateOnly = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
-        SimpleDateFormat timeHms  = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+        SimpleDateFormat timeHms = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
         SimpleDateFormat dateTimeFull = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault());
-        SimpleDateFormat timeHm  = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        SimpleDateFormat timeHm = new SimpleDateFormat("HH:mm", Locale.getDefault());
 
         long now = System.currentTimeMillis();
 
@@ -177,7 +179,7 @@ public class TasksFragment extends Fragment {
             // ---- Date / From / To columns ----
             String dateCol = "";
             String fromCol = "";
-            String toCol   = "";
+            String toCol = "";
 
             if (isClockIn) {
                 if (task.startTimestamp > 0) {
@@ -187,24 +189,24 @@ public class TasksFragment extends Fragment {
                         Date stop = new Date(task.stopTimestamp);
 
                         String startDateStr = dateOnly.format(start);
-                        String stopDateStr  = dateOnly.format(stop);
+                        String stopDateStr = dateOnly.format(stop);
 
                         if (startDateStr.equals(stopDateStr)) {
                             // same day → Date = dd.MM.yyyy; From/To = HH:mm:ss
                             dateCol = startDateStr;
                             fromCol = timeHms.format(start);
-                            toCol   = timeHms.format(stop);
+                            toCol = timeHms.format(stop);
                         } else {
                             // different days → Date empty; From/To = dd-MM-yyyy HH:mm:ss
                             dateCol = dateOnly.format(start) + " - " + dateOnly.format(stop);
                             fromCol = dateTimeFull.format(start);
-                            toCol   = dateTimeFull.format(stop);
+                            toCol = dateTimeFull.format(stop);
                         }
                     } else {
                         // ongoing clock-in: show start date + time
                         dateCol = dateOnly.format(start);
                         fromCol = timeHms.format(start);
-                        toCol   = ""; // not yet stopped
+                        toCol = ""; // not yet stopped
                     }
                 }
             } else {
@@ -213,7 +215,7 @@ public class TasksFragment extends Fragment {
                     // same as earlier: Date = date, From/To empty
                     dateCol = task.date != null ? task.date : "";
                     fromCol = "";
-                    toCol   = "";
+                    toCol = "";
                 } else if (task.fromDate != null && task.toDate != null) {
                     // Duration tasks: show from/to date + times
                     if (task.fromDate.equals(task.toDate)) {
@@ -313,13 +315,13 @@ public class TasksFragment extends Fragment {
 
         long totalSeconds = millis / 1000;
 
-        long weeks  = totalSeconds / (7L * 24 * 3600);
+        long weeks = totalSeconds / (7L * 24 * 3600);
         totalSeconds %= 7L * 24 * 3600;
 
-        long days   = totalSeconds / (24L * 3600);
+        long days = totalSeconds / (24L * 3600);
         totalSeconds %= 24L * 3600;
 
-        long hours  = totalSeconds / 3600;
+        long hours = totalSeconds / 3600;
         totalSeconds %= 3600;
 
         long minutes = totalSeconds / 60;
@@ -411,6 +413,15 @@ public class TasksFragment extends Fragment {
                         if (byDuration != 0) return byDuration;
                         // Tie-breaker: latest first
                         return Long.compare(t2.startTimestamp, t1.startTimestamp);
+
+                    case SORT_CREATED_ASC:
+                        // Tie-breaker: latest first
+                        return Long.compare(t1.createdAt, t2.createdAt);
+
+                    case SORT_CREATED_DESC:
+                        // Tie-breaker: latest first
+                        return Long.compare(t2.createdAt, t1.createdAt);
+
 
                     case SORT_LATEST:
                     default:

@@ -34,6 +34,12 @@ public interface TaskDao {
     @Query("SELECT * FROM tasks WHERE id = :id")
     Task getTaskById(int id);
 
+    @Query("SELECT * FROM tasks ORDER BY created_at ASC")
+    List<Task> getAllOrderByCreatedAsc();
+
+    @Query("SELECT * FROM tasks ORDER BY created_at DESC")
+    List<Task> getAllOrderByCreatedDesc();
+
     @Update
     void update(Task task);
 

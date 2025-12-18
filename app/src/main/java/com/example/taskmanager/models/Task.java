@@ -10,6 +10,9 @@ public class Task {
     @PrimaryKey(autoGenerate = true)
     public int id;
 
+    @ColumnInfo(name = "created_at")
+    public long createdAt;
+
     public String title;
     public String description;
 

@@ -4,6 +4,8 @@
         <item>Latest first</item>
         <item>Oldest first</item>
         <item>Duration (longest)</item>
+        <item>Created (Ascending)</item>
+        <item>Created (Descending)</item>
     </string-array>
 
     <string-array name="task_status_options">
