@@ -53,8 +53,7 @@ public class ViewTaskActivity extends AppCompatActivity {
     private static final int REQ_TAKE_PHOTO = 3003;
     private static final int REQ_CAMERA_PERMISSION = 3004;
 
-    private EditText editTitle, editDescription;
-    private TextView textType;
+    private EditText editTitle, editDescription, editCreatedAt, textType;
     private LinearLayout layoutAllDay, layoutDuration, layoutClockin;
     private EditText editAllDayDate;
     private EditText editFromDate, editFromTime, editToDate, editToTime;
@@ -216,6 +215,7 @@ public class ViewTaskActivity extends AppCompatActivity {
         editTitle = findViewById(R.id.edit_title);
         editDescription = findViewById(R.id.edit_description);
         textType = findViewById(R.id.text_type);
+        editCreatedAt = findViewById(R.id.edit_created_at);
         layoutAllDay = findViewById(R.id.layout_all_day);
         layoutDuration = findViewById(R.id.layout_duration);
         layoutClockin = findViewById(R.id.layout_clockin);
@@ -238,6 +238,7 @@ public class ViewTaskActivity extends AppCompatActivity {
     private void loadTaskIntoUi() {
         editTitle.setText(task.title);
         editDescription.setText(task.description == null ? "" : task.description);
+        editCreatedAt.setText(formatCreatedAt(task.createdAt));
 
         String type;
         if (task.isAllDay) type = "All-day";
@@ -333,6 +334,13 @@ public class ViewTaskActivity extends AppCompatActivity {
         renderAttachments();
     }
 
+    private String formatCreatedAt(long ts) {
+        if (ts <= 0) return "";
+        java.text.SimpleDateFormat sdf =
+                new java.text.SimpleDateFormat("dd.MM.yyyy, HH:mm", java.util.Locale.getDefault());
+        return sdf.format(new java.util.Date(ts));
+    }
+
     private void setModeView() {
         isEditMode = false;
         fabEdit.setVisibility(View.VISIBLE);
@@ -359,6 +367,13 @@ public class ViewTaskActivity extends AppCompatActivity {
         isEditMode = true;
         fabEdit.setVisibility(View.GONE);
         fabSave.setVisibility(View.VISIBLE);
+
+        editCreatedAt.setEnabled(false);
+        editCreatedAt.setFocusable(false);
+        editCreatedAt.setClickable(false);
+        textType.setEnabled(false);
+        textType.setFocusable(false);
+        textType.setClickable(false);
 
         boolean isClockInType = !task.isAllDay && task.fromDate == null && task.toDate == null;
 
