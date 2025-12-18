@@ -1,0 +1,38 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Grey rounded background -->
+    <item>
+        <shape>
+            <solid android:color="#E0E0E0"/>
+            <stroke android:width="1dp" android:color="#BDBDBD"/>
+            <corners android:radius="8dp"/>
+            <!-- extra right padding for arrow -->
+            <padding
+                android:left="10dp"
+                android:top="0dp"
+                android:right="2dp"
+                android:bottom="0dp"/>
+        </shape>
+    </item>
+
+    <!-- Right-side arrow -->
+    <item
+        android:gravity="end|center_vertical"
+        android:right="10dp">
+        <inset
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp">
+            <shape android:shape="rectangle">
+                <size android:width="18dp" android:height="18dp"/>
+                <solid android:color="@android:color/transparent"/>
+            </shape>
+        </inset>
+    </item>
+
+    <item
+        android:gravity="end|center_vertical"
+        android:right="0dp"
+        android:drawable="@drawable/ic_spinner_arrow_down"/>
+</layer-list>

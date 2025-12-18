@@ -26,21 +26,18 @@
             android:textStyle="bold"
             android:textColor="@color/black" />
 
-        <!-- In progress badge -->
-        <TextView
-            android:id="@+id/text_status"
+        <!-- status badge -->
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/spinner_status_inline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:paddingTop="2dp"
-            android:paddingBottom="2dp"
             android:layout_marginStart="8dp"
-            android:text="In progress"
-            android:textSize="12sp"
-            android:textColor="@color/black"
-            android:background="@drawable/bg_badge_in_progress"
-           />
+            android:paddingLeft="0dp"
+            android:paddingRight="10dp"
+            android:spinnerMode="dropdown"
+            app:popupTheme="@style/SpinnerPopupTheme"
+            android:background="@drawable/bg_status_spinner_grey" />
+
         <!-- Attachment pin indicator -->
         <ImageView
             android:id="@+id/img_attachment_pin"

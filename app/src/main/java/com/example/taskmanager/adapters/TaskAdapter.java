@@ -7,9 +7,12 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -82,6 +85,19 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
         String statusText;
 
+        // --- Setup spinner adapter once ---
+        if (holder.statusSpinner.getAdapter() == null) {
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                    holder.itemView.getContext(),
+                    R.array.task_status_options,
+                    R.layout.spinner_item_black
+            );
+            adapter.setDropDownViewResource(R.layout.spinner_dropdown_item_black);
+            holder.statusSpinner.setAdapter(adapter);
+        }
+
+// Determine current status
+
         boolean isClockInOngoing =
                 !task.isAllDay
                         && task.fromDate == null
@@ -90,51 +106,71 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
         if (isClockInOngoing) {
             statusText = Task.STATUS_IN_PROGRESS;
-            // Hide edit/delete, show badge
+
+            // Hide edit/delete, show in-progress text
             holder.imgEdit.setVisibility(View.GONE);
             holder.imgDelete.setVisibility(View.GONE);
             holder.duration.setText("In progress …");
 
-            // 🔒 Disable click + different background
+            // Disable click + disable spinner
             holder.itemView.setOnClickListener(null);
             holder.itemView.setClickable(false);
+            holder.statusSpinner.setEnabled(false);
+
         } else {
-            if (task.status != null && !task.status.trim().isEmpty()) {
-                statusText = task.status;
-            } else {
-                statusText = Task.STATUS_NOT_STARTED;
-            }
+            statusText = (task.status != null && !task.status.trim().isEmpty())
+                    ? task.status
+                    : Task.STATUS_NOT_STARTED;
+
             holder.imgEdit.setVisibility(View.VISIBLE);
             holder.imgDelete.setVisibility(View.VISIBLE);
 
-            // ✅ Normal clickable item
             holder.itemView.setClickable(true);
-
             holder.itemView.setOnClickListener(v -> {
                 Context ctx = v.getContext();
                 Intent intent = new Intent(ctx, ViewTaskActivity.class);
                 intent.putExtra("task_id", task.id);
                 ctx.startActivity(intent);
             });
+
+            holder.statusSpinner.setEnabled(true);
         }
 
-        holder.status.setText(statusText);
+// Set spinner selection WITHOUT triggering listener
+        holder.statusSpinner.setOnItemSelectedListener(null);
+        holder.statusSpinner.setSelection(statusToIndex(statusText), false);
 
-        // Background color based on status
-        if (Task.STATUS_COMPLETED.equals(statusText)) {
-            holder.itemView.setBackgroundResource(R.drawable.bg_task_completed);
-            holder.status.setBackgroundResource(R.drawable.bg_badge_completed);
-            holder.status.setTextColor(Color.parseColor("#000000"));
-        } else if (Task.STATUS_IN_PROGRESS.equals(statusText)) {
-            holder.itemView.setBackgroundResource(R.drawable.bg_task_in_progress);
-            holder.status.setBackgroundResource(R.drawable.bg_badge_in_progress);
-            holder.status.setTextColor(Color.parseColor("#000000"));
-        } else { // Not started or anything else
-            holder.itemView.setBackgroundResource(R.drawable.bg_task_not_started);
-            holder.status.setBackgroundResource(R.drawable.bg_badge_not_started);
-            holder.status.setTextColor(Color.parseColor("#FFFFFF"));
+// Apply background badge grey color + black text color
+        applyTaskCardBackground(holder, statusText);
+
+// Listener: update DB when user changes it (skip for ongoing clockin)
+        if (!isClockInOngoing) {
+            holder.statusSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                boolean first = true;
+
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                    String newStatus = parent.getItemAtPosition(pos).toString();
+
+                    // Avoid unnecessary update
+                    String oldStatus = (task.status == null || task.status.trim().isEmpty())
+                            ? Task.STATUS_NOT_STARTED
+                            : task.status;
+
+                    if (newStatus.equals(oldStatus)) return;
+
+                    // ✅ Update model + DB
+                    task.status = newStatus;
+                    AppDatabase.getInstance(holder.itemView.getContext()).taskDao().update(task);
+
+                    // ✅ Update UI immediately
+                    applyTaskCardBackground(holder, newStatus);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) { }
+            });
         }
-
 
         // ✅ Show pin if attachments exist
         if (task.attachmentUris != null && !task.attachmentUris.trim().isEmpty()) {
@@ -152,9 +188,25 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                         holder.getAdapterPosition()));
     }
 
+    private void applyTaskCardBackground(TaskViewHolder holder, String statusText) {
+        if (Task.STATUS_COMPLETED.equals(statusText)) {
+            holder.itemView.setBackgroundResource(R.drawable.bg_task_completed);
+        } else if (Task.STATUS_IN_PROGRESS.equals(statusText)) {
+            holder.itemView.setBackgroundResource(R.drawable.bg_task_in_progress);
+        } else {
+            holder.itemView.setBackgroundResource(R.drawable.bg_task_not_started);
+        }
+    }
+
     @Override
     public int getItemCount() {
         return taskList.size();
+    }
+
+    private int statusToIndex(String status) {
+        if (Task.STATUS_IN_PROGRESS.equals(status)) return 1;
+        if (Task.STATUS_COMPLETED.equals(status)) return 2;
+        return 0; // Not started default
     }
 
     private void confirmDeleteTask(Context context, int position) {
@@ -388,7 +440,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
     static class TaskViewHolder extends RecyclerView.ViewHolder {
 
-        TextView title, description, duration, status;
+        TextView title, description, duration;
+        Spinner statusSpinner;
+
         ImageView imgDelete, imgEdit, imgAttachmentPin;
 
         TaskViewHolder(View view) {
@@ -399,7 +453,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             imgDelete = view.findViewById(R.id.img_delete);
             imgEdit = view.findViewById(R.id.img_edit);
             imgAttachmentPin = view.findViewById(R.id.img_attachment_pin);
-            status = view.findViewById(R.id.text_status);
+            statusSpinner = itemView.findViewById(R.id.spinner_status_inline);
+
         }
     }
 }
