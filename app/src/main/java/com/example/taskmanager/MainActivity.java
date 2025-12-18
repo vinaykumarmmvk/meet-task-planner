@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -58,27 +59,41 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(pagerAdapter);
 
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
-            View custom = getLayoutInflater().inflate(R.layout.tab_icon_pill, null);
-            ImageView icon = custom.findViewById(R.id.tab_icon);
+            View custom = getLayoutInflater().inflate(R.layout.tab_icon_text_pill, null);
 
-            if (position == 0) icon.setImageResource(R.drawable.ic_tab_timer);
-            else if (position == 1) icon.setImageResource(R.drawable.ic_tab_calendar);
-            else icon.setImageResource(R.drawable.ic_tab_tasks);
+            ImageView icon = custom.findViewById(R.id.tab_icon);
+            TextView label = custom.findViewById(R.id.tab_label);
+
+            if (position == 0) {
+                icon.setImageResource(R.drawable.ic_tab_timer);
+                label.setText("Scheduler");
+            } else if (position == 1) {
+                icon.setImageResource(R.drawable.ic_tab_calendar);
+                label.setText("Calendar");
+            } else {
+                icon.setImageResource(R.drawable.ic_tab_tasks);
+                label.setText("Todo");
+            }
 
             tab.setCustomView(custom);
         }).attach();
 
-        // initial highlight
-        updateSelectedTabPill(tabLayout, tabLayout.getSelectedTabPosition());
+        // Apply initial selected state
+        updateTabUi(tabLayout, tabLayout.getSelectedTabPosition());
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override public void onTabSelected(TabLayout.Tab tab) {
-                updateSelectedTabPill(tabLayout, tab.getPosition());
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                updateTabUi(tabLayout, tab.getPosition());
             }
-            @Override public void onTabUnselected(TabLayout.Tab tab) {
-                updateSelectedTabPill(tabLayout, tabLayout.getSelectedTabPosition());
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                updateTabUi(tabLayout, tabLayout.getSelectedTabPosition());
             }
-            @Override public void onTabReselected(TabLayout.Tab tab) {}
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) { }
         });
 
 
@@ -89,19 +104,30 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void updateSelectedTabPill(TabLayout tabLayout, int selectedPos) {
+    private void updateTabUi(TabLayout tabLayout, int selectedPos) {
         for (int i = 0; i < tabLayout.getTabCount(); i++) {
             TabLayout.Tab t = tabLayout.getTabAt(i);
             if (t == null || t.getCustomView() == null) continue;
 
             View container = t.getCustomView().findViewById(R.id.tab_container);
-            if (container == null) continue;
+            ImageView icon = t.getCustomView().findViewById(R.id.tab_icon);
+            TextView label = t.getCustomView().findViewById(R.id.tab_label);
 
-            if (i == selectedPos) {
-                container.setBackgroundResource(R.drawable.bg_tab_selected_oval);
-            } else {
-                container.setBackground(null);
-            }
+            boolean selected = (i == selectedPos);
+
+            // Light-blue oval background on selected
+            if (selected) container.setBackgroundResource(R.drawable.bg_tab_selected_oval);
+            else container.setBackground(null);
+
+            // Bold label on selected
+            label.setTypeface(null, selected ? android.graphics.Typeface.BOLD : android.graphics.Typeface.NORMAL);
+
+            // Optional: color change
+            label.setTextColor(selected ? 0xFF000000 : 0xFF7A7A7A);
+
+            // Optional: icon tint change (if you want)
+            // icon.setColorFilter(selected ? 0xFF000000 : 0xFF7A7A7A);
+            icon.clearColorFilter(); // keep original icon if you already tint via tab_icon_tint
         }
     }
 
