@@ -49,6 +49,13 @@ public class CalendarFragment extends Fragment {
     public void onResume() {
         super.onResume();
         refreshCalendarDecorators();
+
+        if (calendarView != null) {
+            CalendarDay selected = calendarView.getSelectedDate();
+            if (selected == null) selected = CalendarDay.today();
+            calendarView.setSelectedDate(selected);
+            loadTasksForDay(selected);
+        }
     }
 
     private void refreshCalendarDecorators() {
@@ -78,6 +85,28 @@ public class CalendarFragment extends Fragment {
         cv.addDecorator(new TaskDotDecorator(taskDates));
     }
 
+    private void loadTasksForDay(CalendarDay date) {
+        if (date == null || getContext() == null) return;
+
+        String selectedDate = String.format(Locale.getDefault(), "%02d.%02d.%d",
+                date.getDay(), date.getMonth() + 1, date.getYear());
+
+        textHeader.setText("Tasks on " + selectedDate);
+
+        List<Task> tasks = AppDatabase.getInstance(getContext())
+                .taskDao()
+                .getTasksForDate(selectedDate);
+
+        if (tasks == null || tasks.isEmpty()) {
+            textEmpty.setVisibility(View.VISIBLE);
+            textEmpty.setText("No tasks on " + selectedDate);
+            adapter.setItems(null);
+        } else {
+            textEmpty.setVisibility(View.GONE);
+            adapter.setItems(tasks);
+        }
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         calendarView = view.findViewById(R.id.calendar_view);
@@ -101,32 +130,12 @@ public class CalendarFragment extends Fragment {
         refreshCalendarDecorators();
 
         // Feature #5: remove popup on date click; just show list below
-        calendarView.setOnDateChangedListener((widget, date, selected) -> showTasksForDay(date));
+        calendarView.setOnDateChangedListener((widget, date, selected) -> loadTasksForDay(date));
 
         CalendarDay today = CalendarDay.today();
         calendarView.setSelectedDate(today);
-        showTasksForDay(today);
+        loadTasksForDay(today);
 
-    }
-
-    private void showTasksForDay(CalendarDay date) {
-        String selectedDate = String.format(Locale.getDefault(), "%02d.%02d.%d",
-                date.getDay(), date.getMonth() + 1, date.getYear());
-
-        textHeader.setText("Tasks on " + selectedDate);
-
-        List<Task> tasks = AppDatabase.getInstance(getContext())
-                .taskDao()
-                .getTasksForDate(selectedDate);
-
-        if (tasks == null || tasks.isEmpty()) {
-            textEmpty.setVisibility(View.VISIBLE);
-            textEmpty.setText("No tasks on " + selectedDate);
-            adapter.setItems(null);
-        } else {
-            textEmpty.setVisibility(View.GONE);
-            adapter.setItems(tasks);
-        }
     }
 
 }

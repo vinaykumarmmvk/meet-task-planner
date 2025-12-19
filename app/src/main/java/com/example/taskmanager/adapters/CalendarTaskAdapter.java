@@ -52,6 +52,13 @@ public class CalendarTaskAdapter extends RecyclerView.Adapter<CalendarTaskAdapte
 
         h.title.setText(t.title == null ? "" : t.title);
 
+// normalize status
+        String status = (t.status == null || t.status.trim().isEmpty())
+                ? Task.STATUS_NOT_STARTED
+                : t.status;
+
+        boolean isClockIn = !t.isAllDay && t.fromDate == null && t.toDate == null;
+
         // ---- Spinner adapter (set once) ----
         if (h.statusSpinner.getAdapter() == null) {
             ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
@@ -63,14 +70,14 @@ public class CalendarTaskAdapter extends RecyclerView.Adapter<CalendarTaskAdapte
             h.statusSpinner.setAdapter(adapter);
         }
 
-// normalize status
-        String status = (t.status == null || t.status.trim().isEmpty())
-                ? Task.STATUS_NOT_STARTED
-                : t.status;
 
 // set selection without triggering listener
         h.statusSpinner.setOnItemSelectedListener(null);
         h.statusSpinner.setSelection(statusToIndex(status), false);
+
+        // disable for clockin
+        h.statusSpinner.setEnabled(!isClockIn);
+        h.statusSpinner.setClickable(!isClockIn);
 
 // background based on status
         applyCardBg(h, status);
