@@ -18,6 +18,8 @@ import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -29,8 +31,11 @@ import com.example.taskmanager.adapters.TaskAdapter;
 import com.example.taskmanager.database.AppDatabase;
 import com.example.taskmanager.models.Task;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -40,6 +45,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 public class TasksFragment extends Fragment {
 
@@ -47,7 +53,7 @@ public class TasksFragment extends Fragment {
     private TaskAdapter adapter;
     private SearchView searchView;
     private Spinner spinnerSort;
-    private ImageView btnExport, btnFilter;
+    private ImageView btnImport, btnExport, btnFilter;
 
     private final List<Task> allTasks = new ArrayList<>();
     private String currentQuery = "";
@@ -87,6 +93,7 @@ public class TasksFragment extends Fragment {
         spinnerSort = view.findViewById(R.id.spinner_sort);
         btnExport = view.findViewById(R.id.img_export);
         btnFilter = view.findViewById(R.id.img_filter);
+        btnImport = view.findViewById(R.id.img_import);
 
         // Always show full search bar with hint
         searchView.setIconifiedByDefault(false);
@@ -97,6 +104,10 @@ public class TasksFragment extends Fragment {
         adapter = new TaskAdapter(new ArrayList<Task>());
         recyclerView.setAdapter(adapter);
 
+        btnImport.setOnClickListener(v -> {
+            // most compatible for CSV from different file managers:
+            csvPicker.launch("text/*");
+        });
         btnExport.setOnClickListener(v -> exportTasksToCsv());
         btnFilter.setOnClickListener(v -> showFilterDialog());
 
@@ -142,6 +153,304 @@ public class TasksFragment extends Fragment {
 
         // Initial load
         reloadTasks();
+    }
+
+    private final ActivityResultLauncher<String> csvPicker =
+            registerForActivityResult(new ActivityResultContracts.GetContent(), uri -> {
+                if (uri == null) return;
+                importTasksFromCsv(uri);
+            });
+
+    private void importTasksFromCsv(Uri uri) {
+        int skipped = 0;
+
+        Context ctx = getContext();
+        if (ctx == null) return;
+
+        // Must match exportTasksToCsv() header exactly:
+        final List<String> requiredHeader = Arrays.asList(
+                "Title", "Description", "Type", "Status", "Date", "From", "To", "Duration"
+        );
+
+        try (InputStream in = ctx.getContentResolver().openInputStream(uri);
+             BufferedReader br = new BufferedReader(new InputStreamReader(in))) {
+
+            String headerLine = br.readLine();
+            if (headerLine == null) {
+                Toast.makeText(ctx, "Empty CSV file", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Handle BOM if present
+            headerLine = headerLine.replace("\uFEFF", "");
+
+            List<String> headers = parseCsvLine(headerLine);
+
+            if (!headers.equals(requiredHeader)) {
+                Toast.makeText(ctx,
+                        "CSV format not supported. Please import a CSV exported from this app.",
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            List<Task> tasksToInsert = new ArrayList<>();
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (line.trim().isEmpty()) continue;
+                List<String> cols = parseCsvLine(line);
+                if (cols.size() < headers.size()) continue;
+
+                Task t = taskFromExportedCsvRow(cols);
+                if (t == null) {
+                    // you can detect reason if you return a wrapper; easiest is count generic skip
+                    skipped++;
+                } else {
+                    tasksToInsert.add(t);
+                }
+            }
+
+            if (tasksToInsert.isEmpty()) {
+                Toast.makeText(ctx, "No tasks to import", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            AppDatabase db = AppDatabase.getInstance(ctx);
+            db.runInTransaction(() -> {
+                for (Task t : tasksToInsert) db.taskDao().insert(t);
+            });
+
+            // after insert
+            Toast.makeText(ctx,
+                    "Imported " + tasksToInsert.size() + " tasks. Skipped " + skipped + " invalid rows.",
+                    Toast.LENGTH_LONG).show();
+
+            // Refresh list with your current sort/filter/search
+            reloadTasks();          // or applyFilterAndSort() if you prefer
+            applyFilterAndSort();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(ctx, "Import failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private Task taskFromExportedCsvRow(List<String> c) {
+        // Export header order:
+        // 0 Title, 1 Description, 2 Type, 3 Status, 4 Date, 5 From, 6 To, 7 Duration
+
+        String title = safe(c, 0);
+        if (title.trim().isEmpty()) return null;
+
+        String desc = safe(c, 1);
+        String type = safe(c, 2);
+        String status = safe(c, 3);
+        String dateCol = safe(c, 4);
+        String fromCol = safe(c, 5);
+        String toCol = safe(c, 6);
+
+        Task t = new Task();
+        t.title = title;
+        t.description = desc;
+
+        // CSV doesn't include CreatedAt in your export -> set now
+        t.createdAt = System.currentTimeMillis();
+
+        // status normalize like you do elsewhere
+        if (status == null || status.trim().isEmpty()) status = Task.STATUS_NOT_STARTED;
+        t.status = status;
+
+        // Patterns based on export formats
+        // - dateOnly: dd.MM.yyyy (dots)
+        // - dateTimeFull: dd-MM-yyyy HH:mm:ss (dashes)
+        // - timeHms: HH:mm:ss
+        SimpleDateFormat dateOnly = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+        SimpleDateFormat dateTimeFull = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault());
+        SimpleDateFormat timeHms = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+
+        // Type mapping from export:
+        // "All-day", "Duration", "Clock-in"
+        if ("All-day".equalsIgnoreCase(type)) {
+            t.isAllDay = true;
+            t.date = dateCol;              // export uses task.date here
+            t.fromDate = null;
+            t.toDate = null;
+            t.isOngoing = false;
+            t.startTimestamp = 0;
+            t.stopTimestamp = 0;
+            t.durationMillis = 0;
+            return t;
+        }
+
+        if ("Duration".equalsIgnoreCase(type)) {
+            t.isAllDay = false;
+            t.isOngoing = false;
+
+            // Export sets Date col as: fromDate OR "fromDate - toDate" using dd.MM.yyyy
+            if (dateCol.contains(" - ")) {
+                String[] parts = dateCol.split("\\s-\\s");
+                t.fromDate = parts[0].trim();
+                t.toDate = parts.length > 1 ? parts[1].trim() : parts[0].trim();
+            } else {
+                t.fromDate = dateCol;
+                t.toDate = dateCol;
+            }
+
+            // Export writes From/To as dd-MM-yyyy HH:mm:ss using start/stop timestamps
+            long startTs = parseDateTimeFull(dateTimeFull, fromCol);
+            long stopTs = parseDateTimeFull(dateTimeFull, toCol);
+
+            t.startTimestamp = startTs;
+            t.stopTimestamp = stopTs;
+
+            if (startTs > 0 && stopTs > startTs) {
+                t.durationMillis = stopTs - startTs;
+            } else {
+                t.durationMillis = 0;
+            }
+            return t;
+        }
+
+        // Default: Clock-in
+        t.isAllDay = false;
+        t.fromDate = null;
+        t.toDate = null;
+
+        // Export for clock-in:
+        // - same day stopped: Date = dd.MM.yyyy, From/To = HH:mm:ss
+        // - different days stopped: Date = dd.MM.yyyy - dd.MM.yyyy, From/To = dd-MM-yyyy HH:mm:ss
+        // - ongoing: Date = dd.MM.yyyy, From = HH:mm:ss, To empty
+        long startTs = 0;
+        long stopTs = 0;
+
+        boolean fromIsTimeOnly = isTimeOnly(fromCol);
+        boolean toIsTimeOnly = isTimeOnly(toCol);
+
+        if (fromIsTimeOnly && !dateCol.isEmpty()) {
+            // Combine dateCol (single day) + time
+            // Only valid when dateCol is a single dd.MM.yyyy
+            try {
+                Date d = dateOnly.parse(dateCol.trim());
+                if (d != null) {
+                    String combinedStart = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(d)
+                            + " " + fromCol.trim();
+
+                    // parse using "dd.MM.yyyy HH:mm:ss"
+                    SimpleDateFormat dt = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault());
+                    startTs = dt.parse(combinedStart).getTime();
+
+                    if (!toCol.trim().isEmpty() && toIsTimeOnly) {
+                        String combinedStop = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(d)
+                                + " " + toCol.trim();
+                        stopTs = dt.parse(combinedStop).getTime();
+                    }
+                }
+            } catch (Exception ignored) {
+            }
+        } else {
+            // Different-day case uses full datetime format
+            startTs = parseDateTimeFull(dateTimeFull, fromCol);
+            stopTs = parseDateTimeFull(dateTimeFull, toCol);
+        }
+
+        t.startTimestamp = startTs;
+        t.stopTimestamp = stopTs;
+
+        // ✅ Ensure "Started on" is not null (used in Scheduler)
+        if (startTs > 0) {
+            SimpleDateFormat startedFmt = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault());
+            t.dateTime = startedFmt.format(new Date(startTs));
+            // also make sure date is set (for calendar / display)
+            SimpleDateFormat dateFmt = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+            t.date = dateFmt.format(new Date(startTs));
+        } else {
+            // fallback if timestamp parse failed
+            if (!dateCol.trim().isEmpty() && !fromCol.trim().isEmpty()) {
+                t.date = dateCol.trim();
+                t.dateTime = dateCol.trim() + " " + fromCol.trim();
+            }
+        }
+
+        if (startTs > 0 && stopTs > startTs) {
+            t.durationMillis = stopTs - startTs;
+            t.isOngoing = false;
+            // If someone exported clock-in with empty status, keep completed
+            if (t.status == null || t.status.trim().isEmpty()) t.status = Task.STATUS_COMPLETED;
+        } else {
+            // ongoing clock-in
+            t.durationMillis = 0;
+            t.isOngoing = true;
+            t.status = Task.STATUS_IN_PROGRESS;
+        }
+
+        return t;
+    }
+
+    private List<String> parseCsvLine(String line) {
+        List<String> out = new ArrayList<>();
+        if (line == null) return out;
+
+        StringBuilder cur = new StringBuilder();
+        boolean inQuotes = false;
+
+        for (int i = 0; i < line.length(); i++) {
+            char c = line.charAt(i);
+
+            if (c == '"') {
+                // escaped quote inside quotes: ""
+                if (inQuotes && i + 1 < line.length() && line.charAt(i + 1) == '"') {
+                    cur.append('"');
+                    i++;
+                } else {
+                    inQuotes = !inQuotes;
+                }
+            } else if (c == ',' && !inQuotes) {
+                out.add(cur.toString());
+                cur.setLength(0);
+            } else {
+                cur.append(c);
+            }
+        }
+        out.add(cur.toString());
+
+        // strip surrounding quotes from each cell (because export uses csvEscape)
+        for (int i = 0; i < out.size(); i++) {
+            out.set(i, stripQuotes(out.get(i).trim()));
+        }
+
+        return out;
+    }
+
+    private String stripQuotes(String s) {
+        if (s == null) return "";
+        if (s.length() >= 2 && s.startsWith("\"") && s.endsWith("\"")) {
+            s = s.substring(1, s.length() - 1);
+        }
+        // restore escaped double quotes
+        return s.replace("\"\"", "\"");
+    }
+
+    private String safe(List<String> c, int idx) {
+        if (idx < 0 || idx >= c.size()) return "";
+        return c.get(idx) == null ? "" : c.get(idx);
+    }
+
+    private long parseDateTimeFull(SimpleDateFormat fmt, String value) {
+        try {
+            if (value == null) return 0;
+            value = value.trim();
+            if (value.isEmpty()) return 0;
+            Date d = fmt.parse(value);
+            return d == null ? 0 : d.getTime();
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    private boolean isTimeOnly(String s) {
+        if (s == null) return false;
+        s = s.trim();
+        // HH:mm:ss
+        return Pattern.matches("\\d{2}:\\d{2}:\\d{2}", s);
     }
 
     private void showFilterDialog() {
@@ -354,16 +663,15 @@ public class TasksFragment extends Fragment {
 
             // ---- Duration (human readable) ----
             String durationCol = "";
-            long durationMillis = task.durationMillis;
 
-            if (durationMillis <= 0 && isClockIn && task.isOngoing && task.startTimestamp > 0) {
-                // For ongoing clock-in, show duration till now
-                durationMillis = now - task.startTimestamp;
+// ✅ For CLOCK-IN ongoing, Duration column should be empty
+            if (!(isClockIn && task.isOngoing)) {
+                long durationMillis = task.durationMillis;
+                if (durationMillis > 0) {
+                    durationCol = formatDurationHuman(durationMillis);
+                }
             }
 
-            if (durationMillis > 0) {
-                durationCol = formatDurationHuman(durationMillis);
-            }
 
             // ---- CSV row ----
             sb.append(csvEscape(task.title))

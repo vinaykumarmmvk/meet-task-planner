@@ -800,6 +800,33 @@ public class EnterDurationFragment extends Fragment {
         taskContainer.addView(taskView);
     }
 
+    private void refreshOngoingTasksUi() {
+        if (getContext() == null || taskContainer == null) return;
+
+        List<Task> ongoingTasks = AppDatabase.getInstance(getContext())
+                .taskDao().getOngoingTasks();
+
+        taskContainer.removeAllViews();
+
+        if (ongoingTasks == null || ongoingTasks.isEmpty()) {
+            // no ongoing → show one empty section
+            addTaskSection(null);
+            return;
+        }
+
+        for (Task task : ongoingTasks) {
+            View taskView = buildTaskViewFromOngoing(task);
+            taskView.setTag(R.id.tag_task_id, task.id);
+            taskContainer.addView(taskView);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refreshOngoingTasksUi();
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions,

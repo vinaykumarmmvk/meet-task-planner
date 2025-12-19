@@ -73,11 +73,21 @@
             android:contentDescription="Filter options" />
 
         <ImageView
+            android:id="@+id/img_import"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="12dp"
+            android:src="@drawable/ic_upload"
+            android:contentDescription="Import CSV" />
+
+        <ImageView
             android:id="@+id/img_export"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="60dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="10dp"
             android:src="@drawable/ic_download"
             android:contentDescription="Sort options" />
 
