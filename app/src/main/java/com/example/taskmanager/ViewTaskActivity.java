@@ -111,6 +111,11 @@ public class ViewTaskActivity extends AppCompatActivity {
         loadTaskIntoUi();
         setModeView();
 
+        // If opened from Calendar edit icon, open edit mode directly
+        if (getIntent().getBooleanExtra("open_edit", false)) {
+            setModeEdit();
+        }
+
         setupPickerTouchHandlers();
 
         btnBack.setOnClickListener(v -> {

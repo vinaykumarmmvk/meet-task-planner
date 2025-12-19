@@ -36,6 +36,31 @@
             android:background="@drawable/bg_status_spinner_grey"
             app:popupTheme="@style/SpinnerPopupTheme" />
 
+        <ImageView
+            android:id="@+id/img_edit_calendar"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/ic_edit"
+            android:contentDescription="Edit" />
+
+        <ImageView
+            android:id="@+id/img_delete_calendar"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="6dp"
+            android:src="@drawable/ic_delete"
+            android:contentDescription="Delete" />
+
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/text_duration_calendar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text=""
+        android:textSize="14sp"
+        android:textColor="@color/black" />
 
 </LinearLayout>
