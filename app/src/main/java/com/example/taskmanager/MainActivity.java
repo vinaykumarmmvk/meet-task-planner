@@ -1,10 +1,19 @@
 package com.example.taskmanager;
-import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -14,11 +23,10 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.taskmanager.fragments.CalendarFragment;
-import com.example.taskmanager.fragments.EnterDurationFragment;
-import com.example.taskmanager.fragments.TasksFragment;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+
+import org.jetbrains.annotations.NotNull;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -131,6 +139,82 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NotNull MenuItem item) {
+        int id = item.getItemId();
+        /*if (id == R.id.action_settings) {
+            // open Settings screen or dialog
+            return true;
+        }*/ if (id == R.id.action_about) {
+
+            LayoutInflater inflater = LayoutInflater.from(this);
+            View dialogView = inflater.inflate(R.layout.dialog_about_app, null);
+
+            AlertDialog aboutAppDialog = new AlertDialog.Builder(this)
+                    .setView(dialogView)
+                    .create();
+
+// Transparent background so our rounded card shows properly
+            if (aboutAppDialog.getWindow() != null) {
+                aboutAppDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            }
+
+            // Close btn
+            Button btnClose = dialogView.findViewById(R.id.btnDialogClose);
+            btnClose.setOnClickListener(v -> aboutAppDialog.dismiss());
+
+            aboutAppDialog.show();
+            return true;
+        } else if (id == R.id.action_developer) {
+
+            LayoutInflater inflater = LayoutInflater.from(this);
+            View dialogView = inflater.inflate(R.layout.dialog_about_developer, null);
+
+            AlertDialog dialog = new AlertDialog.Builder(this)
+                    .setView(dialogView)
+                    .create();
+
+// Transparent background so our rounded card shows properly
+            if (dialog.getWindow() != null) {
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            }
+
+// Close btn
+            Button btnClose = dialogView.findViewById(R.id.btnDialogClose);
+            btnClose.setOnClickListener(v -> dialog.dismiss());
+
+// Contact actions
+            LinearLayout emailChip = dialogView.findViewById(R.id.btnEmail);
+            LinearLayout linkedinChip = dialogView.findViewById(R.id.btnLinkedIn);
+
+// open email app
+            emailChip.setOnClickListener(v -> {
+                Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+                emailIntent.setData(Uri.parse("mailto:mmvinaykumar.mm@gmail.com"));
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Screen Timer feedback");
+                startActivity(Intent.createChooser(emailIntent, "Send email"));
+            });
+
+// open LinkedIn profile
+            linkedinChip.setOnClickListener(v -> {
+                Intent browserIntent = new Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("https://www.linkedin.com/in/vinaykumar-mysuru-manjunath-33b522ba/")
+                );
+                startActivity(browserIntent);
+            });
+
+            dialog.show();
+
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
     @Override
     protected void onNewIntent(android.content.Intent intent) {
         super.onNewIntent(intent);
