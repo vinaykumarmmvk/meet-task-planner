@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:iconifiedByDefault="false"
-        android:queryHint="Search task..."
+        android:queryHint="@string/search_task_hint"
         android:background="@drawable/bg_searchview"
         android:paddingBottom="5dp"/>
 
@@ -37,7 +37,7 @@
                 android:id="@+id/text_sort_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sort by"
+                android:text="@string/sort_by"
                 android:textSize="14sp"
                 android:layout_gravity="center_vertical"
                 android:textColor="@android:color/black" />

@@ -46,7 +46,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class ViewTaskActivity extends AppCompatActivity {
+public class ViewTaskActivity extends BaseActivity {
 
     private static final int REQ_PICK_IMAGE = 3001;
     private static final int REQ_PICK_FILE = 3002;

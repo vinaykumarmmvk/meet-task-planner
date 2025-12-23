@@ -13,8 +13,8 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_languages"
-        android:title="Language"
+        android:id="@+id/action_language"
+        android:title="@string/menu_language"
         app:showAsAction="never" />
 
 </menu>

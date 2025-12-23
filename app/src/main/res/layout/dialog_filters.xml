@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:text="Filter By"
+        android:text="@string/filter_by"
         android:textColor="@android:color/black"
         android:textSize="16sp"
         android:textStyle="bold" />
@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="SelectAll" />
+            android:text="@string/select_all" />
     </LinearLayout>
 
     <LinearLayout
@@ -43,7 +43,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Type"
+        android:text="@string/type"
         android:textColor="@android:color/black"
         android:textStyle="bold" />
 
@@ -51,19 +51,19 @@
         android:id="@+id/cb_clockin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Clockin" />
+        android:text="@string/clockin" />
 
     <CheckBox
         android:id="@+id/cb_allday"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Allday" />
+        android:text="@string/all_day" />
 
     <CheckBox
         android:id="@+id/cb_duration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Enter Duration" />
+        android:text="@string/enter_duration" />
     </LinearLayout>
 
     <LinearLayout
@@ -75,7 +75,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Status"
+        android:text="@string/status"
         android:textColor="@android:color/black"
         android:textStyle="bold" />
 
@@ -83,19 +83,19 @@
         android:id="@+id/cb_not_started"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Not started" />
+        android:text="@string/status_not_started" />
 
     <CheckBox
         android:id="@+id/cb_in_progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="In progress" />
+        android:text="@string/status_in_progress" />
 
     <CheckBox
         android:id="@+id/cb_completed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Completed" />
+        android:text="@string/status_completed" />
     </LinearLayout>
     </LinearLayout>
 
@@ -110,13 +110,13 @@
             android:id="@+id/btn_cancel_filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cancel" />
+            android:text="@string/cancel" />
 
         <Button
             android:id="@+id/btn_apply_filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:text="Filter" />
+            android:text="@string/filter" />
     </LinearLayout>
 </LinearLayout>

@@ -7,11 +7,14 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -21,15 +24,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.taskmanager.adapters.LanguageAdapter;
+import com.example.taskmanager.utils.LocaleHelper;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+
+public class MainActivity extends BaseActivity {
 
     private TabLayout tabLayout;
     private ViewPager2 viewPager;
@@ -212,9 +222,64 @@ public class MainActivity extends AppCompatActivity {
             dialog.show();
 
             return true;
+        }else if (item.getItemId() == R.id.action_language) {
+            showLanguageDialog();
+            return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
+    private void showLanguageDialog() {
+        View view = getLayoutInflater().inflate(R.layout.dialog_language_picker, null);
+
+        EditText search = view.findViewById(R.id.edit_search_language);
+        RecyclerView rv = view.findViewById(R.id.rv_languages);
+        rv.setLayoutManager(new LinearLayoutManager(this));
+
+        List<LanguageAdapter.LangItem> languages = new ArrayList<>();
+        languages.add(new LanguageAdapter.LangItem("en", "English"));
+        languages.add(new LanguageAdapter.LangItem("de", "Deutsch"));
+        languages.add(new LanguageAdapter.LangItem("hi", "Hindi"));
+        languages.add(new LanguageAdapter.LangItem("kn", "Kannada"));
+        // add more whenever you want
+
+        String current = LocaleHelper.getSavedLanguage(this);
+
+        LanguageAdapter adapter = new LanguageAdapter(languages, current);
+        rv.setAdapter(adapter);
+
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.select_language))
+                .setView(view)
+                .setPositiveButton(getString(R.string.confirm), null) // override later
+                .setNegativeButton(getString(R.string.cancel), null)
+                .create();
+
+        dialog.setOnShowListener(d -> {
+            Button ok = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+            ok.setOnClickListener(v -> {
+                String code = adapter.getSelectedCode();
+                if (code == null || code.trim().isEmpty()) return;
+
+                LocaleHelper.saveLanguage(this, code);
+
+                // Restart MainActivity cleanly so tabs/fragments reload strings
+                recreate();
+                dialog.dismiss();
+            });
+        });
+
+        search.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+                adapter.filter(s.toString());
+            }
+            @Override public void afterTextChanged(Editable s) {}
+        });
+
+        dialog.show();
+    }
+
     @Override
     protected void onNewIntent(android.content.Intent intent) {
         super.onNewIntent(intent);
