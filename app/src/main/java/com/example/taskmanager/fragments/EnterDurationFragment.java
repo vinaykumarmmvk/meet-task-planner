@@ -98,7 +98,7 @@ public class EnterDurationFragment extends Fragment {
 
         if (uri != null) {
             addAttachmentToTaskView(currentAttachmentTaskView, uri, attachType);
-            Toast.makeText(getContext(), "Attachment added", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getString(R.string.attachment_added), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -331,7 +331,7 @@ public class EnterDurationFragment extends Fragment {
         // Fill previous data
         editTitle.setText(task.title);
         editDescription.setText(task.description);
-        textStart.setText("Started on: " + task.dateTime);
+        textStart.setText(getString(R.string.started_on, task.dateTime));
 
         // Disable inputs
         editTitle.setEnabled(false);
@@ -353,7 +353,7 @@ public class EnterDurationFragment extends Fragment {
 
             String[] options = {"Take photo", "Choose photo", "Choose file"};
             new AlertDialog.Builder(requireContext())
-                    .setTitle("Add attachment")
+                    .setTitle(getString(R.string.add_attachment))
                     .setItems(options, (dialog, which) -> {
                         switch (which) {
                             case 0: // Take photo
@@ -501,17 +501,17 @@ public class EnterDurationFragment extends Fragment {
                 // Manual / clock-in (no radio selected)
                 editDate.setVisibility(View.GONE);
                 layoutDuration.setVisibility(View.GONE);
-                btnSubmit.setText("Start");
+                btnSubmit.setText(getString(R.string.start));
                 layoutStatusRow.setVisibility(View.GONE);   // 🔹 hide status for clock-in
             } else if (checkedId == R.id.radio_all_day) {
                 editDate.setVisibility(View.VISIBLE);
                 layoutDuration.setVisibility(View.GONE);
-                btnSubmit.setText("Submit");
+                btnSubmit.setText(getString(R.string.submit));
                 layoutStatusRow.setVisibility(View.VISIBLE); // 🔹 show status
             } else if (checkedId == R.id.radio_duration) {
                 editDate.setVisibility(View.GONE);
                 layoutDuration.setVisibility(View.VISIBLE);
-                btnSubmit.setText("Submit");
+                btnSubmit.setText(getString(R.string.submit));
                 layoutStatusRow.setVisibility(View.VISIBLE); // 🔹 show status
             }
         });
@@ -569,7 +569,7 @@ public class EnterDurationFragment extends Fragment {
             String formattedDateTime = sdf.format(new Date(currentTimeMillis));
 
             if (title.isEmpty()) {
-                Toast.makeText(getContext(), "Title is required", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.title_required), Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -635,13 +635,13 @@ public class EnterDurationFragment extends Fragment {
 
             // ✅ CASE 2: All Day or Duration selected
             if (isAllDay && dateStr.isEmpty()) {
-                Toast.makeText(getContext(), "Select date for all-day task", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.select_date_all_day), Toast.LENGTH_SHORT).show();
                 return;
             }
 
             if (isDuration) {
                 if (fromStr.isEmpty() || toStr.isEmpty()) {
-                    Toast.makeText(getContext(), "Select both FROM and TO dates", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.from_before_to), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -666,7 +666,7 @@ public class EnterDurationFragment extends Fragment {
                     if (allDayDate == null) throw new ParseException("Invalid date", 0);
                     eventStartMillis = allDayDate.getTime();
                 } catch (ParseException e) {
-                    Toast.makeText(getContext(), "Invalid date format", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.invalid_date_format), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -686,7 +686,7 @@ public class EnterDurationFragment extends Fragment {
                     }
 
                     if (fromDateTime.after(toDateTime)) {
-                        Toast.makeText(getContext(), "FROM date/time must be before TO date/time", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), getString(R.string.from_before_to), Toast.LENGTH_SHORT).show();
                         return;
                     }
 
@@ -694,7 +694,7 @@ public class EnterDurationFragment extends Fragment {
                     eventEndMillis = toDateTime.getTime();
                     duration = eventEndMillis - eventStartMillis;
                 } catch (ParseException e) {
-                    Toast.makeText(getContext(), "Invalid date/time format", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.invalid_date_time_format), Toast.LENGTH_SHORT).show();
                     return;
                 }
             }
@@ -714,18 +714,7 @@ public class EnterDurationFragment extends Fragment {
 
             // Status for non-clock-in (user chosen)
             int statusPos = spinnerStatus.getSelectedItemPosition();
-            switch (statusPos) {
-                case 1:
-                    task.status = Task.STATUS_IN_PROGRESS;
-                    break;
-                case 2:
-                    task.status = Task.STATUS_COMPLETED;
-                    break;
-                case 0:
-                default:
-                    task.status = Task.STATUS_NOT_STARTED;
-                    break;
-            }
+            task.status = com.example.taskmanager.utils.StatusUi.indexToCode(statusPos);
 
             SimpleDateFormat sdf3 = new SimpleDateFormat("dd.MM.yyyy", Locale.US);
             String currentDateStr = sdf3.format(new Date(task.startTimestamp));
@@ -840,9 +829,7 @@ public class EnterDurationFragment extends Fragment {
                 launchCamera();
             } else {
                 // User denied
-                Toast.makeText(getContext(),
-                        "Camera permission is required to take photos",
-                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.camera_permission), Toast.LENGTH_SHORT).show();
             }
         }
     }

@@ -56,7 +56,7 @@
             android:paddingRight="10dp"
             android:layout_marginStart="8dp"
             android:background="@drawable/bg_status_spinner_grey"
-            android:entries="@array/task_status_options"/>
+            android:entries="@array/status_labels"/>
     </LinearLayout>
 
     <!-- Attachments block: pin + list -->

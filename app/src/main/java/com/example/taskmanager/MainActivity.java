@@ -84,13 +84,13 @@ public class MainActivity extends BaseActivity {
 
             if (position == 0) {
                 icon.setImageResource(R.drawable.ic_tab_timer);
-                label.setText("Scheduler");
+                label.setText(getString(R.string.tab_scheduler));
             } else if (position == 1) {
                 icon.setImageResource(R.drawable.ic_tab_calendar);
-                label.setText("Calendar");
+                label.setText(getString(R.string.tab_calendar));
             } else {
                 icon.setImageResource(R.drawable.ic_tab_tasks);
-                label.setText("Todo");
+                label.setText(getString(R.string.tab_todo));
             }
 
             tab.setCustomView(custom);

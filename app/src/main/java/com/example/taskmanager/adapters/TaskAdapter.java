@@ -3,7 +3,6 @@ package com.example.taskmanager.adapters;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.taskmanager.R;
@@ -60,6 +58,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     @Override
     public void onBindViewHolder(@NonNull TaskViewHolder holder, int position) {
         Task task = taskList.get(position);
+        Context context = holder.itemView.getContext();
 
         holder.title.setText(task.title);
         holder.description.setText(task.description == null ? "" : task.description);
@@ -67,9 +66,10 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         // Build duration / time text
         String durationDisplay;
         if (task.isAllDay) {
-            durationDisplay = "All day: " + (task.date != null ? task.date : "");
+            durationDisplay = context.getString(R.string.all_day_date, task.date != null ? task.date : "");
         } else if (task.fromDate != null && task.toDate != null) {
-            String base = "From " + task.fromDate + " to " + task.toDate;
+            String base = context.getString(R.string.from_to_date, task.fromDate, task.toDate);
+
             String durStr = DateUtils.formatDuration(task.durationMillis);
             durationDisplay = base + " (" + durStr + ")";
         } else {
@@ -89,7 +89,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         if (holder.statusSpinner.getAdapter() == null) {
             ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                     holder.itemView.getContext(),
-                    R.array.task_status_options,
+                    R.array.status_labels,
                     R.layout.spinner_item_black
             );
             adapter.setDropDownViewResource(R.layout.spinner_dropdown_item_black);
@@ -110,7 +110,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             // Hide edit/delete, show in-progress text
             holder.imgEdit.setVisibility(View.GONE);
             holder.imgDelete.setVisibility(View.GONE);
-            holder.duration.setText("In progress …");
+            holder.duration.setText(R.string.in_progress_dots);
 
             // Disable click + disable spinner
             holder.itemView.setOnClickListener(null);
@@ -150,25 +150,25 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                    String newStatus = parent.getItemAtPosition(pos).toString();
+                    String newCode = com.example.taskmanager.utils.StatusUi.indexToCode(pos);
 
-                    // Avoid unnecessary update
-                    String oldStatus = (task.status == null || task.status.trim().isEmpty())
+                    String oldCode = (task.status == null || task.status.trim().isEmpty())
                             ? Task.STATUS_NOT_STARTED
                             : task.status;
 
-                    if (newStatus.equals(oldStatus)) return;
+                    if (newCode.equals(oldCode)) return;
 
-                    // ✅ Update model + DB
-                    task.status = newStatus;
+                    task.status = newCode;
                     AppDatabase.getInstance(holder.itemView.getContext()).taskDao().update(task);
 
-                    // ✅ Update UI immediately
-                    applyTaskCardBackground(holder, newStatus);
+// background should use CODE, not label
+                    applyTaskCardBackground(holder, newCode);
+
                 }
 
                 @Override
-                public void onNothingSelected(AdapterView<?> parent) { }
+                public void onNothingSelected(AdapterView<?> parent) {
+                }
             });
         }
 
@@ -214,14 +214,14 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         Task task = taskList.get(position);
 
         new AlertDialog.Builder(context)
-                .setTitle("Delete task?")
-                .setMessage("Are you sure you want to delete this task?")
-                .setPositiveButton("Yes", (dialog, which) -> {
+                .setTitle(R.string.delete_task_q)
+                .setMessage(R.string.delete_task_confirm)
+                .setPositiveButton(R.string.yes, (dialog, which) -> {
                     AppDatabase.getInstance(context).taskDao().delete(task);
                     taskList.remove(position);
                     notifyItemRemoved(position);
                 })
-                .setNegativeButton("Cancel", null)
+                .setNegativeButton(R.string.cancel, null)
                 .show();
     }
 
@@ -263,7 +263,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             // Date picker for all-day date
             editDate.setOnClickListener(v -> DialogUtils.showDatePicker(context, editDate));
 
-            textInfo.setText("Change the date for this all-day task.");
+            textInfo.setText(R.string.edit_info_all_day);
 
         } else if (task.fromDate != null && task.toDate != null) {
             // ENTER DURATION task (from/to with times)
@@ -306,7 +306,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             editFromTime.setOnClickListener(v -> DialogUtils.showTimePicker(context, editFromTime));
             editToTime.setOnClickListener(v -> DialogUtils.showTimePicker(context, editToTime));
 
-            textInfo.setText("Change FROM and TO date/time for this duration task.");
+            textInfo.setText(R.string.edit_info_duration);
 
         } else {
             // CLOCK-IN task (only title & description)
@@ -315,14 +315,14 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             labelDuration.setVisibility(View.GONE);
             layoutDuration.setVisibility(View.GONE);
 
-            textInfo.setText("Clock-in task: you can edit title and description. Time comes from the clock-in/stop.");
+            textInfo.setText(R.string.edit_info_clockin);
         }
 
         AlertDialog dialog = new AlertDialog.Builder(context)
-                .setTitle("Edit task")
+                .setTitle(R.string.edit_task)
                 .setView(dialogView)
-                .setPositiveButton("Save", null) // override later
-                .setNegativeButton("Cancel", null)
+                .setPositiveButton(R.string.save, null) // override later
+                .setNegativeButton(R.string.cancel, null)
                 .create();
 
         dialog.setOnShowListener(dlg -> {
@@ -332,7 +332,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                 String newDesc = editDescription.getText().toString().trim();
 
                 if (newTitle.isEmpty()) {
-                    editTitle.setError("Title required");
+                    editTitle.setError(context.getString(R.string.title_required));
                     return;
                 }
 
@@ -343,7 +343,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                 if (task.isAllDay) {
                     String newDate = editDate.getText().toString().trim();
                     if (newDate.isEmpty()) {
-                        editDate.setError("Date required");
+                        editDate.setError(context.getString(R.string.date_required));
                         return;
                     }
 
@@ -356,7 +356,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                         task.durationMillis = 24L * 60L * 60L * 1000L; // 1 day
                         task.stopTimestamp = task.startTimestamp + task.durationMillis;
                     } catch (ParseException e) {
-                        editDate.setError("Use format dd.MM.yyyy");
+                        editDate.setError(context.getString(R.string.invalid_date_format));
                         return;
                     }
 
@@ -368,11 +368,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                     String toTimeStr = editToTime.getText().toString().trim();
 
                     if (fromStr.isEmpty()) {
-                        editFrom.setError("Required");
+                        editFrom.setError(context.getString(R.string.required));
                         return;
                     }
                     if (toStr.isEmpty()) {
-                        editTo.setError("Required");
+                        editFrom.setError(context.getString(R.string.required));
                         return;
                     }
 
@@ -396,9 +396,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                         }
 
                         if (fromDateTime.after(toDateTime)) {
-                            editToTime.setError("TO must be after FROM");
+                            editToTime.setError(context.getString(R.string.from_before_to_short));
                             Toast.makeText(context,
-                                    "FROM date/time must be before TO date/time",
+                                    context.getString(R.string.from_before_to_short),
                                     Toast.LENGTH_SHORT).show();
                             return;
                         }
@@ -411,7 +411,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
                     } catch (ParseException e) {
                         Toast.makeText(context,
-                                "Use format dd.MM.yyyy HH:mm",
+                                context.getString(R.string.date_time_format_dd_MM_yyyy_HH_mm),
                                 Toast.LENGTH_SHORT).show();
                         return;
                     }
@@ -429,7 +429,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                 taskList.set(position, task);
                 notifyItemChanged(position);
 
-                Toast.makeText(context, "Task updated", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, context.getString(R.string.task_updated), Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
             });
         });

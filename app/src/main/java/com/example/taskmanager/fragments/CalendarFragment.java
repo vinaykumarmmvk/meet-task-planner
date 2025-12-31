@@ -126,7 +126,7 @@ public class CalendarFragment extends Fragment {
             public void onDelete(Task task) {
                 if (getContext() == null) return;
                 AppDatabase.getInstance(getContext()).taskDao().delete(task);
-                Toast.makeText(getContext(), "Task deleted", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.task_deleted), Toast.LENGTH_SHORT).show();
                 // Refresh dots + list
                 refreshCalendarDecorators();
                 CalendarDay selected = calendarView.getSelectedDate();
@@ -193,7 +193,7 @@ public class CalendarFragment extends Fragment {
         String selectedDate = String.format(Locale.getDefault(), "%02d.%02d.%d",
                 date.getDay(), date.getMonth() + 1, date.getYear());
 
-        textHeader.setText("Tasks on " + selectedDate);
+        textHeader.setText(getString(R.string.tasks_on, selectedDate));
 
         List<Task> tasks = AppDatabase.getInstance(getContext())
                 .taskDao()
@@ -201,7 +201,7 @@ public class CalendarFragment extends Fragment {
 
         if (tasks == null || tasks.isEmpty()) {
             textEmpty.setVisibility(View.VISIBLE);
-            textEmpty.setText("No tasks on " + selectedDate);
+            textEmpty.setText(getString(R.string.no_tasks_on, selectedDate));
             adapter.setItems(null);
         } else {
             textEmpty.setVisibility(View.GONE);

@@ -73,23 +73,6 @@ public class ViewTaskActivity extends BaseActivity {
 
     private Uri pendingCameraUri = null;
 
-    private int statusToPosition(String status) {
-        if (Task.STATUS_IN_PROGRESS.equals(status)) return 1;
-        if (Task.STATUS_COMPLETED.equals(status)) return 2;
-        return 0; // Not started / default
-    }
-
-    private String positionToStatus(int pos) {
-        switch (pos) {
-            case 1:
-                return Task.STATUS_IN_PROGRESS;
-            case 2:
-                return Task.STATUS_COMPLETED;
-            default:
-                return Task.STATUS_NOT_STARTED;
-        }
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,7 +119,8 @@ public class ViewTaskActivity extends BaseActivity {
                 task = AppDatabase.getInstance(this).taskDao().getTaskById(task.id);
                 loadTaskIntoUi();
                 setModeView();
-                Toast.makeText(this, "Task updated", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.task_updated), Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -267,12 +251,12 @@ public class ViewTaskActivity extends BaseActivity {
         if (status == null || status.trim().isEmpty()) {
             status = Task.STATUS_NOT_STARTED;
         }
-        spinnerStatus.setSelection(statusToPosition(status));
+        spinnerStatus.setSelection(com.example.taskmanager.utils.StatusUi.codeToIndex(status), false);
 
         ArrayAdapter<CharSequence> adapter =
                 ArrayAdapter.createFromResource(
                         this,
-                        R.array.task_status_options,
+                        R.array.status_labels,
                         R.layout.spinner_item_black
                 );
 
@@ -449,7 +433,7 @@ public class ViewTaskActivity extends BaseActivity {
         boolean isClockInType = !task.isAllDay && task.fromDate == null && task.toDate == null;
         if (!isClockInType) {
             int pos = spinnerStatus.getSelectedItemPosition();
-            task.status = positionToStatus(pos);
+            task.status = com.example.taskmanager.utils.StatusUi.indexToCode(pos);
         }
         // For clock-in, status is controlled by start/stop logic only
 
@@ -555,14 +539,14 @@ public class ViewTaskActivity extends BaseActivity {
 
     private void confirmDelete() {
         new AlertDialog.Builder(this)
-                .setTitle("Delete task")
-                .setMessage("Are you sure you want to delete this task?")
-                .setPositiveButton("Delete", (dialog, which) -> {
+                .setTitle(getString(R.string.delete_task))
+                .setMessage(getString(R.string.delete_task_confirm))
+                .setPositiveButton(getString(R.string.delete), (dialog, which) -> {
                     AppDatabase.getInstance(this).taskDao().delete(task);
-                    Toast.makeText(this, "Task deleted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.task_deleted), Toast.LENGTH_SHORT).show();
                     finish(); // back to tabs / list
                 })
-                .setNegativeButton("Cancel", null)
+                .setNegativeButton(getString(R.string.cancel), null)
                 .show();
     }
 

@@ -177,7 +177,7 @@ public class TasksFragment extends Fragment {
 
             String headerLine = br.readLine();
             if (headerLine == null) {
-                Toast.makeText(ctx, "Empty CSV file", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ctx, getString(R.string.empty_csv), Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -187,9 +187,7 @@ public class TasksFragment extends Fragment {
             List<String> headers = parseCsvLine(headerLine);
 
             if (!headers.equals(requiredHeader)) {
-                Toast.makeText(ctx,
-                        "CSV format not supported. Please import a CSV exported from this app.",
-                        Toast.LENGTH_LONG).show();
+                Toast.makeText(ctx, getString(R.string.csv_invalid_format), Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -210,7 +208,7 @@ public class TasksFragment extends Fragment {
             }
 
             if (tasksToInsert.isEmpty()) {
-                Toast.makeText(ctx, "No tasks to import", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ctx, getString(R.string.no_tasks_to_import), Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -230,7 +228,7 @@ public class TasksFragment extends Fragment {
 
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(ctx, "Import failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(ctx, getString(R.string.import_failed, e.getMessage()), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -726,7 +724,7 @@ public class TasksFragment extends Fragment {
 
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(ctx, "Failed to export CSV: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(ctx, getString(R.string.export_failed, e.getMessage()), Toast.LENGTH_SHORT).show();
         }
 
     }

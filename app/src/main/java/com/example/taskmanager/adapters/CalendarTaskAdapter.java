@@ -1,9 +1,9 @@
 package com.example.taskmanager.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.content.Context;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -27,7 +27,9 @@ public class CalendarTaskAdapter extends RecyclerView.Adapter<CalendarTaskAdapte
 
     public interface OnTaskActionListener {
         void onOpen(Task task);
+
         void onEdit(Task task);
+
         void onDelete(Task task);
     }
 
@@ -68,7 +70,7 @@ public class CalendarTaskAdapter extends RecyclerView.Adapter<CalendarTaskAdapte
         if (h.statusSpinner.getAdapter() == null) {
             ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                     h.itemView.getContext(),
-                    R.array.task_status_options,
+                    R.array.status_labels,
                     R.layout.spinner_item_black
             );
             adapter.setDropDownViewResource(R.layout.spinner_dropdown_item_black);
@@ -95,21 +97,19 @@ public class CalendarTaskAdapter extends RecyclerView.Adapter<CalendarTaskAdapte
             h.statusSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                    String newStatus = parent.getItemAtPosition(pos).toString();
+                    String newCode = com.example.taskmanager.utils.StatusUi.indexToCode(pos);
 
-                    String oldStatus = (t.status == null || t.status.trim().isEmpty())
+                    String oldCode = (t.status == null || t.status.trim().isEmpty())
                             ? Task.STATUS_NOT_STARTED
                             : t.status;
 
-                    if (newStatus.equals(oldStatus)) return;
+                    if (newCode.equals(oldCode)) return;
 
-                    t.status = newStatus;
+                    t.status = newCode;
+                    AppDatabase.getInstance(h.itemView.getContext()).taskDao().update(t);
 
-                    AppDatabase.getInstance(h.itemView.getContext())
-                            .taskDao()
-                            .update(t);
-
-                    applyCardBg(h, newStatus);
+// background uses CODE
+                    applyCardBg(h, newCode);
                 }
 
                 @Override
@@ -137,19 +137,19 @@ public class CalendarTaskAdapter extends RecyclerView.Adapter<CalendarTaskAdapte
             Context ctx = v.getContext();
 
             new androidx.appcompat.app.AlertDialog.Builder(ctx)
-                    .setTitle("Delete task")
-                    .setMessage("Are you sure you want to delete this task?")
-                    .setPositiveButton("Delete", (dialog, which) -> {
+                    .setTitle(ctx.getString(R.string.delete_task))
+                    .setMessage(ctx.getString(R.string.delete_task_confirm))
+                    .setPositiveButton(ctx.getString(R.string.delete), (dialog, which) -> {
                         if (listener != null) {
                             listener.onDelete(t);
                         } else {
                             // fallback (optional)
                             AppDatabase.getInstance(ctx).taskDao().delete(t);
-                            Toast.makeText(ctx, "Task deleted", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ctx, ctx.getString(R.string.task_deleted), Toast.LENGTH_SHORT).show();
                         }
                     })
 
-                    .setNegativeButton("Cancel", null)
+                    .setNegativeButton(ctx.getString(R.string.cancel), null)
                     .show();
         });
 
@@ -213,7 +213,7 @@ public class CalendarTaskAdapter extends RecyclerView.Adapter<CalendarTaskAdapte
 
         if (task.isAllDay) {
             // Example: "All day" (date shown in header already)
-            return "All day";
+            return ctx.getString(R.string.all_day);
         }
 
         if (isClockIn) {
@@ -221,7 +221,10 @@ public class CalendarTaskAdapter extends RecyclerView.Adapter<CalendarTaskAdapte
                 String startedOn = (task.dateTime != null && !task.dateTime.trim().isEmpty())
                         ? task.dateTime
                         : (task.date != null ? task.date : "");
-                return startedOn.isEmpty() ? "In progress" : ("Started on: " + startedOn);
+                return startedOn.isEmpty()
+                        ? ctx.getString(R.string.in_progress)
+                        : ctx.getString(R.string.started_on, startedOn);
+
             }
             // completed clock-in
             if (task.durationMillis > 0) {
