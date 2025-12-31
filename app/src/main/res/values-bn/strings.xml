@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">টাস্ক ম্যানেজার</string>
+    <string name="menu_language">ভাষা</string>
+    <string name="select_language">ভাষা নির্বাচন করুন</string>
+    <string name="search_language">ভাষা খুঁজুন</string>
+    <string name="confirm">নিশ্চিত করুন</string>
+    <string name="scheduler">শিডিউলার</string>
+    <string name="calendar">ক্যালেন্ডার</string>
+    <string name="todo">করণীয়</string>
+    <string name="submit">জমা দিন</string>
+    <string name="stop">বন্ধ করুন</string>
+    <string name="filter">ফিল্টার</string>
+    <string name="filter_by">এভাবে ফিল্টার করুন</string>
+    <string name="select_all">সব নির্বাচন করুন</string>
+    <string name="cancel">বাতিল</string>
+    <string name="delete">মুছে ফেলুন</string>
+    <string name="edit">সম্পাদনা</string>
+    <string name="enter_title">শিরোনাম লিখুন</string>
+    <string name="title">শিরোনাম</string>
+    <string name="description">বিবরণ</string>
+    <string name="required">আবশ্যক</string>
+    <string name="clockin">ক্লক-ইন</string>
+    <string name="all_day">সারা দিন</string>
+    <string name="enter_duration">সময়কাল লিখুন</string>
+    <string name="type">ধরন</string>
+    <string name="status">স্থিতি</string>
+    <string name="attachments">সংযুক্তি</string>
+    <string name="start">শুরু করুন</string>
+    <string name="remove">সরান</string>
+    <string name="tasks_on">%1$s তারিখে কাজসমূহ</string>
+    <string name="no_tasks_on">%1$s তারিখে কোনো কাজ নেই</string>
+    <string name="goto_date">তারিখে যান</string>
+    <string name="select_date">কাজ দেখতে একটি তারিখ নির্বাচন করুন</string>
+    <string name="goto_date_hint">dd.mm.yyyy</string>
+    <string name="search_task_hint">কাজ খুঁজুন...</string>
+    <string name="sort_by">এভাবে সাজান</string>
+    <string name="delete_task_title">কাজ মুছুন</string>
+    <string name="edit_task">কাজ সম্পাদনা</string>
+    <string name="delete_task_msg">আপনি কি নিশ্চিত যে এই কাজটি মুছতে চান?</string>
+    <string name="task_deleted">কাজ মুছে ফেলা হয়েছে</string>
+    <string name="task_saved">কাজ সংরক্ষিত হয়েছে</string>
+    <string name="status_not_started">শুরু হয়নি</string>
+    <string name="status_in_progress">চলছে</string>
+    <string name="status_completed">সম্পন্ন</string>
+    <string name="created_at">তৈরি হয়েছে</string>
+    <string name="started_on">শুরু হয়েছে: %1$s</string>
+    <string name="in_progress">চলছে…</string>
+    <string name="task_details">কাজের বিবরণ</string>
+    <string name="tab_scheduler">শিডিউলার</string>
+    <string name="tab_calendar">ক্যালেন্ডার</string>
+    <string name="tab_todo">করণীয়</string>
+    <string name="ok">ঠিক আছে</string>
+    <string name="yes">হ্যাঁ</string>
+    <string name="save">সংরক্ষণ করুন</string>
+    <string name="delete_task">কাজ মুছুন</string>
+    <string name="delete_task_q">কাজ মুছবেন?</string>
+    <string name="delete_task_confirm">আপনি কি নিশ্চিত যে এই কাজটি মুছতে চান?</string>
+    <string name="task_updated">কাজ আপডেট হয়েছে</string>
+    <string name="in_progress_dots">চলছে …</string>
+    <string name="empty_csv">খালি CSV ফাইল</string>
+    <string name="no_tasks_to_import">ইমপোর্ট করার মতো কোনো কাজ নেই</string>
+    <string name="import_failed">ইমপোর্ট ব্যর্থ: %1$s</string>
+    <string name="export_failed">CSV এক্সপোর্ট ব্যর্থ: %1$s</string>
+    <string name="attachment_added">সংযুক্তি যোগ করা হয়েছে</string>
+    <string name="add_attachment">সংযুক্তি যোগ করুন</string>
+    <string name="title_required">শিরোনাম আবশ্যক</string>
+    <string name="date_required">তারিখ আবশ্যক</string>
+    <string name="invalid_date_format">অবৈধ তারিখ ফরম্যাট</string>
+    <string name="csv_invalid_format">এই CSV ফরম্যাট সমর্থিত নয়। এই অ্যাপ থেকে এক্সপোর্ট করা CSV ইমপোর্ট করুন।</string>
+    <string name="select_date_all_day">সারা দিনের কাজের জন্য তারিখ নির্বাচন করুন</string>
+    <string name="select_from_to_dates">FROM এবং TO—দুইটি তারিখই নির্বাচন করুন</string>
+    <string name="invalid_date_time_format">অবৈধ তারিখ/সময় ফরম্যাট</string>
+    <string name="date_time_format_dd.MM.yyyy_HH.mm">dd.MM.yyyy HH:mm ফরম্যাট ব্যবহার করুন</string>
+    <string name="camera_permission">ছবি তুলতে ক্যামেরা অনুমতি প্রয়োজন</string>
+    <string name="from_before_to">FROM তারিখ/সময় TO-এর আগে হতে হবে</string>
+    <string name="from_to_required">FROM এবং TO তারিখ আবশ্যক</string>
+    <string name="from_before_to_short">FROM, TO-এর আগে হতে হবে</string>
+    <string name="edit_info_all_day">এই সারা দিনের কাজের তারিখ পরিবর্তন করুন।</string>
+    <string name="edit_info_duration">এই সময়কাল কাজের জন্য FROM এবং TO তারিখ/সময় পরিবর্তন করুন।</string>
+    <string name="edit_info_clockin">ক্লক-ইন কাজ: শিরোনাম ও বিবরণ সম্পাদনা করতে পারবেন। সময় ক্লক-ইন/স্টপ থেকে আসে।</string>
+    <string name="all_day_date">সারা দিন: %1$s</string>
+    <string name="from_to_date">%1$s থেকে %2$s পর্যন্ত</string>
+
+    <string-array name="status_labels">
+        <item>@string/status_not_started</item>
+        <item>@string/status_in_progress</item>
+        <item>@string/status_completed</item>
+    </string-array>
+
+</resources>

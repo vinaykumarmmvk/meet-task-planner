@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ടാസ്‌ക് മാനേജർ</string>
+    <string name="menu_language">ഭാഷ</string>
+    <string name="select_language">ഭാഷ തിരഞ്ഞെടുക്കുക</string>
+    <string name="search_language">ഭാഷ തിരയുക</string>
+    <string name="confirm">സ്ഥിരീകരിക്കുക</string>
+    <string name="scheduler">ഷെഡ്യൂളർ</string>
+    <string name="calendar">കലണ്ടർ</string>
+    <string name="todo">ചെയ്യേണ്ടവ</string>
+    <string name="submit">സമർപ്പിക്കുക</string>
+    <string name="stop">നിർത്തുക</string>
+    <string name="filter">ഫിൽട്ടർ</string>
+    <string name="filter_by">ഇത് പ്രകാരം ഫിൽട്ടർ ചെയ്യുക</string>
+    <string name="select_all">എല്ലാം തിരഞ്ഞെടുക്കുക</string>
+    <string name="cancel">റദ്ദാക്കുക</string>
+    <string name="delete">ഡിലീറ്റ്</string>
+    <string name="edit">തിരുത്തുക</string>
+    <string name="enter_title">ശീർഷകം നൽകുക</string>
+    <string name="title">ശീർഷകം</string>
+    <string name="description">വിവരണം</string>
+    <string name="required">ആവശ്യമാണ്</string>
+    <string name="clockin">ക്ലോക്ക്-ഇൻ</string>
+    <string name="all_day">മുഴുവൻ ദിവസം</string>
+    <string name="enter_duration">ദൈർഘ്യം നൽകുക</string>
+    <string name="type">തരം</string>
+    <string name="status">സ്ഥിതി</string>
+    <string name="attachments">അറ്റാച്ച്മെന്റുകൾ</string>
+    <string name="start">തുടങ്ങുക</string>
+    <string name="remove">നീക്കം ചെയ്യുക</string>
+    <string name="tasks_on">%1$s ലെ പ്രവർത്തികൾ</string>
+    <string name="no_tasks_on">%1$s ന് പ്രവർത്തികൾ ഇല്ല</string>
+    <string name="goto_date">തീയതിയിലേക്ക് പോകുക</string>
+    <string name="select_date">പ്രവർത്തികൾ കാണാൻ ഒരു തീയതി തിരഞ്ഞെടുക്കുക</string>
+    <string name="goto_date_hint">dd.mm.yyyy</string>
+    <string name="search_task_hint">ടാസ്‌ക് തിരയുക...</string>
+    <string name="sort_by">ക്രമീകരിക്കുക</string>
+    <string name="delete_task_title">ടാസ്‌ക് ഡിലീറ്റ് ചെയ്യുക</string>
+    <string name="edit_task">ടാസ്‌ക് തിരുത്തുക</string>
+    <string name="delete_task_msg">ഈ ടാസ്‌ക് ഡിലീറ്റ് ചെയ്യണമെന്ന് ഉറപ്പാണോ?</string>
+    <string name="task_deleted">ടാസ്‌ക് ഡിലീറ്റ് ചെയ്തു</string>
+    <string name="task_saved">ടാസ്‌ക് സേവ് ചെയ്തു</string>
+    <string name="status_not_started">തുടങ്ങിയിട്ടില്ല</string>
+    <string name="status_in_progress">നടന്നുകൊണ്ടിരിക്കുന്നു</string>
+    <string name="status_completed">പൂർത്തിയായി</string>
+    <string name="created_at">സൃഷ്ടിച്ചത്</string>
+    <string name="started_on">തുടങ്ങിയ സമയം: %1$s</string>
+    <string name="in_progress">നടന്നുകൊണ്ടിരിക്കുന്നു…</string>
+    <string name="task_details">ടാസ്‌ക് വിവരങ്ങൾ</string>
+    <string name="tab_scheduler">ഷെഡ്യൂളർ</string>
+    <string name="tab_calendar">കലണ്ടർ</string>
+    <string name="tab_todo">ചെയ്യേണ്ടവ</string>
+    <string name="ok">ശരി</string>
+    <string name="yes">അതെ</string>
+    <string name="save">സേവ്</string>
+    <string name="delete_task">ടാസ്‌ക് ഡിലീറ്റ് ചെയ്യുക</string>
+    <string name="delete_task_q">ടാസ്‌ക് ഡിലീറ്റ് ചെയ്യണോ?</string>
+    <string name="delete_task_confirm">ഈ ടാസ്‌ക് ഡിലീറ്റ് ചെയ്യണമെന്ന് ഉറപ്പാണോ?</string>
+    <string name="task_updated">ടാസ്‌ക് അപ്‌ഡേറ്റ് ചെയ്തു</string>
+    <string name="in_progress_dots">നടന്നുകൊണ്ടിരിക്കുന്നു …</string>
+    <string name="empty_csv">ശൂന്യ CSV ഫയൽ</string>
+    <string name="no_tasks_to_import">ഇംപോർട്ട് ചെയ്യാൻ ടാസ്‌കുകൾ ഇല്ല</string>
+    <string name="import_failed">ഇംപോർട്ട് പരാജയപ്പെട്ടു: %1$s</string>
+    <string name="export_failed">CSV എക്സ്പോർട്ട് പരാജയപ്പെട്ടു: %1$s</string>
+    <string name="attachment_added">അറ്റാച്ച്മെന്റ് ചേർത്തു</string>
+    <string name="add_attachment">അറ്റാച്ച്മെന്റ് ചേർക്കുക</string>
+    <string name="title_required">ശീർഷകം ആവശ്യമാണ്</string>
+    <string name="date_required">തീയതി ആവശ്യമാണ്</string>
+    <string name="invalid_date_format">തീയതി ഫോർമാറ്റ് അസാധുവാണ്</string>
+    <string name="csv_invalid_format">ഈ CSV ഫോർമാറ്റിന് പിന്തുണയില്ല. ഈ ആപ്പിൽ നിന്ന് എക്സ്പോർട്ട് ചെയ്ത CSV മാത്രം ഇംപോർട്ട് ചെയ്യുക.</string>
+    <string name="select_date_all_day">മുഴുവൻ ദിവസത്തെ ടാസ്‌കിന് തീയതി തിരഞ്ഞെടുക്കുക</string>
+    <string name="select_from_to_dates">FROM, TO തീയതികൾ രണ്ടും തിരഞ്ഞെടുക്കുക</string>
+    <string name="invalid_date_time_format">തീയതി/സമയം ഫോർമാറ്റ് അസാധുവാണ്</string>
+    <string name="date_time_format_dd.MM.yyyy_HH.mm">dd.MM.yyyy HH:mm ഫോർമാറ്റ് ഉപയോഗിക്കുക</string>
+    <string name="camera_permission">ഫോട്ടോ എടുക്കാൻ ക്യാമറ അനുമതി ആവശ്യമാണ്</string>
+    <string name="from_before_to">FROM തീയതി/സമയം TO-യേക്കാൾ മുമ്പാകണം</string>
+    <string name="from_to_required">FROM, TO തീയതികൾ ആവശ്യമാണ്</string>
+    <string name="from_before_to_short">FROM, TO-യ്ക്കു മുമ്പാകണം</string>
+    <string name="edit_info_all_day">ഈ മുഴുവൻ ദിവസത്തെ ടാസ്‌കിന്റെ തീയതി മാറ്റുക.</string>
+    <string name="edit_info_duration">ഈ ദൈർഘ്യ ടാസ്‌കിന്റെ FROM, TO തീയതി/സമയം മാറ്റുക.</string>
+    <string name="edit_info_clockin">ക്ലോക്ക്-ഇൻ ടാസ്‌ക്: ശീർഷകം, വിവരണം തിരുത്താം. സമയം ക്ലോക്ക്-ഇൻ/സ്റ്റോപ്പ് നിന്ന് വരും.</string>
+    <string name="all_day_date">മുഴുവൻ ദിവസം: %1$s</string>
+    <string name="from_to_date">%1$s മുതൽ %2$s വരെ</string>
+
+    <string-array name="status_labels">
+        <item>@string/status_not_started</item>
+        <item>@string/status_in_progress</item>
+        <item>@string/status_completed</item>
+    </string-array>
+
+</resources>

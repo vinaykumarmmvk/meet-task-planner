@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Görev Yöneticisi</string>
+    <string name="menu_language">Dil</string>
+    <string name="select_language">Dil seç</string>
+    <string name="search_language">Dil ara</string>
+    <string name="confirm">Onayla</string>
+    <string name="scheduler">Planlayıcı</string>
+    <string name="calendar">Takvim</string>
+    <string name="todo">Yapılacaklar</string>
+    <string name="submit">Gönder</string>
+    <string name="stop">DURDUR</string>
+    <string name="filter">Filtre</string>
+    <string name="filter_by">Filtrele</string>
+    <string name="select_all">Tümünü seç</string>
+    <string name="cancel">İptal</string>
+    <string name="delete">Sil</string>
+    <string name="edit">Düzenle</string>
+    <string name="enter_title">Başlık girin</string>
+    <string name="title">Başlık</string>
+    <string name="description">Açıklama</string>
+    <string name="required">Zorunlu</string>
+    <string name="clockin">Giriş yap</string>
+    <string name="all_day">Tüm gün</string>
+    <string name="enter_duration">Süre girin</string>
+    <string name="type">Tür</string>
+    <string name="status">Durum</string>
+    <string name="attachments">Ekler</string>
+    <string name="start">Başlat</string>
+    <string name="remove">Kaldır</string>
+    <string name="tasks_on">%1$s tarihinde görevler</string>
+    <string name="no_tasks_on">%1$s tarihinde görev yok</string>
+    <string name="goto_date">Tarihe git</string>
+    <string name="select_date">Görevleri görmek için bir tarih seçin</string>
+    <string name="goto_date_hint">dd.mm.yyyy</string>
+    <string name="search_task_hint">Görev ara...</string>
+    <string name="sort_by">Sırala</string>
+    <string name="delete_task_title">Görevi sil</string>
+    <string name="edit_task">Görevi düzenle</string>
+    <string name="delete_task_msg">Bu görevi silmek istediğinize emin misiniz?</string>
+    <string name="task_deleted">Görev silindi</string>
+    <string name="task_saved">Görev kaydedildi</string>
+    <string name="status_not_started">Başlamadı</string>
+    <string name="status_in_progress">Devam ediyor</string>
+    <string name="status_completed">Tamamlandı</string>
+    <string name="created_at">Oluşturulma</string>
+    <string name="started_on">Başlama: %1$s</string>
+    <string name="in_progress">Devam ediyor…</string>
+    <string name="task_details">Görev Detayları</string>
+    <string name="tab_scheduler">Planlayıcı</string>
+    <string name="tab_calendar">Takvim</string>
+    <string name="tab_todo">Yapılacaklar</string>
+    <string name="ok">Tamam</string>
+    <string name="yes">Evet</string>
+    <string name="save">Kaydet</string>
+    <string name="delete_task">Görevi sil</string>
+    <string name="delete_task_q">Görev silinsin mi?</string>
+    <string name="delete_task_confirm">Bu görevi silmek istediğinize emin misiniz?</string>
+    <string name="task_updated">Görev güncellendi</string>
+    <string name="in_progress_dots">Devam ediyor …</string>
+    <string name="empty_csv">Boş CSV dosyası</string>
+    <string name="no_tasks_to_import">İçe aktarılacak görev yok</string>
+    <string name="import_failed">İçe aktarma başarısız: %1$s</string>
+    <string name="export_failed">CSV dışa aktarma başarısız: %1$s</string>
+    <string name="attachment_added">Ek eklendi</string>
+    <string name="add_attachment">Ek ekle</string>
+    <string name="title_required">Başlık zorunludur</string>
+    <string name="date_required">Tarih zorunludur</string>
+    <string name="invalid_date_format">Geçersiz tarih biçimi</string>
+    <string name="csv_invalid_format">CSV biçimi desteklenmiyor. Lütfen bu uygulamadan dışa aktarılmış bir CSV içe aktarın.</string>
+    <string name="select_date_all_day">Tüm gün görevi için tarih seçin</string>
+    <string name="select_from_to_dates">Lütfen BAŞLANGIÇ ve BİTİŞ tarihlerini seçin</string>
+    <string name="invalid_date_time_format">Geçersiz tarih/saat biçimi</string>
+    <string name="date_time_format_dd.MM.yyyy_HH.mm">dd.MM.yyyy HH:mm biçimini kullanın</string>
+    <string name="camera_permission">Fotoğraf çekmek için kamera izni gerekir</string>
+    <string name="from_before_to">BAŞLANGIÇ tarih/saat, BİTİŞ tarih/saatten önce olmalıdır</string>
+    <string name="from_to_required">BAŞLANGIÇ ve BİTİŞ tarihleri zorunludur</string>
+    <string name="from_before_to_short">BAŞLANGIÇ, BİTİŞTEN önce olmalı</string>
+    <string name="edit_info_all_day">Bu tüm gün görevin tarihini değiştirin.</string>
+    <string name="edit_info_duration">Bu süre görevi için BAŞLANGIÇ ve BİTİŞ tarih/saatini değiştirin.</string>
+    <string name="edit_info_clockin">Giriş görevi: başlık ve açıklamayı düzenleyebilirsiniz. Zaman giriş/durdurdan alınır.</string>
+    <string name="all_day_date">Tüm gün: %1$s</string>
+    <string name="from_to_date">%1$s ile %2$s arası</string>
+
+    <string-array name="status_labels">
+        <item>@string/status_not_started</item>
+        <item>@string/status_in_progress</item>
+        <item>@string/status_completed</item>
+    </string-array>
+
+</resources>

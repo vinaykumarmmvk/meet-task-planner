@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Διαχειριστής εργασιών</string>
+    <string name="menu_language">Γλώσσα</string>
+    <string name="select_language">Επιλογή γλώσσας</string>
+    <string name="search_language">Αναζήτηση γλώσσας</string>
+    <string name="confirm">Επιβεβαίωση</string>
+    <string name="scheduler">Προγραμματισμός</string>
+    <string name="calendar">Ημερολόγιο</string>
+    <string name="todo">Εκκρεμότητες</string>
+    <string name="submit">Υποβολή</string>
+    <string name="stop">ΔΙΑΚΟΠΗ</string>
+    <string name="filter">Φίλτρο</string>
+    <string name="filter_by">Φιλτράρισμα κατά</string>
+    <string name="select_all">Επιλογή όλων</string>
+    <string name="cancel">Ακύρωση</string>
+    <string name="delete">Διαγραφή</string>
+    <string name="edit">Επεξεργασία</string>
+    <string name="enter_title">Εισαγωγή τίτλου</string>
+    <string name="title">Τίτλος</string>
+    <string name="description">Περιγραφή</string>
+    <string name="required">Υποχρεωτικό</string>
+    <string name="clockin">Έναρξη (clock-in)</string>
+    <string name="all_day">Όλη μέρα</string>
+    <string name="enter_duration">Εισαγωγή διάρκειας</string>
+    <string name="type">Τύπος</string>
+    <string name="status">Κατάσταση</string>
+    <string name="attachments">Συνημμένα</string>
+    <string name="start">Έναρξη</string>
+    <string name="remove">Αφαίρεση</string>
+    <string name="tasks_on">Εργασίες στις %1$s</string>
+    <string name="no_tasks_on">Δεν υπάρχουν εργασίες στις %1$s</string>
+    <string name="goto_date">Μετάβαση σε ημερομηνία</string>
+    <string name="select_date">Επιλέξτε ημερομηνία για προβολή εργασιών</string>
+    <string name="goto_date_hint">dd.mm.yyyy</string>
+    <string name="search_task_hint">Αναζήτηση εργασίας...</string>
+    <string name="sort_by">Ταξινόμηση κατά</string>
+    <string name="delete_task_title">Διαγραφή εργασίας</string>
+    <string name="edit_task">Επεξεργασία εργασίας</string>
+    <string name="delete_task_msg">Είστε σίγουροι ότι θέλετε να διαγράψετε αυτή την εργασία;</string>
+    <string name="task_deleted">Η εργασία διαγράφηκε</string>
+    <string name="task_saved">Η εργασία αποθηκεύτηκε</string>
+    <string name="status_not_started">Δεν ξεκίνησε</string>
+    <string name="status_in_progress">Σε εξέλιξη</string>
+    <string name="status_completed">Ολοκληρώθηκε</string>
+    <string name="created_at">Δημιουργήθηκε</string>
+    <string name="started_on">Ξεκίνησε: %1$s</string>
+    <string name="in_progress">Σε εξέλιξη…</string>
+    <string name="task_details">Λεπτομέρειες εργασίας</string>
+    <string name="tab_scheduler">Προγραμματισμός</string>
+    <string name="tab_calendar">Ημερολόγιο</string>
+    <string name="tab_todo">Εκκρεμότητες</string>
+    <string name="ok">OK</string>
+    <string name="yes">Ναι</string>
+    <string name="save">Αποθήκευση</string>
+    <string name="delete_task">Διαγραφή εργασίας</string>
+    <string name="delete_task_q">Διαγραφή εργασίας;</string>
+    <string name="delete_task_confirm">Είστε σίγουροι ότι θέλετε να διαγράψετε αυτή την εργασία;</string>
+    <string name="task_updated">Η εργασία ενημερώθηκε</string>
+    <string name="in_progress_dots">Σε εξέλιξη …</string>
+    <string name="empty_csv">Κενό αρχείο CSV</string>
+    <string name="no_tasks_to_import">Δεν υπάρχουν εργασίες για εισαγωγή</string>
+    <string name="import_failed">Η εισαγωγή απέτυχε: %1$s</string>
+    <string name="export_failed">Αποτυχία εξαγωγής CSV: %1$s</string>
+    <string name="attachment_added">Προστέθηκε συνημμένο</string>
+    <string name="add_attachment">Προσθήκη συνημμένου</string>
+    <string name="title_required">Ο τίτλος είναι υποχρεωτικός</string>
+    <string name="date_required">Η ημερομηνία είναι υποχρεωτική</string>
+    <string name="invalid_date_format">Μη έγκυρη μορφή ημερομηνίας</string>
+    <string name="csv_invalid_format">Η μορφή CSV δεν υποστηρίζεται. Εισαγάγετε ένα CSV που έχει εξαχθεί από αυτή την εφαρμογή.</string>
+    <string name="select_date_all_day">Επιλέξτε ημερομηνία για ολοήμερη εργασία</string>
+    <string name="select_from_to_dates">Επιλέξτε και τις ημερομηνίες ΑΠΟ και ΕΩΣ</string>
+    <string name="invalid_date_time_format">Μη έγκυρη μορφή ημερομηνίας/ώρας</string>
+    <string name="date_time_format_dd.MM.yyyy_HH.mm">Χρησιμοποιήστε μορφή dd.MM.yyyy HH:mm</string>
+    <string name="camera_permission">Απαιτείται άδεια κάμερας για λήψη φωτογραφιών</string>
+    <string name="from_before_to">Η ημερομηνία/ώρα ΑΠΟ πρέπει να είναι πριν από την ημερομηνία/ώρα ΕΩΣ</string>
+    <string name="from_to_required">Οι ημερομηνίες ΑΠΟ και ΕΩΣ είναι υποχρεωτικές</string>
+    <string name="from_before_to_short">Το ΑΠΟ πρέπει να είναι πριν από το ΕΩΣ</string>
+    <string name="edit_info_all_day">Αλλάξτε την ημερομηνία για αυτή την ολοήμερη εργασία.</string>
+    <string name="edit_info_duration">Αλλάξτε τις ημερομηνίες/ώρες ΑΠΟ και ΕΩΣ για αυτή την εργασία διάρκειας.</string>
+    <string name="edit_info_clockin">Εργασία clock-in: μπορείτε να επεξεργαστείτε τίτλο και περιγραφή. Ο χρόνος προέρχεται από το clock-in/stop.</string>
+    <string name="all_day_date">Όλη μέρα: %1$s</string>
+    <string name="from_to_date">Από %1$s έως %2$s</string>
+
+    <string-array name="status_labels">
+        <item>@string/status_not_started</item>
+        <item>@string/status_in_progress</item>
+        <item>@string/status_completed</item>
+    </string-array>
+
+</resources>

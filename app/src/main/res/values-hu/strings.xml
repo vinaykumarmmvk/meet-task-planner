@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Feladatkezelő</string>
+    <string name="menu_language">Nyelv</string>
+    <string name="select_language">Nyelv kiválasztása</string>
+    <string name="search_language">Nyelv keresése</string>
+    <string name="confirm">Megerősítés</string>
+    <string name="scheduler">Ütemező</string>
+    <string name="calendar">Naptár</string>
+    <string name="todo">Teendők</string>
+    <string name="submit">Küldés</string>
+    <string name="stop">LEÁLLÍT</string>
+    <string name="filter">Szűrő</string>
+    <string name="filter_by">Szűrés</string>
+    <string name="select_all">Összes kijelölése</string>
+    <string name="cancel">Mégse</string>
+    <string name="delete">Törlés</string>
+    <string name="edit">Szerkesztés</string>
+    <string name="enter_title">Cím megadása</string>
+    <string name="title">Cím</string>
+    <string name="description">Leírás</string>
+    <string name="required">Kötelező</string>
+    <string name="clockin">Bejelentkezés</string>
+    <string name="all_day">Egész nap</string>
+    <string name="enter_duration">Időtartam megadása</string>
+    <string name="type">Típus</string>
+    <string name="status">Állapot</string>
+    <string name="attachments">Mellékletek</string>
+    <string name="start">Indítás</string>
+    <string name="remove">Eltávolítás</string>
+    <string name="tasks_on">Feladatok: %1$s</string>
+    <string name="no_tasks_on">Nincs feladat: %1$s</string>
+    <string name="goto_date">Ugrás dátumra</string>
+    <string name="select_date">Válasszon dátumot a feladatok megtekintéséhez</string>
+    <string name="goto_date_hint">dd.mm.yyyy</string>
+    <string name="search_task_hint">Feladat keresése...</string>
+    <string name="sort_by">Rendezés</string>
+    <string name="delete_task_title">Feladat törlése</string>
+    <string name="edit_task">Feladat szerkesztése</string>
+    <string name="delete_task_msg">Biztosan törli ezt a feladatot?</string>
+    <string name="task_deleted">Feladat törölve</string>
+    <string name="task_saved">Feladat mentve</string>
+    <string name="status_not_started">Nem indult</string>
+    <string name="status_in_progress">Folyamatban</string>
+    <string name="status_completed">Befejezve</string>
+    <string name="created_at">Létrehozva</string>
+    <string name="started_on">Indítva: %1$s</string>
+    <string name="in_progress">Folyamatban…</string>
+    <string name="task_details">Feladat részletei</string>
+    <string name="tab_scheduler">Ütemező</string>
+    <string name="tab_calendar">Naptár</string>
+    <string name="tab_todo">Teendők</string>
+    <string name="ok">OK</string>
+    <string name="yes">Igen</string>
+    <string name="save">Mentés</string>
+    <string name="delete_task">Feladat törlése</string>
+    <string name="delete_task_q">Törli a feladatot?</string>
+    <string name="delete_task_confirm">Biztosan törli ezt a feladatot?</string>
+    <string name="task_updated">Feladat frissítve</string>
+    <string name="in_progress_dots">Folyamatban …</string>
+    <string name="empty_csv">Üres CSV-fájl</string>
+    <string name="no_tasks_to_import">Nincs importálható feladat</string>
+    <string name="import_failed">Importálás sikertelen: %1$s</string>
+    <string name="export_failed">CSV exportálása sikertelen: %1$s</string>
+    <string name="attachment_added">Melléklet hozzáadva</string>
+    <string name="add_attachment">Melléklet hozzáadása</string>
+    <string name="title_required">A cím kötelező</string>
+    <string name="date_required">A dátum kötelező</string>
+    <string name="invalid_date_format">Érvénytelen dátumformátum</string>
+    <string name="csv_invalid_format">A CSV formátum nem támogatott. Kérjük, az alkalmazásból exportált CSV-t importálja.</string>
+    <string name="select_date_all_day">Válasszon dátumot az egész napos feladathoz</string>
+    <string name="select_from_to_dates">Válassza ki az ETTŐL és EDDIG dátumokat</string>
+    <string name="invalid_date_time_format">Érvénytelen dátum/idő formátum</string>
+    <string name="date_time_format_dd.MM.yyyy_HH.mm">Használja a dd.MM.yyyy HH:mm formátumot</string>
+    <string name="camera_permission">Fotók készítéséhez kameraengedély szükséges</string>
+    <string name="from_before_to">Az ETTŐL dátum/időnek az EDDIG előtt kell lennie</string>
+    <string name="from_to_required">Az ETTŐL és EDDIG dátumok kötelezőek</string>
+    <string name="from_before_to_short">ETTŐL legyen EDDIG előtt</string>
+    <string name="edit_info_all_day">Módosítsa ennek az egész napos feladatnak a dátumát.</string>
+    <string name="edit_info_duration">Módosítsa ennek az időtartam feladatnak az ETTŐL és EDDIG dátum/idejét.</string>
+    <string name="edit_info_clockin">Bejelentkezés feladat: a cím és leírás szerkeszthető. Az idő a bejelentkezés/leállítás alapján van.</string>
+    <string name="all_day_date">Egész nap: %1$s</string>
+    <string name="from_to_date">%1$s - %2$s</string>
+
+    <string-array name="status_labels">
+        <item>@string/status_not_started</item>
+        <item>@string/status_in_progress</item>
+        <item>@string/status_completed</item>
+    </string-array>
+
+</resources>

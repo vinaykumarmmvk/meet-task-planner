@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Gerenciador de Tarefas</string>
+    <string name="menu_language">Idioma</string>
+    <string name="select_language">Selecionar idioma</string>
+    <string name="search_language">Pesquisar idioma</string>
+    <string name="confirm">Confirmar</string>
+    <string name="scheduler">Agendador</string>
+    <string name="calendar">Calendário</string>
+    <string name="todo">A fazer</string>
+    <string name="submit">Enviar</string>
+    <string name="stop">PARAR</string>
+    <string name="filter">Filtrar</string>
+    <string name="filter_by">Filtrar por</string>
+    <string name="select_all">Selecionar tudo</string>
+    <string name="cancel">Cancelar</string>
+    <string name="delete">Excluir</string>
+    <string name="edit">Editar</string>
+    <string name="enter_title">Digite o título</string>
+    <string name="title">Título</string>
+    <string name="description">Descrição</string>
+    <string name="required">Obrigatório</string>
+    <string name="clockin">Bater ponto</string>
+    <string name="all_day">Dia inteiro</string>
+    <string name="enter_duration">Inserir duração</string>
+    <string name="type">Tipo</string>
+    <string name="status">Status</string>
+    <string name="attachments">Anexos</string>
+    <string name="start">Iniciar</string>
+    <string name="remove">Remover</string>
+    <string name="tasks_on">Tarefas em %1$s</string>
+    <string name="no_tasks_on">Nenhuma tarefa em %1$s</string>
+    <string name="goto_date">Ir para a data</string>
+    <string name="select_date">Selecione uma data para ver as tarefas</string>
+    <string name="goto_date_hint">dd.mm.yyyy</string>
+    <string name="search_task_hint">Pesquisar tarefa...</string>
+    <string name="sort_by">Ordenar por</string>
+    <string name="delete_task_title">Excluir tarefa</string>
+    <string name="edit_task">Editar tarefa</string>
+    <string name="delete_task_msg">Tem certeza de que deseja excluir esta tarefa?</string>
+    <string name="task_deleted">Tarefa excluída</string>
+    <string name="task_saved">Tarefa salva</string>
+    <string name="status_not_started">Não iniciada</string>
+    <string name="status_in_progress">Em andamento</string>
+    <string name="status_completed">Concluída</string>
+    <string name="created_at">Criada em</string>
+    <string name="started_on">Iniciada em: %1$s</string>
+    <string name="in_progress">Em andamento…</string>
+    <string name="task_details">Detalhes da tarefa</string>
+    <string name="tab_scheduler">Agendador</string>
+    <string name="tab_calendar">Calendário</string>
+    <string name="tab_todo">A fazer</string>
+    <string name="ok">OK</string>
+    <string name="yes">Sim</string>
+    <string name="save">Salvar</string>
+    <string name="delete_task">Excluir tarefa</string>
+    <string name="delete_task_q">Excluir tarefa?</string>
+    <string name="delete_task_confirm">Tem certeza de que deseja excluir esta tarefa?</string>
+    <string name="task_updated">Tarefa atualizada</string>
+    <string name="in_progress_dots">Em andamento …</string>
+    <string name="empty_csv">Arquivo CSV vazio</string>
+    <string name="no_tasks_to_import">Nenhuma tarefa para importar</string>
+    <string name="import_failed">Falha ao importar: %1$s</string>
+    <string name="export_failed">Falha ao exportar CSV: %1$s</string>
+    <string name="attachment_added">Anexo adicionado</string>
+    <string name="add_attachment">Adicionar anexo</string>
+    <string name="title_required">O título é obrigatório</string>
+    <string name="date_required">A data é obrigatória</string>
+    <string name="invalid_date_format">Formato de data inválido</string>
+    <string name="csv_invalid_format">Formato CSV não suportado. Importe um CSV exportado por este app.</string>
+    <string name="select_date_all_day">Selecione a data para a tarefa de dia inteiro</string>
+    <string name="select_from_to_dates">Selecione as datas DE e ATÉ</string>
+    <string name="invalid_date_time_format">Formato de data/hora inválido</string>
+    <string name="date_time_format_dd.MM.yyyy_HH.mm">Use o formato dd.MM.yyyy HH:mm</string>
+    <string name="camera_permission">Permissão de câmera é necessária para tirar fotos</string>
+    <string name="from_before_to">A data/hora DE deve ser anterior à data/hora ATÉ</string>
+    <string name="from_to_required">As datas DE e ATÉ são obrigatórias</string>
+    <string name="from_before_to_short">DE deve ser anterior a ATÉ</string>
+    <string name="edit_info_all_day">Altere a data desta tarefa de dia inteiro.</string>
+    <string name="edit_info_duration">Altere as datas/horas DE e ATÉ desta tarefa de duração.</string>
+    <string name="edit_info_clockin">Tarefa de ponto: você pode editar título e descrição. O tempo vem do bater ponto/parar.</string>
+    <string name="all_day_date">Dia inteiro: %1$s</string>
+    <string name="from_to_date">De %1$s até %2$s</string>
+
+    <string-array name="status_labels">
+        <item>@string/status_not_started</item>
+        <item>@string/status_in_progress</item>
+        <item>@string/status_completed</item>
+    </string-array>
+
+</resources>

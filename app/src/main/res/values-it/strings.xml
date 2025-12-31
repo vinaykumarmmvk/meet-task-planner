@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Gestore attività</string>
+    <string name="menu_language">Lingua</string>
+    <string name="select_language">Seleziona lingua</string>
+    <string name="search_language">Cerca lingua</string>
+    <string name="confirm">Conferma</string>
+    <string name="scheduler">Pianificatore</string>
+    <string name="calendar">Calendario</string>
+    <string name="todo">Da fare</string>
+    <string name="submit">Invia</string>
+    <string name="stop">FERMA</string>
+    <string name="filter">Filtra</string>
+    <string name="filter_by">Filtra per</string>
+    <string name="select_all">Seleziona tutto</string>
+    <string name="cancel">Annulla</string>
+    <string name="delete">Elimina</string>
+    <string name="edit">Modifica</string>
+    <string name="enter_title">Inserisci titolo</string>
+    <string name="title">Titolo</string>
+    <string name="description">Descrizione</string>
+    <string name="required">Obbligatorio</string>
+    <string name="clockin">Timbra ingresso</string>
+    <string name="all_day">Tutto il giorno</string>
+    <string name="enter_duration">Inserisci durata</string>
+    <string name="type">Tipo</string>
+    <string name="status">Stato</string>
+    <string name="attachments">Allegati</string>
+    <string name="start">Avvia</string>
+    <string name="remove">Rimuovi</string>
+    <string name="tasks_on">Attività il %1$s</string>
+    <string name="no_tasks_on">Nessuna attività il %1$s</string>
+    <string name="goto_date">Vai alla data</string>
+    <string name="select_date">Seleziona una data per visualizzare le attività</string>
+    <string name="goto_date_hint">dd.mm.yyyy</string>
+    <string name="search_task_hint">Cerca attività...</string>
+    <string name="sort_by">Ordina per</string>
+    <string name="delete_task_title">Elimina attività</string>
+    <string name="edit_task">Modifica attività</string>
+    <string name="delete_task_msg">Sei sicuro di voler eliminare questa attività?</string>
+    <string name="task_deleted">Attività eliminata</string>
+    <string name="task_saved">Attività salvata</string>
+    <string name="status_not_started">Non iniziata</string>
+    <string name="status_in_progress">In corso</string>
+    <string name="status_completed">Completata</string>
+    <string name="created_at">Creata il</string>
+    <string name="started_on">Avviata il: %1$s</string>
+    <string name="in_progress">In corso…</string>
+    <string name="task_details">Dettagli attività</string>
+    <string name="tab_scheduler">Pianificatore</string>
+    <string name="tab_calendar">Calendario</string>
+    <string name="tab_todo">Da fare</string>
+    <string name="ok">OK</string>
+    <string name="yes">Sì</string>
+    <string name="save">Salva</string>
+    <string name="delete_task">Elimina attività</string>
+    <string name="delete_task_q">Eliminare attività?</string>
+    <string name="delete_task_confirm">Sei sicuro di voler eliminare questa attività?</string>
+    <string name="task_updated">Attività aggiornata</string>
+    <string name="in_progress_dots">In corso …</string>
+    <string name="empty_csv">File CSV vuoto</string>
+    <string name="no_tasks_to_import">Nessuna attività da importare</string>
+    <string name="import_failed">Importazione non riuscita: %1$s</string>
+    <string name="export_failed">Esportazione CSV non riuscita: %1$s</string>
+    <string name="attachment_added">Allegato aggiunto</string>
+    <string name="add_attachment">Aggiungi allegato</string>
+    <string name="title_required">Il titolo è obbligatorio</string>
+    <string name="date_required">La data è obbligatoria</string>
+    <string name="invalid_date_format">Formato data non valido</string>
+    <string name="csv_invalid_format">Formato CSV non supportato. Importa un CSV esportato da questa app.</string>
+    <string name="select_date_all_day">Seleziona la data per l’attività tutto il giorno</string>
+    <string name="select_from_to_dates">Seleziona entrambe le date DA e A</string>
+    <string name="invalid_date_time_format">Formato data/ora non valido</string>
+    <string name="date_time_format_dd.MM.yyyy_HH.mm">Usa il formato dd.MM.yyyy HH:mm</string>
+    <string name="camera_permission">È necessaria l’autorizzazione della fotocamera per scattare foto</string>
+    <string name="from_before_to">La data/ora DA deve essere precedente alla data/ora A</string>
+    <string name="from_to_required">Le date DA e A sono obbligatorie</string>
+    <string name="from_before_to_short">DA deve essere prima di A</string>
+    <string name="edit_info_all_day">Cambia la data di questa attività tutto il giorno.</string>
+    <string name="edit_info_duration">Cambia data/ora DA e A di questa attività di durata.</string>
+    <string name="edit_info_clockin">Attività timbratura: puoi modificare titolo e descrizione. Il tempo viene da timbratura/stop.</string>
+    <string name="all_day_date">Tutto il giorno: %1$s</string>
+    <string name="from_to_date">Da %1$s a %2$s</string>
+
+    <string-array name="status_labels">
+        <item>@string/status_not_started</item>
+        <item>@string/status_in_progress</item>
+        <item>@string/status_completed</item>
+    </string-array>
+
+</resources>

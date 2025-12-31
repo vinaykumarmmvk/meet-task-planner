@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Gestor de tareas</string>
+    <string name="menu_language">Idioma</string>
+    <string name="select_language">Seleccionar idioma</string>
+    <string name="search_language">Buscar idioma</string>
+    <string name="confirm">Confirmar</string>
+    <string name="scheduler">Planificador</string>
+    <string name="calendar">Calendario</string>
+    <string name="todo">Por hacer</string>
+    <string name="submit">Enviar</string>
+    <string name="stop">DETENER</string>
+    <string name="filter">Filtrar</string>
+    <string name="filter_by">Filtrar por</string>
+    <string name="select_all">Seleccionar todo</string>
+    <string name="cancel">Cancelar</string>
+    <string name="delete">Eliminar</string>
+    <string name="edit">Editar</string>
+    <string name="enter_title">Introducir título</string>
+    <string name="title">Título</string>
+    <string name="description">Descripción</string>
+    <string name="required">Obligatorio</string>
+    <string name="clockin">Fichar entrada</string>
+    <string name="all_day">Todo el día</string>
+    <string name="enter_duration">Introducir duración</string>
+    <string name="type">Tipo</string>
+    <string name="status">Estado</string>
+    <string name="attachments">Adjuntos</string>
+    <string name="start">Iniciar</string>
+    <string name="remove">Quitar</string>
+    <string name="tasks_on">Tareas el %1$s</string>
+    <string name="no_tasks_on">No hay tareas el %1$s</string>
+    <string name="goto_date">Ir a la fecha</string>
+    <string name="select_date">Selecciona una fecha para ver las tareas</string>
+    <string name="goto_date_hint">dd.mm.yyyy</string>
+    <string name="search_task_hint">Buscar tarea...</string>
+    <string name="sort_by">Ordenar por</string>
+    <string name="delete_task_title">Eliminar tarea</string>
+    <string name="edit_task">Editar tarea</string>
+    <string name="delete_task_msg">¿Seguro que quieres eliminar esta tarea?</string>
+    <string name="task_deleted">Tarea eliminada</string>
+    <string name="task_saved">Tarea guardada</string>
+    <string name="status_not_started">No iniciada</string>
+    <string name="status_in_progress">En progreso</string>
+    <string name="status_completed">Completada</string>
+    <string name="created_at">Creada el</string>
+    <string name="started_on">Iniciada el: %1$s</string>
+    <string name="in_progress">En progreso…</string>
+    <string name="task_details">Detalles de la tarea</string>
+    <string name="tab_scheduler">Planificador</string>
+    <string name="tab_calendar">Calendario</string>
+    <string name="tab_todo">Por hacer</string>
+    <string name="ok">OK</string>
+    <string name="yes">Sí</string>
+    <string name="save">Guardar</string>
+    <string name="delete_task">Eliminar tarea</string>
+    <string name="delete_task_q">¿Eliminar tarea?</string>
+    <string name="delete_task_confirm">¿Seguro que quieres eliminar esta tarea?</string>
+    <string name="task_updated">Tarea actualizada</string>
+    <string name="in_progress_dots">En progreso …</string>
+    <string name="empty_csv">Archivo CSV vacío</string>
+    <string name="no_tasks_to_import">No hay tareas para importar</string>
+    <string name="import_failed">Importación fallida: %1$s</string>
+    <string name="export_failed">Error al exportar CSV: %1$s</string>
+    <string name="attachment_added">Adjunto añadido</string>
+    <string name="add_attachment">Añadir adjunto</string>
+    <string name="title_required">El título es obligatorio</string>
+    <string name="date_required">La fecha es obligatoria</string>
+    <string name="invalid_date_format">Formato de fecha no válido</string>
+    <string name="csv_invalid_format">Formato CSV no compatible. Importa un CSV exportado desde esta app.</string>
+    <string name="select_date_all_day">Selecciona la fecha para la tarea de todo el día</string>
+    <string name="select_from_to_dates">Selecciona las fechas DESDE y HASTA</string>
+    <string name="invalid_date_time_format">Formato de fecha/hora no válido</string>
+    <string name="date_time_format_dd.MM.yyyy_HH.mm">Usa el formato dd.MM.yyyy HH:mm</string>
+    <string name="camera_permission">Se requiere permiso de cámara para tomar fotos</string>
+    <string name="from_before_to">La fecha/hora DESDE debe ser anterior a HASTA</string>
+    <string name="from_to_required">Las fechas DESDE y HASTA son obligatorias</string>
+    <string name="from_before_to_short">DESDE debe ser anterior a HASTA</string>
+    <string name="edit_info_all_day">Cambia la fecha de esta tarea de todo el día.</string>
+    <string name="edit_info_duration">Cambia la fecha/hora DESDE y HASTA de esta tarea de duración.</string>
+    <string name="edit_info_clockin">Tarea de fichaje: puedes editar título y descripción. La hora proviene del fichaje/stop.</string>
+    <string name="all_day_date">Todo el día: %1$s</string>
+    <string name="from_to_date">De %1$s a %2$s</string>
+
+    <string-array name="status_labels">
+        <item>@string/status_not_started</item>
+        <item>@string/status_in_progress</item>
+        <item>@string/status_completed</item>
+    </string-array>
+
+</resources>

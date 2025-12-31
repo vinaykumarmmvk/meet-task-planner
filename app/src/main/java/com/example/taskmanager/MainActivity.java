@@ -238,9 +238,31 @@ public class MainActivity extends BaseActivity {
 
         List<LanguageAdapter.LangItem> languages = new ArrayList<>();
         languages.add(new LanguageAdapter.LangItem("en", "English"));
-        languages.add(new LanguageAdapter.LangItem("de", "Deutsch"));
+        languages.add(new LanguageAdapter.LangItem("de", "German"));
+        languages.add(new LanguageAdapter.LangItem("fr", "French"));
+
+        languages.add(new LanguageAdapter.LangItem("es", "Spanish"));
+        languages.add(new LanguageAdapter.LangItem("it", "Italian"));
+        languages.add(new LanguageAdapter.LangItem("pt-BR", "Portuguese (Brazil)"));
+
+        languages.add(new LanguageAdapter.LangItem("tr", "Turkish"));
+        languages.add(new LanguageAdapter.LangItem("pl", "Polish"));
+        languages.add(new LanguageAdapter.LangItem("ro", "Romanian"));
+        languages.add(new LanguageAdapter.LangItem("uk", "Ukrainian"));
+        languages.add(new LanguageAdapter.LangItem("cs", "Czech"));
+        languages.add(new LanguageAdapter.LangItem("hu", "Hungarian"));
+        languages.add(new LanguageAdapter.LangItem("el", "Greek"));
+
         languages.add(new LanguageAdapter.LangItem("hi", "Hindi"));
         languages.add(new LanguageAdapter.LangItem("kn", "Kannada"));
+        languages.add(new LanguageAdapter.LangItem("ta", "Tamil"));
+        languages.add(new LanguageAdapter.LangItem("te", "Telugu"));
+        languages.add(new LanguageAdapter.LangItem("ml", "Malayalam"));
+        languages.add(new LanguageAdapter.LangItem("mr", "Marathi"));
+        languages.add(new LanguageAdapter.LangItem("bn", "Bengali"));
+        languages.add(new LanguageAdapter.LangItem("gu", "Gujarati"));
+        languages.add(new LanguageAdapter.LangItem("pa", "Punjabi"));
+
         // add more whenever you want
 
         String current = LocaleHelper.getSavedLanguage(this);
@@ -264,6 +286,8 @@ public class MainActivity extends BaseActivity {
                 LocaleHelper.saveLanguage(this, code);
 
                 // Restart MainActivity cleanly so tabs/fragments reload strings
+                recreate();
+
                 Intent i = new Intent(this, MainActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(i);

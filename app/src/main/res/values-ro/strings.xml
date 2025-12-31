@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Manager de sarcini</string>
+    <string name="menu_language">Limbă</string>
+    <string name="select_language">Selectează limba</string>
+    <string name="search_language">Caută limba</string>
+    <string name="confirm">Confirmă</string>
+    <string name="scheduler">Planificator</string>
+    <string name="calendar">Calendar</string>
+    <string name="todo">De făcut</string>
+    <string name="submit">Trimite</string>
+    <string name="stop">OPREȘTE</string>
+    <string name="filter">Filtru</string>
+    <string name="filter_by">Filtrează după</string>
+    <string name="select_all">Selectează tot</string>
+    <string name="cancel">Anulează</string>
+    <string name="delete">Șterge</string>
+    <string name="edit">Editează</string>
+    <string name="enter_title">Introdu titlul</string>
+    <string name="title">Titlu</string>
+    <string name="description">Descriere</string>
+    <string name="required">Obligatoriu</string>
+    <string name="clockin">Pontaj</string>
+    <string name="all_day">Toată ziua</string>
+    <string name="enter_duration">Introdu durata</string>
+    <string name="type">Tip</string>
+    <string name="status">Stare</string>
+    <string name="attachments">Atașamente</string>
+    <string name="start">Pornește</string>
+    <string name="remove">Elimină</string>
+    <string name="tasks_on">Sarcini pe %1$s</string>
+    <string name="no_tasks_on">Nu există sarcini pe %1$s</string>
+    <string name="goto_date">Mergi la data</string>
+    <string name="select_date">Selectează o dată pentru a vedea sarcinile</string>
+    <string name="goto_date_hint">dd.mm.yyyy</string>
+    <string name="search_task_hint">Caută sarcină...</string>
+    <string name="sort_by">Sortează după</string>
+    <string name="delete_task_title">Șterge sarcina</string>
+    <string name="edit_task">Editează sarcina</string>
+    <string name="delete_task_msg">Sigur doriți să ștergeți această sarcină?</string>
+    <string name="task_deleted">Sarcină ștearsă</string>
+    <string name="task_saved">Sarcină salvată</string>
+    <string name="status_not_started">Neîncepută</string>
+    <string name="status_in_progress">În desfășurare</string>
+    <string name="status_completed">Finalizată</string>
+    <string name="created_at">Creată la</string>
+    <string name="started_on">Începută la: %1$s</string>
+    <string name="in_progress">În desfășurare…</string>
+    <string name="task_details">Detalii sarcină</string>
+    <string name="tab_scheduler">Planificator</string>
+    <string name="tab_calendar">Calendar</string>
+    <string name="tab_todo">De făcut</string>
+    <string name="ok">OK</string>
+    <string name="yes">Da</string>
+    <string name="save">Salvează</string>
+    <string name="delete_task">Șterge sarcina</string>
+    <string name="delete_task_q">Ștergeți sarcina?</string>
+    <string name="delete_task_confirm">Sigur doriți să ștergeți această sarcină?</string>
+    <string name="task_updated">Sarcină actualizată</string>
+    <string name="in_progress_dots">În desfășurare …</string>
+    <string name="empty_csv">Fișier CSV gol</string>
+    <string name="no_tasks_to_import">Nu există sarcini de importat</string>
+    <string name="import_failed">Import eșuat: %1$s</string>
+    <string name="export_failed">Export CSV eșuat: %1$s</string>
+    <string name="attachment_added">Atașament adăugat</string>
+    <string name="add_attachment">Adaugă atașament</string>
+    <string name="title_required">Titlul este obligatoriu</string>
+    <string name="date_required">Data este obligatorie</string>
+    <string name="invalid_date_format">Format de dată invalid</string>
+    <string name="csv_invalid_format">Format CSV nesuportat. Importați un CSV exportat din această aplicație.</string>
+    <string name="select_date_all_day">Selectați data pentru sarcina de toată ziua</string>
+    <string name="select_from_to_dates">Selectați datele DE LA și PÂNĂ LA</string>
+    <string name="invalid_date_time_format">Format de dată/oră invalid</string>
+    <string name="date_time_format_dd.MM.yyyy_HH.mm">Folosiți formatul dd.MM.yyyy HH:mm</string>
+    <string name="camera_permission">Este necesară permisiunea camerei pentru a face fotografii</string>
+    <string name="from_before_to">Data/ora DE LA trebuie să fie înainte de data/ora PÂNĂ LA</string>
+    <string name="from_to_required">Datele DE LA și PÂNĂ LA sunt obligatorii</string>
+    <string name="from_before_to_short">DE LA trebuie să fie înainte de PÂNĂ LA</string>
+    <string name="edit_info_all_day">Schimbați data acestei sarcini de toată ziua.</string>
+    <string name="edit_info_duration">Schimbați data/ora DE LA și PÂNĂ LA pentru această sarcină de durată.</string>
+    <string name="edit_info_clockin">Sarcină de pontaj: puteți edita titlul și descrierea. Timpul vine din pontaj/stop.</string>
+    <string name="all_day_date">Toată ziua: %1$s</string>
+    <string name="from_to_date">De la %1$s până la %2$s</string>
+
+    <string-array name="status_labels">
+        <item>@string/status_not_started</item>
+        <item>@string/status_in_progress</item>
+        <item>@string/status_completed</item>
+    </string-array>
+
+</resources>

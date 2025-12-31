@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Správce úkolů</string>
+    <string name="menu_language">Jazyk</string>
+    <string name="select_language">Vyberte jazyk</string>
+    <string name="search_language">Hledat jazyk</string>
+    <string name="confirm">Potvrdit</string>
+    <string name="scheduler">Plánovač</string>
+    <string name="calendar">Kalendář</string>
+    <string name="todo">Úkoly</string>
+    <string name="submit">Odeslat</string>
+    <string name="stop">ZASTAVIT</string>
+    <string name="filter">Filtr</string>
+    <string name="filter_by">Filtrovat podle</string>
+    <string name="select_all">Vybrat vše</string>
+    <string name="cancel">Zrušit</string>
+    <string name="delete">Smazat</string>
+    <string name="edit">Upravit</string>
+    <string name="enter_title">Zadejte název</string>
+    <string name="title">Název</string>
+    <string name="description">Popis</string>
+    <string name="required">Povinné</string>
+    <string name="clockin">Píchnout příchod</string>
+    <string name="all_day">Celý den</string>
+    <string name="enter_duration">Zadejte dobu trvání</string>
+    <string name="type">Typ</string>
+    <string name="status">Stav</string>
+    <string name="attachments">Přílohy</string>
+    <string name="start">Spustit</string>
+    <string name="remove">Odebrat</string>
+    <string name="tasks_on">Úkoly dne %1$s</string>
+    <string name="no_tasks_on">Žádné úkoly dne %1$s</string>
+    <string name="goto_date">Přejít na datum</string>
+    <string name="select_date">Vyberte datum pro zobrazení úkolů</string>
+    <string name="goto_date_hint">dd.mm.yyyy</string>
+    <string name="search_task_hint">Hledat úkol...</string>
+    <string name="sort_by">Řadit podle</string>
+    <string name="delete_task_title">Smazat úkol</string>
+    <string name="edit_task">Upravit úkol</string>
+    <string name="delete_task_msg">Opravdu chcete smazat tento úkol?</string>
+    <string name="task_deleted">Úkol smazán</string>
+    <string name="task_saved">Úkol uložen</string>
+    <string name="status_not_started">Nezahájeno</string>
+    <string name="status_in_progress">Probíhá</string>
+    <string name="status_completed">Dokončeno</string>
+    <string name="created_at">Vytvořeno</string>
+    <string name="started_on">Zahájeno: %1$s</string>
+    <string name="in_progress">Probíhá…</string>
+    <string name="task_details">Podrobnosti úkolu</string>
+    <string name="tab_scheduler">Plánovač</string>
+    <string name="tab_calendar">Kalendář</string>
+    <string name="tab_todo">Úkoly</string>
+    <string name="ok">OK</string>
+    <string name="yes">Ano</string>
+    <string name="save">Uložit</string>
+    <string name="delete_task">Smazat úkol</string>
+    <string name="delete_task_q">Smazat úkol?</string>
+    <string name="delete_task_confirm">Opravdu chcete smazat tento úkol?</string>
+    <string name="task_updated">Úkol aktualizován</string>
+    <string name="in_progress_dots">Probíhá …</string>
+    <string name="empty_csv">Prázdný soubor CSV</string>
+    <string name="no_tasks_to_import">Žádné úkoly k importu</string>
+    <string name="import_failed">Import se nezdařil: %1$s</string>
+    <string name="export_failed">Export CSV se nezdařil: %1$s</string>
+    <string name="attachment_added">Příloha přidána</string>
+    <string name="add_attachment">Přidat přílohu</string>
+    <string name="title_required">Název je povinný</string>
+    <string name="date_required">Datum je povinné</string>
+    <string name="invalid_date_format">Neplatný formát data</string>
+    <string name="csv_invalid_format">Formát CSV není podporován. Importujte CSV exportovaný z této aplikace.</string>
+    <string name="select_date_all_day">Vyberte datum pro celodenní úkol</string>
+    <string name="select_from_to_dates">Vyberte data OD a DO</string>
+    <string name="invalid_date_time_format">Neplatný formát data/času</string>
+    <string name="date_time_format_dd.MM.yyyy_HH.mm">Použijte formát dd.MM.yyyy HH:mm</string>
+    <string name="camera_permission">K pořizování fotografií je vyžadováno oprávnění k fotoaparátu</string>
+    <string name="from_before_to">Datum/čas OD musí být před datumem/časem DO</string>
+    <string name="from_to_required">Data OD a DO jsou povinná</string>
+    <string name="from_before_to_short">OD musí být před DO</string>
+    <string name="edit_info_all_day">Změňte datum tohoto celodenního úkolu.</string>
+    <string name="edit_info_duration">Změňte datum/čas OD a DO pro tento časový úkol.</string>
+    <string name="edit_info_clockin">Docházkový úkol: můžete upravit název a popis. Čas pochází ze startu/stop.</string>
+    <string name="all_day_date">Celý den: %1$s</string>
+    <string name="from_to_date">Od %1$s do %2$s</string>
+
+    <string-array name="status_labels">
+        <item>@string/status_not_started</item>
+        <item>@string/status_in_progress</item>
+        <item>@string/status_completed</item>
+    </string-array>
+
+</resources>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Menedżer zadań</string>
+    <string name="menu_language">Język</string>
+    <string name="select_language">Wybierz język</string>
+    <string name="search_language">Szukaj języka</string>
+    <string name="confirm">Potwierdź</string>
+    <string name="scheduler">Harmonogram</string>
+    <string name="calendar">Kalendarz</string>
+    <string name="todo">Do zrobienia</string>
+    <string name="submit">Zatwierdź</string>
+    <string name="stop">STOP</string>
+    <string name="filter">Filtr</string>
+    <string name="filter_by">Filtruj według</string>
+    <string name="select_all">Zaznacz wszystko</string>
+    <string name="cancel">Anuluj</string>
+    <string name="delete">Usuń</string>
+    <string name="edit">Edytuj</string>
+    <string name="enter_title">Wpisz tytuł</string>
+    <string name="title">Tytuł</string>
+    <string name="description">Opis</string>
+    <string name="required">Wymagane</string>
+    <string name="clockin">Zarejestruj wejście</string>
+    <string name="all_day">Cały dzień</string>
+    <string name="enter_duration">Wprowadź czas trwania</string>
+    <string name="type">Typ</string>
+    <string name="status">Status</string>
+    <string name="attachments">Załączniki</string>
+    <string name="start">Start</string>
+    <string name="remove">Usuń</string>
+    <string name="tasks_on">Zadania na %1$s</string>
+    <string name="no_tasks_on">Brak zadań na %1$s</string>
+    <string name="goto_date">Przejdź do daty</string>
+    <string name="select_date">Wybierz datę, aby zobaczyć zadania</string>
+    <string name="goto_date_hint">dd.mm.yyyy</string>
+    <string name="search_task_hint">Szukaj zadania...</string>
+    <string name="sort_by">Sortuj według</string>
+    <string name="delete_task_title">Usuń zadanie</string>
+    <string name="edit_task">Edytuj zadanie</string>
+    <string name="delete_task_msg">Czy na pewno chcesz usunąć to zadanie?</string>
+    <string name="task_deleted">Zadanie usunięte</string>
+    <string name="task_saved">Zadanie zapisane</string>
+    <string name="status_not_started">Nie rozpoczęte</string>
+    <string name="status_in_progress">W toku</string>
+    <string name="status_completed">Ukończone</string>
+    <string name="created_at">Utworzono</string>
+    <string name="started_on">Rozpoczęto: %1$s</string>
+    <string name="in_progress">W toku…</string>
+    <string name="task_details">Szczegóły zadania</string>
+    <string name="tab_scheduler">Harmonogram</string>
+    <string name="tab_calendar">Kalendarz</string>
+    <string name="tab_todo">Do zrobienia</string>
+    <string name="ok">OK</string>
+    <string name="yes">Tak</string>
+    <string name="save">Zapisz</string>
+    <string name="delete_task">Usuń zadanie</string>
+    <string name="delete_task_q">Usunąć zadanie?</string>
+    <string name="delete_task_confirm">Czy na pewno chcesz usunąć to zadanie?</string>
+    <string name="task_updated">Zadanie zaktualizowane</string>
+    <string name="in_progress_dots">W toku …</string>
+    <string name="empty_csv">Pusty plik CSV</string>
+    <string name="no_tasks_to_import">Brak zadań do importu</string>
+    <string name="import_failed">Import nie powiódł się: %1$s</string>
+    <string name="export_failed">Nie udało się wyeksportować CSV: %1$s</string>
+    <string name="attachment_added">Dodano załącznik</string>
+    <string name="add_attachment">Dodaj załącznik</string>
+    <string name="title_required">Tytuł jest wymagany</string>
+    <string name="date_required">Data jest wymagana</string>
+    <string name="invalid_date_format">Nieprawidłowy format daty</string>
+    <string name="csv_invalid_format">Nieobsługiwany format CSV. Zaimportuj CSV wyeksportowany z tej aplikacji.</string>
+    <string name="select_date_all_day">Wybierz datę dla zadania całodniowego</string>
+    <string name="select_from_to_dates">Wybierz daty OD i DO</string>
+    <string name="invalid_date_time_format">Nieprawidłowy format daty/godziny</string>
+    <string name="date_time_format_dd.MM.yyyy_HH.mm">Użyj formatu dd.MM.yyyy HH:mm</string>
+    <string name="camera_permission">Aby robić zdjęcia, wymagana jest zgoda na aparat</string>
+    <string name="from_before_to">Data/godzina OD musi być przed datą/godziną DO</string>
+    <string name="from_to_required">Daty OD i DO są wymagane</string>
+    <string name="from_before_to_short">OD musi być przed DO</string>
+    <string name="edit_info_all_day">Zmień datę tego zadania całodniowego.</string>
+    <string name="edit_info_duration">Zmień daty/godziny OD i DO dla tego zadania czasowego.</string>
+    <string name="edit_info_clockin">Zadanie rejestracji: możesz edytować tytuł i opis. Czas pochodzi z rejestracji/stop.</string>
+    <string name="all_day_date">Cały dzień: %1$s</string>
+    <string name="from_to_date">Od %1$s do %2$s</string>
+
+    <string-array name="status_labels">
+        <item>@string/status_not_started</item>
+        <item>@string/status_in_progress</item>
+        <item>@string/status_completed</item>
+    </string-array>
+
+</resources>

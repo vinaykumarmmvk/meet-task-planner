@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Менеджер завдань</string>
+    <string name="menu_language">Мова</string>
+    <string name="select_language">Виберіть мову</string>
+    <string name="search_language">Пошук мови</string>
+    <string name="confirm">Підтвердити</string>
+    <string name="scheduler">Планувальник</string>
+    <string name="calendar">Календар</string>
+    <string name="todo">Список справ</string>
+    <string name="submit">Надіслати</string>
+    <string name="stop">ЗУПИНИТИ</string>
+    <string name="filter">Фільтр</string>
+    <string name="filter_by">Фільтрувати за</string>
+    <string name="select_all">Вибрати все</string>
+    <string name="cancel">Скасувати</string>
+    <string name="delete">Видалити</string>
+    <string name="edit">Редагувати</string>
+    <string name="enter_title">Введіть назву</string>
+    <string name="title">Назва</string>
+    <string name="description">Опис</string>
+    <string name="required">Обов’язково</string>
+    <string name="clockin">Вхід (таймер)</string>
+    <string name="all_day">Увесь день</string>
+    <string name="enter_duration">Введіть тривалість</string>
+    <string name="type">Тип</string>
+    <string name="status">Статус</string>
+    <string name="attachments">Вкладення</string>
+    <string name="start">Почати</string>
+    <string name="remove">Прибрати</string>
+    <string name="tasks_on">Завдання на %1$s</string>
+    <string name="no_tasks_on">Немає завдань на %1$s</string>
+    <string name="goto_date">Перейти до дати</string>
+    <string name="select_date">Виберіть дату, щоб переглянути завдання</string>
+    <string name="goto_date_hint">dd.mm.yyyy</string>
+    <string name="search_task_hint">Пошук завдання...</string>
+    <string name="sort_by">Сортувати за</string>
+    <string name="delete_task_title">Видалити завдання</string>
+    <string name="edit_task">Редагувати завдання</string>
+    <string name="delete_task_msg">Ви впевнені, що хочете видалити це завдання?</string>
+    <string name="task_deleted">Завдання видалено</string>
+    <string name="task_saved">Завдання збережено</string>
+    <string name="status_not_started">Не розпочато</string>
+    <string name="status_in_progress">В процесі</string>
+    <string name="status_completed">Завершено</string>
+    <string name="created_at">Створено</string>
+    <string name="started_on">Розпочато: %1$s</string>
+    <string name="in_progress">В процесі…</string>
+    <string name="task_details">Деталі завдання</string>
+    <string name="tab_scheduler">Планувальник</string>
+    <string name="tab_calendar">Календар</string>
+    <string name="tab_todo">Список справ</string>
+    <string name="ok">OK</string>
+    <string name="yes">Так</string>
+    <string name="save">Зберегти</string>
+    <string name="delete_task">Видалити завдання</string>
+    <string name="delete_task_q">Видалити завдання?</string>
+    <string name="delete_task_confirm">Ви впевнені, що хочете видалити це завдання?</string>
+    <string name="task_updated">Завдання оновлено</string>
+    <string name="in_progress_dots">В процесі …</string>
+    <string name="empty_csv">Порожній CSV-файл</string>
+    <string name="no_tasks_to_import">Немає завдань для імпорту</string>
+    <string name="import_failed">Помилка імпорту: %1$s</string>
+    <string name="export_failed">Не вдалося експортувати CSV: %1$s</string>
+    <string name="attachment_added">Вкладення додано</string>
+    <string name="add_attachment">Додати вкладення</string>
+    <string name="title_required">Назва обов’язкова</string>
+    <string name="date_required">Дата обов’язкова</string>
+    <string name="invalid_date_format">Неправильний формат дати</string>
+    <string name="csv_invalid_format">Формат CSV не підтримується. Імпортуйте CSV, експортований з цього додатка.</string>
+    <string name="select_date_all_day">Виберіть дату для завдання на увесь день</string>
+    <string name="select_from_to_dates">Виберіть обидві дати/час ВІД і ДО</string>
+    <string name="invalid_date_time_format">Неправильний формат дати/часу</string>
+    <string name="date_time_format_dd.MM.yyyy_HH.mm">Використовуйте формат dd.MM.yyyy HH:mm</string>
+    <string name="camera_permission">Потрібен дозвіл камери для зйомки фото</string>
+    <string name="from_before_to">Дата/час ВІД має бути раніше за дату/час ДО</string>
+    <string name="from_to_required">Дати ВІД і ДО є обов’язкові</string>
+    <string name="from_before_to_short">ВІД має бути раніше ДО</string>
+    <string name="edit_info_all_day">Змініть дату для цього завдання на увесь день.</string>
+    <string name="edit_info_duration">Змініть дату/час ВІД і ДО для цього завдання з тривалістю.</string>
+    <string name="edit_info_clockin">Завдання з таймером: можна редагувати назву й опис. Час береться з запуску/стоп.</string>
+    <string name="all_day_date">Увесь день: %1$s</string>
+    <string name="from_to_date">Від %1$s до %2$s</string>
+
+    <string-array name="status_labels">
+        <item>@string/status_not_started</item>
+        <item>@string/status_in_progress</item>
+        <item>@string/status_completed</item>
+    </string-array>
+
+</resources>

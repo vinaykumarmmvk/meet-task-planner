@@ -24,6 +24,7 @@ import com.example.taskmanager.models.Task;
 import com.example.taskmanager.utils.TaskDotDecorator;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.format.TitleFormatter;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -53,6 +54,7 @@ public class CalendarFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        applyCalendarMonthLocaleFix();
         refreshCalendarDecorators();
 
         // Also refresh the list for the currently selected day (Bug fixes #1/#2)
@@ -62,6 +64,27 @@ public class CalendarFragment extends Fragment {
             calendarView.setSelectedDate(selected);
             showTasksForDay(selected);
             updateGotoDateText(selected);
+        }
+    }
+
+    private void applyCalendarMonthLocaleFix() {
+        if (calendarView == null) return;
+
+        final java.util.Locale locale = java.util.Locale.getDefault();
+
+        calendarView.setTitleFormatter(new TitleFormatter() {
+            @Override
+            public CharSequence format(CalendarDay day) {
+                java.text.SimpleDateFormat sdf =
+                        new java.text.SimpleDateFormat("MMMM yyyy", locale);
+                return sdf.format(day.getDate());
+            }
+        });
+
+        // Force header redraw immediately
+        CalendarDay current = calendarView.getCurrentDate();
+        if (current != null) {
+            calendarView.setCurrentDate(current);
         }
     }
 
@@ -95,6 +118,8 @@ public class CalendarFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         calendarView = view.findViewById(R.id.calendar_view);
+        applyCalendarMonthLocaleFix();
+
         textHeader = view.findViewById(R.id.text_calendar_tasks_header);
         textEmpty = view.findViewById(R.id.text_calendar_empty);
         recycler = view.findViewById(R.id.recycler_calendar_tasks);
