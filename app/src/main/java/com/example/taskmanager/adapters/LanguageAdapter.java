@@ -3,13 +3,13 @@ package com.example.taskmanager.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.taskmanager.R;
+import com.google.android.material.checkbox.MaterialCheckBox;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +33,14 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.VH> {
     public LanguageAdapter(List<LangItem> items, String currentCode) {
         all = new ArrayList<>(items);
         shown = new ArrayList<>(items);
-        selectedCode = currentCode;
+        // Ensure we always have a valid selection
+        if (currentCode != null && !currentCode.trim().isEmpty()) {
+            selectedCode = currentCode;
+        } else if (!items.isEmpty()) {
+            selectedCode = items.get(0).code;
+        } else {
+            selectedCode = null;
+        }
     }
 
     public String getSelectedCode() { return selectedCode; }
@@ -64,11 +71,30 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.VH> {
     public void onBindViewHolder(@NonNull VH h, int position) {
         LangItem item = shown.get(position);
         boolean sel = item.code.equals(selectedCode);
-        h.text.setText(sel ? ("✓ " + item.name) : item.name);
 
-        h.itemView.setOnClickListener(v -> {
+        // Prevent old listeners from firing during recycle
+        h.checkBox.setOnCheckedChangeListener(null);
+        h.checkBox.setText(item.name);
+        h.checkBox.setChecked(sel);
+
+        View.OnClickListener selectClick = v -> {
+            // Single-select behavior (checkbox UI, radio-like logic)
             selectedCode = item.code;
             notifyDataSetChanged();
+        };
+
+        h.itemView.setOnClickListener(selectClick);
+        h.checkBox.setOnClickListener(selectClick);
+        h.checkBox.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> {
+            if (isChecked) {
+                selectedCode = item.code;
+                notifyDataSetChanged();
+            } else {
+                // Keep at least one selected; revert uncheck
+                if (item.code.equals(selectedCode)) {
+                    buttonView.setChecked(true);
+                }
+            }
         });
     }
 
@@ -76,10 +102,10 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.VH> {
     public int getItemCount() { return shown.size(); }
 
     static class VH extends RecyclerView.ViewHolder {
-        EditText text;
+        MaterialCheckBox checkBox;
         VH(@NonNull View itemView) {
             super(itemView);
-            text = itemView.findViewById(R.id.edit_search_language);
+            checkBox = itemView.findViewById(R.id.cb_language);
         }
     }
 }

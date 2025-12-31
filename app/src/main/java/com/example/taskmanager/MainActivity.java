@@ -264,7 +264,10 @@ public class MainActivity extends BaseActivity {
                 LocaleHelper.saveLanguage(this, code);
 
                 // Restart MainActivity cleanly so tabs/fragments reload strings
-                recreate();
+                Intent i = new Intent(this, MainActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+                finish();
                 dialog.dismiss();
             });
         });

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ಟಾಸ್ಕ್ ಮ್ಯಾನೇಜರ್</string>
+    <string name="menu_language">ಭಾಷೆ</string>
+    <string name="select_language">ಭಾಷೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ</string>
+    <string name="search_language">ಭಾಷೆ ಹುಡುಕಿ</string>
+    <string name="confirm">ದೃಢೀಕರಿಸಿ</string>
+
+    <string name="scheduler">ಶೆಡ್ಯುಲರ್</string>
+    <string name="calendar">ಕ್ಯಾಲೆಂಡರ್</string>
+    <string name="todo">ಟು-ಡೂ</string>
+
+    <string name="submit">ಸಲ್ಲಿಸು</string>
+    <string name="stop">ನಿಲ್ಲಿಸು</string>
+
+    <string name="filter">ಫಿಲ್ಟರ್</string>
+    <string name="filter_by">ಇದರ ಆಧಾರದ ಮೇಲೆ ಫಿಲ್ಟರ್ ಮಾಡಿ</string>
+    <string name="select_all">ಎಲ್ಲವನ್ನೂ ಆಯ್ಕೆಮಾಡಿ</string>
+    <string name="cancel">ರದ್ದು</string>
+    <string name="delete">ಅಳಿಸಿ</string>
+    <string name="edit">ತಿದ್ದು</string>
+
+    <string name="enter_title">ಶೀರ್ಷಿಕೆ ನಮೂದಿಸಿ</string>
+    <string name="title">ಶೀರ್ಷಿಕೆ</string>
+    <string name="description">ವಿವರಣೆ</string>
+    <string name="required">ಅಗತ್ಯ</string>
+
+    <string name="clockin">ಕ್ಲಾಕ್-ಇನ್</string>
+    <string name="all_day">ಪೂರ್ಣ ದಿನ</string>
+    <string name="enter_duration">ಅವಧಿ ನಮೂದಿಸಿ</string>
+
+    <string name="type">ಪ್ರಕಾರ</string>
+    <string name="status">ಸ್ಥಿತಿ</string>
+    <string name="attachments">ಲಗತ್ತೆಗಳು</string>
+    <string name="start">ಪ್ರಾರಂಭಿಸಿ</string>
+    <string name="remove">ತೆಗೆದುಹಾಕಿ</string>
+
+    <string name="tasks_on">%1$s ರಂದು ಕಾರ್ಯಗಳು</string>
+    <string name="no_tasks_on">%1$s ರಂದು ಯಾವುದೇ ಕಾರ್ಯಗಳಿಲ್ಲ</string>
+
+    <string name="goto_date">ದಿನಾಂಕಕ್ಕೆ ಹೋಗಿ</string>
+    <string name="select_date">ಕಾರ್ಯಗಳನ್ನು ನೋಡಲು ದಿನಾಂಕವನ್ನು ಆಯ್ಕೆಮಾಡಿ</string>
+    <string name="goto_date_hint">dd.mm.yyyy</string>
+
+    <string name="search_task_hint">ಕಾರ್ಯವನ್ನು ಹುಡುಕಿ...</string>
+    <string name="sort_by">ಈ ಆಧಾರದ ಮೇಲೆ ವಿಂಗಡಿಸಿ</string>
+
+    <string name="delete_task_title">ಕಾರ್ಯವನ್ನು ಅಳಿಸಿ</string>
+    <string name="edit_task">ಕಾರ್ಯವನ್ನು ತಿದ್ದು</string>
+    <string name="delete_task_msg">ಈ ಕಾರ್ಯವನ್ನು ಅಳಿಸಲು ನೀವು ಖಚಿತವಾಗಿದ್ದೀರಾ?</string>
+
+    <string name="task_deleted">ಕಾರ್ಯ ಅಳಿಸಲಾಗಿದೆ</string>
+    <string name="task_saved">ಕಾರ್ಯ ಉಳಿಸಲಾಗಿದೆ</string>
+
+    <string name="status_not_started">ಪ್ರಾರಂಭವಾಗಿಲ್ಲ</string>
+    <string name="status_in_progress">ನಡೆಯುತ್ತಿದೆ</string>
+    <string name="status_completed">ಪೂರ್ಣಗೊಂಡಿದೆ</string>
+
+    <string name="created_at">ರಚಿಸಿದ ಸಮಯ</string>
+    <string name="started_on">ಪ್ರಾರಂಭಿಸಿದುದು: %1$s</string>
+    <string name="in_progress">ನಡೆಯುತ್ತಿದೆ…</string>
+
+    <string name="task_details">ಕಾರ್ಯದ ವಿವರಗಳು</string>
+
+    <string name="tab_scheduler">ಶೆಡ್ಯುಲರ್</string>
+    <string name="tab_calendar">ಕ್ಯಾಲೆಂಡರ್</string>
+    <string name="tab_todo">ಟು-ಡೂ</string>
+
+    <string name="ok">ಸರಿ</string>
+    <string name="yes">ಹೌದು</string>
+    <string name="save">ಉಳಿಸಿ</string>
+
+    <string name="delete_task">ಕಾರ್ಯವನ್ನು ಅಳಿಸಿ</string>
+    <string name="delete_task_q">ಕಾರ್ಯವನ್ನು ಅಳಿಸಬೇಕೆ?</string>
+    <string name="delete_task_confirm">ಈ ಕಾರ್ಯವನ್ನು ಅಳಿಸಲು ನೀವು ಖಚಿತವಾಗಿದ್ದೀರಾ?</string>
+
+    <string name="task_updated">ಕಾರ್ಯ ನವೀಕರಿಸಲಾಗಿದೆ</string>
+    <string name="in_progress_dots">ನಡೆಯುತ್ತಿದೆ …</string>
+
+    <string name="empty_csv">CSV ಕಡತ ಖಾಲಿಯಾಗಿದೆ</string>
+    <string name="no_tasks_to_import">ಆಮದು ಮಾಡಲು ಯಾವುದೇ ಕಾರ್ಯಗಳಿಲ್ಲ</string>
+    <string name="import_failed">ಆಮದು ವಿಫಲವಾಗಿದೆ: %1$s</string>
+    <string name="export_failed">CSV ರಫ್ತು ವಿಫಲವಾಗಿದೆ: %1$s</string>
+
+    <string name="attachment_added">ಲಗತ್ತೆ ಸೇರಿಸಲಾಗಿದೆ</string>
+    <string name="add_attachment">ಲಗತ್ತೆ ಸೇರಿಸಿ</string>
+
+    <string name="title_required">ಶೀರ್ಷಿಕೆ ಅಗತ್ಯವಾಗಿದೆ</string>
+    <string name="date_required">ದಿನಾಂಕ ಅಗತ್ಯವಾಗಿದೆ</string>
+    <string name="invalid_date_format">ಅಮಾನ್ಯ ದಿನಾಂಕ ಸ್ವರೂಪ</string>
+
+    <string name="csv_invalid_format">CSV ಸ್ವರೂಪ ಬೆಂಬಲಿತವಲ್ಲ. ದಯವಿಟ್ಟು ಈ ಆ್ಯಪ್‌ನಿಂದ ರಫ್ತು ಮಾಡಿದ CSV ಅನ್ನು ಮಾತ್ರ ಆಮದು ಮಾಡಿ.</string>
+
+    <string name="select_date_all_day">ಪೂರ್ಣ ದಿನದ ಕಾರ್ಯಕ್ಕಾಗಿ ದಿನಾಂಕವನ್ನು ಆಯ್ಕೆಮಾಡಿ</string>
+    <string name="select_from_to_dates">ದಯವಿಟ್ಟು FROM ಮತ್ತು TO ಎರಡೂ ದಿನಾಂಕಗಳನ್ನು ಆಯ್ಕೆಮಾಡಿ</string>
+
+    <string name="invalid_date_time_format">ಅಮಾನ್ಯ ದಿನಾಂಕ/ಸಮಯ ಸ್ವರೂಪ</string>
+    <string name="date_time_format_dd.MM.yyyy_HH.mm">dd.MM.yyyy HH:mm ಸ್ವರೂಪವನ್ನು ಬಳಸಿ</string>
+
+    <string name="camera_permission">ಫೋಟೋ ತೆಗೆಯಲು ಕ್ಯಾಮೆರಾ ಅನುಮತಿ ಅಗತ್ಯವಾಗಿದೆ</string>
+
+    <string name="from_before_to">FROM ದಿನಾಂಕ/ಸಮಯವು TO ದಿನಾಂಕ/ಸಮಯಕ್ಕಿಂತ ಮೊದಲು ಇರಬೇಕು</string>
+    <string name="from_to_required">FROM ಮತ್ತು TO ದಿನಾಂಕಗಳು ಅಗತ್ಯವಿವೆ</string>
+    <string name="from_before_to_short">FROM, TO ಗಿಂತ ಮೊದಲು ಇರಬೇಕು</string>
+
+    <string name="edit_info_all_day">ಈ ಪೂರ್ಣ ದಿನದ ಕಾರ್ಯದ ದಿನಾಂಕವನ್ನು ಬದಲಾಯಿಸಿ.</string>
+    <string name="edit_info_duration">ಈ ಅವಧಿ ಕಾರ್ಯಕ್ಕಾಗಿ FROM ಮತ್ತು TO ದಿನಾಂಕ/ಸಮಯವನ್ನು ಬದಲಾಯಿಸಿ.</string>
+    <string name="edit_info_clockin">ಕ್ಲಾಕ್-ಇನ್ ಕಾರ್ಯ: ನೀವು ಶೀರ್ಷಿಕೆ ಮತ್ತು ವಿವರಣೆಯನ್ನು ತಿದ್ದುಪಡಿ ಮಾಡಬಹುದು. ಸಮಯವು ಕ್ಲಾಕ್-ಇನ್/ಸ್ಟಾಪ್‌ನಿಂದ ಬರುತ್ತದೆ.</string>
+
+    <string name="all_day_date">ಪೂರ್ಣ ದಿನ: %1$s</string>
+    <string name="from_to_date">%1$s ರಿಂದ %2$s ವರೆಗೆ</string>
+
+    <string-array name="status_labels">
+        <item>@string/status_not_started</item>
+        <item>@string/status_in_progress</item>
+        <item>@string/status_completed</item>
+    </string-array>
+
+</resources>
