@@ -66,59 +66,7 @@ public class ReminderUtils {
 
         ensureNotificationChannel(context);
 
-        long now = System.currentTimeMillis();
-        Calendar startCal = Calendar.getInstance();
-        startCal.setTimeInMillis(task.startTimestamp);
-
-// We treat 00:00:00 as "no explicit time"
-        boolean hasExplicitTime =
-                !(startCal.get(Calendar.HOUR_OF_DAY) == 0
-                        && startCal.get(Calendar.MINUTE) == 0
-                        && startCal.get(Calendar.SECOND) == 0);
-
-        List<Long> triggers = new ArrayList<>();
-        boolean isAllDay = task.isAllDay;
-
-        if (hasExplicitTime && !isAllDay) {
-            // ---------- Enter Duration WITH start time ----------
-            long startMs = task.startTimestamp;
-
-            // 15 minutes before start
-            long fifteenBefore = startMs - 15 * 60 * 1000L;
-            if (fifteenBefore > now) {
-                triggers.add(fifteenBefore);
-            }
-
-            // At exact start time
-            if (startMs > now) {
-                triggers.add(startMs);
-            }
-
-        } else {
-            // ---------- All-day or date-only (no explicit time) ----------
-            // Same-day 09:00
-            Calendar sameDay9 = (Calendar) startCal.clone();
-            sameDay9.set(Calendar.HOUR_OF_DAY, 9);
-            sameDay9.set(Calendar.MINUTE, 0);
-            sameDay9.set(Calendar.SECOND, 0);
-            sameDay9.set(Calendar.MILLISECOND, 0);
-            long sameDay9Ms = sameDay9.getTimeInMillis();
-            if (sameDay9Ms > now) {
-                triggers.add(sameDay9Ms);
-            }
-
-            // Previous day 20:00
-            Calendar prevDay20 = (Calendar) startCal.clone();
-            prevDay20.add(Calendar.DAY_OF_YEAR, -1);
-            prevDay20.set(Calendar.HOUR_OF_DAY, 20);
-            prevDay20.set(Calendar.MINUTE, 0);
-            prevDay20.set(Calendar.SECOND, 0);
-            prevDay20.set(Calendar.MILLISECOND, 0);
-            long prevDay20Ms = prevDay20.getTimeInMillis();
-            if (prevDay20Ms > now) {
-                triggers.add(prevDay20Ms);
-            }
-        }
+        List<Long> triggers = computeReminderTriggers(task, System.currentTimeMillis(), true);
 
         AlarmManager alarmManager =
                 (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -166,6 +114,102 @@ public class ReminderUtils {
                     "Reminder set for: " + debugFormat.format(new Date(trigger)),
                     Toast.LENGTH_LONG).show();
         }
+    }
+
+    /**
+     * Cancel previously scheduled AlarmManager reminders for this task.
+     * Useful when a task is rescheduled (Prompt "update" commands).
+     */
+    public static void cancelRemindersForTask(Context context, Task task) {
+        if (context == null || task == null) return;
+
+        // Clock-in tasks have no scheduled alarms
+        if (!task.isAllDay && task.fromDate == null && task.toDate == null) {
+            return;
+        }
+        if (task.startTimestamp <= 0) return;
+
+        AlarmManager alarmManager =
+                (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        if (alarmManager == null) return;
+
+        // We cancel ALL triggers, including ones in the past, to be safe.
+        List<Long> triggers = computeReminderTriggers(task, 0L, false);
+        for (long trigger : triggers) {
+            Intent intent = new Intent(context, TaskReminderReceiver.class);
+            intent.putExtra("task_id", task.id);
+
+            int requestCode = buildRequestCode(task.id, trigger);
+            PendingIntent pi = PendingIntent.getBroadcast(
+                    context,
+                    requestCode,
+                    intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+            );
+
+            alarmManager.cancel(pi);
+        }
+    }
+
+    /**
+     * Compute reminder trigger times for a task.
+     *
+     * @param nowMillis only used when filterFutureOnly == true
+     * @param filterFutureOnly if true, only future triggers are returned
+     */
+    private static List<Long> computeReminderTriggers(Task task, long nowMillis, boolean filterFutureOnly) {
+        List<Long> triggers = new ArrayList<>();
+        if (task == null || task.startTimestamp <= 0) return triggers;
+
+        Calendar startCal = Calendar.getInstance();
+        startCal.setTimeInMillis(task.startTimestamp);
+
+        // We treat 00:00:00 as "no explicit time"
+        boolean hasExplicitTime =
+                !(startCal.get(Calendar.HOUR_OF_DAY) == 0
+                        && startCal.get(Calendar.MINUTE) == 0
+                        && startCal.get(Calendar.SECOND) == 0);
+
+        boolean isAllDay = task.isAllDay;
+
+        if (hasExplicitTime && !isAllDay) {
+            long startMs = task.startTimestamp;
+
+            long fifteenBefore = startMs - 15 * 60 * 1000L;
+            if (!filterFutureOnly || fifteenBefore > nowMillis) {
+                triggers.add(fifteenBefore);
+            }
+
+            if (!filterFutureOnly || startMs > nowMillis) {
+                triggers.add(startMs);
+            }
+
+        } else {
+            // Same-day 09:00
+            Calendar sameDay9 = (Calendar) startCal.clone();
+            sameDay9.set(Calendar.HOUR_OF_DAY, 9);
+            sameDay9.set(Calendar.MINUTE, 0);
+            sameDay9.set(Calendar.SECOND, 0);
+            sameDay9.set(Calendar.MILLISECOND, 0);
+            long sameDay9Ms = sameDay9.getTimeInMillis();
+            if (!filterFutureOnly || sameDay9Ms > nowMillis) {
+                triggers.add(sameDay9Ms);
+            }
+
+            // Previous day 20:00
+            Calendar prevDay20 = (Calendar) startCal.clone();
+            prevDay20.add(Calendar.DAY_OF_YEAR, -1);
+            prevDay20.set(Calendar.HOUR_OF_DAY, 20);
+            prevDay20.set(Calendar.MINUTE, 0);
+            prevDay20.set(Calendar.SECOND, 0);
+            prevDay20.set(Calendar.MILLISECOND, 0);
+            long prevDay20Ms = prevDay20.getTimeInMillis();
+            if (!filterFutureOnly || prevDay20Ms > nowMillis) {
+                triggers.add(prevDay20Ms);
+            }
+        }
+
+        return triggers;
     }
 
     /**

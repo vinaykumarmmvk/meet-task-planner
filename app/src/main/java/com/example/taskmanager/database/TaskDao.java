@@ -25,6 +25,10 @@ public interface TaskDao {
     @Query("SELECT * FROM tasks WHERE title LIKE '%' || :query || '%'")
     List<Task> searchByTitle(String query);
 
+    // Used by Prompt-Update commands (pick the most recently created match)
+    @Query("SELECT * FROM tasks WHERE title LIKE '%' || :query || '%' ORDER BY created_at DESC")
+    List<Task> searchByTitleNewestFirst(String query);
+
     @Insert
     long insertAndReturnId(Task task);
 

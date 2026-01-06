@@ -82,6 +82,31 @@
     <string name="all_day_date">All day: %1$s</string>
     <string name="from_to_date">From %1$s to %2$s</string>
 
+    <!-- Scheduler: internal tabs -->
+    <string name="tab_prompt" translatable="false">Prompt</string>
+    <string name="tab_manual" translatable="false">Manual</string>
+
+    <!-- Scheduler: Prompt tab -->
+    <string name="prompt_info" translatable="false">Type or speak a prompt like: “Set a meeting tomorrow at 10am until 6pm” or “Postpone the meetup weekly meeting to next Monday 10am to 11am”.</string>
+    <string name="prompt_hint" translatable="false">Describe what to create or update…</string>
+    <string name="speak" translatable="false">Speak</string>
+    <string name="run_prompt" translatable="false">Run</string>
+    <string name="speak_now" translatable="false">Speak now</string>
+    <string name="speech_not_available" translatable="false">Speech input not available on this device</string>
+
+    <string name="ai_disabled_message" translatable="false">AI prompts temporarily disabled. Please use Manual mode.</string>
+    <string name="ai_status_failed" translatable="false">AI status check failed: %1$s</string>
+
+    <string name="prompt_empty" translatable="false">Please enter a prompt</string>
+    <string name="prompt_request_failed" translatable="false">AI request failed: %1$s</string>
+    <string name="prompt_parse_failed" translatable="false">Could not parse that prompt. Try rephrasing.</string>
+    <string name="prompt_invalid_intent" translatable="false">AI returned an invalid intent</string>
+    <string name="prompt_missing_title" translatable="false">AI response missing title</string>
+    <string name="prompt_missing_time" translatable="false">AI response missing start/end time</string>
+    <string name="prompt_invalid_time_range" translatable="false">End time must be after start time</string>
+    <string name="prompt_update_not_found" translatable="false">Could not find an existing task with title: %1$s</string>
+    <string name="prompt_update_ongoing_not_allowed" translatable="false">Cannot reschedule a running (clock-in) task. Please stop it first.</string>
+
     <string-array name="status_labels">
         <item>@string/status_not_started</item>
         <item>@string/status_in_progress</item>
