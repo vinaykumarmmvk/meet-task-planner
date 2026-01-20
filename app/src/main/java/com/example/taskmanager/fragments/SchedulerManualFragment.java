@@ -52,7 +52,7 @@ import java.util.Locale;
 
 /**
  * Manual scheduler form (existing functionality), now hosted under Scheduler -> Manual tab.
- *
+ * <p>
  * NOTE: This is essentially the previous EnterDurationFragment implementation.
  */
 public class SchedulerManualFragment extends Fragment {
@@ -457,15 +457,27 @@ public class SchedulerManualFragment extends Fragment {
         }
 
         editTitle.addTextChangedListener(new TextWatcher() {
-            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
                 btnSubmit.setEnabled(!s.toString().trim().isEmpty());
             }
-            @Override public void afterTextChanged(Editable s) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
         });
 
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == -1) {
+                editDate.setVisibility(View.GONE);
+                layoutDuration.setVisibility(View.GONE);
+                btnSubmit.setText(getString(R.string.start));
+                layoutStatusRow.setVisibility(View.GONE);
+            } else if (checkedId == R.id.radio_clockin) {
                 editDate.setVisibility(View.GONE);
                 layoutDuration.setVisibility(View.GONE);
                 btnSubmit.setText(getString(R.string.start));

@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.taskmanager.R;
 import com.example.taskmanager.database.AppDatabase;
 import com.example.taskmanager.models.Task;
+import com.example.taskmanager.utils.DateUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,8 +64,12 @@ public class CalendarTaskAdapter extends RecyclerView.Adapter<CalendarTaskAdapte
         // Duration text (Requirement #16) - mimic Tasks tab formatting
         h.duration.setText(buildDurationLine(h.itemView.getContext(), t));
 
-        boolean isClockIn = !t.isAllDay && t.fromDate == null && t.toDate == null;
-        boolean isClockInInProgress = isClockIn && t.isOngoing;
+        boolean isClockInType =
+                !t.isAllDay
+                        && t.fromDate == null
+                        && t.toDate == null;
+
+        boolean isClockInInProgress = isClockInType && t.isOngoing;
 
         // ---- Spinner adapter (set once) ----
         if (h.statusSpinner.getAdapter() == null) {
@@ -90,10 +95,10 @@ public class CalendarTaskAdapter extends RecyclerView.Adapter<CalendarTaskAdapte
         applyCardBg(h, status);
 
         // Disable status change for clock-in in-progress (Requirement note)
-        h.statusSpinner.setEnabled(!isClockInInProgress);
+        h.statusSpinner.setEnabled(!isClockInType);
 
         // update DB on change (only if enabled)
-        if (!isClockInInProgress) {
+        if (!isClockInType) {
             h.statusSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
@@ -208,47 +213,37 @@ public class CalendarTaskAdapter extends RecyclerView.Adapter<CalendarTaskAdapte
     }
 
     private String buildDurationLine(Context ctx, Task task) {
-        // Keep it similar to Tasks tab
-        boolean isClockIn = !task.isAllDay && task.fromDate == null && task.toDate == null;
+        // Match Tasks tab formatting exactly
+        boolean isClockInType = !task.isAllDay && task.fromDate == null && task.toDate == null;
 
         if (task.isAllDay) {
-            // Example: "All day" (date shown in header already)
-            return ctx.getString(R.string.all_day);
+            // Same as TaskAdapter: "All day: 20.12.2012"
+            return ctx.getString(R.string.all_day_date, task.date != null ? task.date : "");
         }
 
-        if (isClockIn) {
+        if (task.fromDate != null && task.toDate != null) {
+            // Same as TaskAdapter: "From 19.01.2026 to .... (8 days 23 hr)"
+            String base = ctx.getString(R.string.from_to_date, task.fromDate, task.toDate);
+            String durStr = DateUtils.formatDuration(task.durationMillis);
+            return base + " (" + durStr + ")";
+        }
+
+        // Clock-in type
+        if (isClockInType) {
             if (task.isOngoing) {
-                String startedOn = (task.dateTime != null && !task.dateTime.trim().isEmpty())
-                        ? task.dateTime
-                        : (task.date != null ? task.date : "");
-                return startedOn.isEmpty()
-                        ? ctx.getString(R.string.in_progress)
-                        : ctx.getString(R.string.started_on, startedOn);
+                // show same in-progress style used elsewhere
+                return ctx.getString(R.string.in_progress_dots);
+            }
 
+            String durStr = DateUtils.formatDuration(task.durationMillis);
+            if (task.date != null) {
+                return task.date + " - " + durStr;
+            } else {
+                return durStr;
             }
-            // completed clock-in
-            if (task.durationMillis > 0) {
-                return formatDuration(task.durationMillis);
-            }
-            return "";
         }
 
-        // Duration task
-        if (task.durationMillis > 0) {
-            return formatDuration(task.durationMillis);
-        }
         return "";
     }
 
-    private String formatDuration(long millis) {
-        long seconds = millis / 1000;
-        long hours = seconds / 3600;
-        long minutes = (seconds % 3600) / 60;
-        long secs = seconds % 60;
-
-        if (hours > 0) {
-            return String.format(Locale.getDefault(), "%dh %02dm %02ds", hours, minutes, secs);
-        }
-        return String.format(Locale.getDefault(), "%dm %02ds", minutes, secs);
-    }
 }

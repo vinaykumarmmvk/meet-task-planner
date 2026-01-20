@@ -98,11 +98,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
 // Determine current status
 
-        boolean isClockInOngoing =
+        boolean isClockInType =
                 !task.isAllDay
                         && task.fromDate == null
-                        && task.toDate == null
-                        && task.isOngoing;
+                        && task.toDate == null;
+
+        boolean isClockInOngoing = isClockInType && task.isOngoing;
 
         if (isClockInOngoing) {
             statusText = Task.STATUS_IN_PROGRESS;
@@ -133,7 +134,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                 ctx.startActivity(intent);
             });
 
-            holder.statusSpinner.setEnabled(true);
+            holder.statusSpinner.setEnabled(!isClockInType);
+
         }
 
 // Set spinner selection WITHOUT triggering listener
@@ -144,7 +146,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         applyTaskCardBackground(holder, statusText);
 
 // Listener: update DB when user changes it (skip for ongoing clockin)
-        if (!isClockInOngoing) {
+        if (!isClockInType && !isClockInOngoing) {
+
             holder.statusSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 boolean first = true;
 
