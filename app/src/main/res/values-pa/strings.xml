@@ -88,4 +88,13 @@
         <item>@string/status_completed</item>
     </string-array>
 
+    <string name="sort_latest_first">ਨਵੇਂ ਪਹਿਲਾਂ</string>
+    <string name="sort_oldest_first">ਪੁਰਾਣੇ ਪਹਿਲਾਂ</string>
+    <string name="sort_duration_longest">ਅਵਧੀ (ਸਭ ਤੋਂ ਲੰਮੀ)</string>
+    <string name="sort_created_asc">ਬਣਾਇਆ (ਵੱਧਦਾ ਕ੍ਰਮ)</string>
+    <string name="sort_created_desc">ਬਣਾਇਆ (ਘਟਦਾ ਕ੍ਰਮ)</string>
+
+    <string name="attach">ਜੋੜੋ</string>
+    <string name="attach_files">ਫਾਈਲਾਂ ਜੋੜੋ</string>
+
 </resources>

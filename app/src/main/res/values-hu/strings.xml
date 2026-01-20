@@ -88,4 +88,13 @@
         <item>@string/status_completed</item>
     </string-array>
 
+    <string name="sort_latest_first">Legújabb elöl</string>
+    <string name="sort_oldest_first">Legrégebbi elöl</string>
+    <string name="sort_duration_longest">Időtartam (leghosszabb)</string>
+    <string name="sort_created_asc">Létrehozva (növekvő)</string>
+    <string name="sort_created_desc">Létrehozva (csökkenő)</string>
+
+    <string name="attach">Csatolás</string>
+    <string name="attach_files">Fájlok csatolása</string>
+
 </resources>

@@ -88,4 +88,13 @@
         <item>@string/status_completed</item>
     </string-array>
 
+    <string name="sort_latest_first">പുതിയത് ആദ്യം</string>
+    <string name="sort_oldest_first">പഴയത് ആദ്യം</string>
+    <string name="sort_duration_longest">ദൈർഘ്യം (ഏറ്റവും ദൈർഘ്യമുള്ളത്)</string>
+    <string name="sort_created_asc">സൃഷ്ടിച്ചത് (ആരോഹണം)</string>
+    <string name="sort_created_desc">സൃഷ്ടിച്ചത് (അവരോഹണം)</string>
+
+    <string name="attach">അറ്റാച്ച് ചെയ്യുക</string>
+    <string name="attach_files">ഫയലുകൾ അറ്റാച്ച് ചെയ്യുക</string>
+
 </resources>

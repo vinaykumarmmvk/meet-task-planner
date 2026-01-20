@@ -88,4 +88,13 @@
         <item>@string/status_completed</item>
     </string-array>
 
+    <string name="sort_latest_first">Новіші спочатку</string>
+    <string name="sort_oldest_first">Старіші спочатку</string>
+    <string name="sort_duration_longest">Тривалість (найдовша)</string>
+    <string name="sort_created_asc">Створено (за зростанням)</string>
+    <string name="sort_created_desc">Створено (за спаданням)</string>
+
+    <string name="attach">Додати</string>
+    <string name="attach_files">Додати файли</string>
+
 </resources>

@@ -88,4 +88,13 @@
         <item>@string/status_completed</item>
     </string-array>
 
+    <string name="sort_latest_first">Najnowsze najpierw</string>
+    <string name="sort_oldest_first">Najstarsze najpierw</string>
+    <string name="sort_duration_longest">Czas trwania (najdłuższy)</string>
+    <string name="sort_created_asc">Utworzono (rosnąco)</string>
+    <string name="sort_created_desc">Utworzono (malejąco)</string>
+
+    <string name="attach">Dołącz</string>
+    <string name="attach_files">Dołącz pliki</string>
+
 </resources>

@@ -88,4 +88,13 @@
         <item>@string/status_completed</item>
     </string-array>
 
+    <string name="sort_latest_first">En yeni önce</string>
+    <string name="sort_oldest_first">En eski önce</string>
+    <string name="sort_duration_longest">Süre (en uzun)</string>
+    <string name="sort_created_asc">Oluşturulma (artan)</string>
+    <string name="sort_created_desc">Oluşturulma (azalan)</string>
+
+    <string name="attach">Ekle</string>
+    <string name="attach_files">Dosya ekle</string>
+
 </resources>

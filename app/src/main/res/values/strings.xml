@@ -113,4 +113,17 @@
         <item>@string/status_completed</item>
     </string-array>
 
+    <string name="sort_latest_first">Latest first</string>
+    <string name="sort_oldest_first">Oldest first</string>
+    <string name="sort_duration_longest">Duration (longest)</string>
+    <string name="sort_created_asc">Created (Ascending)</string>
+    <string name="sort_created_desc">Created (Descending)</string>
+
+    <string name="attach">Attach</string>
+    <string name="attach_files">Attach files</string>
+
+    <string name="downloaded_to_downloads">Saved to Downloads</string>
+    <string name="download_failed">Download failed</string>
+    <string name="open_file">Open file</string>
+
 </resources>

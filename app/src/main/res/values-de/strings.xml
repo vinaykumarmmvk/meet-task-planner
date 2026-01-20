@@ -81,4 +81,13 @@
     <string name="edit_info_clockin">Einstempel-Aufgabe: Sie können Titel und Beschreibung bearbeiten. Die Zeit kommt vom Start/Stopp.</string>
     <string name="all_day_date">Ganztägig: %1$s</string>
     <string name="from_to_date">Von %1$s bis %2$s</string>
+
+    <string name="sort_latest_first">Neueste zuerst</string>
+    <string name="sort_oldest_first">Älteste zuerst</string>
+    <string name="sort_duration_longest">Dauer (längste)</string>
+    <string name="sort_created_asc">Erstellt (aufsteigend)</string>
+    <string name="sort_created_desc">Erstellt (absteigend)</string>
+
+    <string name="attach">Anhängen</string>
+    <string name="attach_files">Dateien anhängen</string>
 </resources>

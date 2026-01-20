@@ -76,13 +76,18 @@
             android:orientation="horizontal"
             android:gravity="end">
 
-            <ImageView
-                android:id="@+id/img_attach"
-                android:layout_width="40dp"
+            <Button
+                android:id="@+id/btn_attach"
+                android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:src="@drawable/ic_attach"
-                android:contentDescription="Attach files"
-                android:padding="4dp" />
+                android:text="@string/attach"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:drawableEnd="@drawable/ic_attach"
+                android:paddingHorizontal="12dp"
+                android:backgroundTint="#DBD7D7"
+                android:contentDescription="@string/attach_files"/>
+
         </LinearLayout>
 
         <!-- Dynamic list of attachments (filename + delete icon) -->

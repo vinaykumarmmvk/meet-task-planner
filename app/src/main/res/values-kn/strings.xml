@@ -116,4 +116,13 @@
         <item>@string/status_completed</item>
     </string-array>
 
+    <string name="sort_latest_first">ಇತ್ತೀಚಿನವು ಮೊದಲು</string>
+    <string name="sort_oldest_first">ಹಳೆಯವು ಮೊದಲು</string>
+    <string name="sort_duration_longest">ಅವಧಿ (ಅತಿ ದೀರ್ಘ)</string>
+    <string name="sort_created_asc">ರಚಿಸಲಾಗಿದೆ (ಏರುವ ಕ್ರಮ)</string>
+    <string name="sort_created_desc">ರಚಿಸಲಾಗಿದೆ (ಇಳಿಯುವ ಕ್ರಮ)</string>
+
+    <string name="attach">ಲಗತ್ತಿಸಿ</string>
+    <string name="attach_files">ಫೈಲ್‌ಗಳನ್ನು ಲಗತ್ತಿಸಿ</string>
+
 </resources>

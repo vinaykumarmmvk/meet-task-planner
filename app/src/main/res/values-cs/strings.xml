@@ -88,4 +88,13 @@
         <item>@string/status_completed</item>
     </string-array>
 
+    <string name="sort_latest_first">Nejnovější první</string>
+    <string name="sort_oldest_first">Nejstarší první</string>
+    <string name="sort_duration_longest">Doba trvání (nejdelší)</string>
+    <string name="sort_created_asc">Vytvořeno (vzestupně)</string>
+    <string name="sort_created_desc">Vytvořeno (sestupně)</string>
+
+    <string name="attach">Přiložit</string>
+    <string name="attach_files">Přiložit soubory</string>
+
 </resources>

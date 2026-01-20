@@ -116,4 +116,13 @@
         <item>@string/status_completed</item>
     </string-array>
 
+    <string name="sort_latest_first">नवीनतम पहले</string>
+    <string name="sort_oldest_first">सबसे पुराने पहले</string>
+    <string name="sort_duration_longest">अवधि (सबसे लंबी)</string>
+    <string name="sort_created_asc">निर्माण तिथि (आरोही)</string>
+    <string name="sort_created_desc">निर्माण तिथि (अवरोही)</string>
+
+    <string name="attach">संलग्न करें</string>
+    <string name="attach_files">फ़ाइल संलग्न करें</string>
+
 </resources>

@@ -69,7 +69,9 @@ public class SchedulerManualFragment extends Fragment {
     private static final int ATTACH_TYPE_FILE = 2;
 
     private View currentAttachmentTaskView = null;
+    private int currentAttachmentTaskIndex = -1;
     private Uri pendingCameraUri = null;
+    private boolean isPickingAttachment = false;
 
     public SchedulerManualFragment() {
     }
@@ -78,7 +80,22 @@ public class SchedulerManualFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode != Activity.RESULT_OK || currentAttachmentTaskView == null) {
+        isPickingAttachment = false;
+
+        if (resultCode != Activity.RESULT_OK) {
+            isPickingAttachment = false;
+            return;
+        }
+
+        // If the view reference was lost (e.g., UI refreshed), rebind it using stored index.
+        if (currentAttachmentTaskView == null || currentAttachmentTaskView.getParent() == null) {
+            if (taskContainer != null && currentAttachmentTaskIndex >= 0
+                    && currentAttachmentTaskIndex < taskContainer.getChildCount()) {
+                currentAttachmentTaskView = taskContainer.getChildAt(currentAttachmentTaskIndex);
+            }
+        }
+
+        if (currentAttachmentTaskView == null) {
             return;
         }
 
@@ -101,6 +118,15 @@ public class SchedulerManualFragment extends Fragment {
         }
 
         if (uri != null) {
+            // Persist permission for SAF URIs (images/files) so we can access later.
+            if (data != null && (requestCode == REQ_PICK_IMAGE || requestCode == REQ_PICK_FILE)) {
+                try {
+                    final int takeFlags = data.getFlags() & (Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    requireContext().getContentResolver().takePersistableUriPermission(uri, takeFlags);
+                } catch (Exception ignored) {
+                }
+            }
+
             addAttachmentToTaskView(currentAttachmentTaskView, uri, attachType);
             Toast.makeText(getContext(), getString(R.string.attachment_added), Toast.LENGTH_SHORT).show();
         }
@@ -298,7 +324,7 @@ public class SchedulerManualFragment extends Fragment {
         Button btnRemove = taskView.findViewById(R.id.btn_remove);
         Button btnSubmit = taskView.findViewById(R.id.btn_submit);
         RadioGroup radioGroup = taskView.findViewById(R.id.radio_group);
-        ImageView imgAttach = taskView.findViewById(R.id.img_attach);
+        Button btnAttach = taskView.findViewById(R.id.btn_attach);
 
         // status row + spinner
         LinearLayout layoutStatusRow = taskView.findViewById(R.id.layout_status_row);
@@ -332,8 +358,9 @@ public class SchedulerManualFragment extends Fragment {
         btnStop.setVisibility(View.VISIBLE);
         btnRemove.setVisibility(View.GONE);
 
-        imgAttach.setOnClickListener(v -> {
+        btnAttach.setOnClickListener(v -> {
             currentAttachmentTaskView = taskView;
+            currentAttachmentTaskIndex = taskContainer != null ? taskContainer.indexOfChild(taskView) : -1;
 
             String[] options = {"Take photo", "Choose photo", "Choose file"};
             new AlertDialog.Builder(requireContext())
@@ -381,16 +408,22 @@ public class SchedulerManualFragment extends Fragment {
     }
 
     private void launchImagePicker() {
+        isPickingAttachment = true;
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("image/*");
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
         startActivityForResult(intent, REQ_PICK_IMAGE);
     }
 
     private void launchFilePicker() {
+        isPickingAttachment = true;
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("*/*");
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
         startActivityForResult(intent, REQ_PICK_FILE);
     }
 
@@ -420,6 +453,8 @@ public class SchedulerManualFragment extends Fragment {
                 photoFile
         );
 
+        isPickingAttachment = true;
+
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, pendingCameraUri);
         intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
@@ -445,7 +480,7 @@ public class SchedulerManualFragment extends Fragment {
         Button btnRemove = taskView.findViewById(R.id.btn_remove);
         Button btnStop = taskView.findViewById(R.id.btn_stop);
         TextView textStart = taskView.findViewById(R.id.text_start_time);
-        ImageView imgAttach = taskView.findViewById(R.id.img_attach);
+        Button btnAttach = taskView.findViewById(R.id.btn_attach);
 
         Spinner spinnerStatus = taskView.findViewById(R.id.spinner_status);
         LinearLayout layoutStatusRow = taskView.findViewById(R.id.layout_status_row);
@@ -495,8 +530,9 @@ public class SchedulerManualFragment extends Fragment {
             }
         });
 
-        imgAttach.setOnClickListener(v -> {
+        btnAttach.setOnClickListener(v -> {
             currentAttachmentTaskView = taskView;
+            currentAttachmentTaskIndex = taskContainer != null ? taskContainer.indexOfChild(taskView) : -1;
 
             String[] options = {"Take photo", "Choose photo", "Choose file"};
             new AlertDialog.Builder(requireContext())
@@ -743,6 +779,27 @@ public class SchedulerManualFragment extends Fragment {
         taskContainer.addView(taskView);
     }
 
+
+    private boolean hasDraftFormOpen() {
+        if (taskContainer == null) return false;
+
+        for (int i = 0; i < taskContainer.getChildCount(); i++) {
+            View child = taskContainer.getChildAt(i);
+
+            EditText title = child.findViewById(R.id.edit_title);
+            Button submit = child.findViewById(R.id.btn_submit);
+            RadioGroup rg = child.findViewById(R.id.radio_group);
+
+            // Draft form: user-editable section (title enabled + submit visible + radio group visible)
+            if (title != null && title.isEnabled()
+                    && submit != null && submit.getVisibility() == View.VISIBLE
+                    && rg != null && rg.getVisibility() == View.VISIBLE) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void refreshOngoingTasksUi() {
         if (getContext() == null || taskContainer == null) return;
 
@@ -766,6 +823,7 @@ public class SchedulerManualFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        if (isPickingAttachment || hasDraftFormOpen()) return;  // do not wipe the draft form
         refreshOngoingTasksUi();
     }
 

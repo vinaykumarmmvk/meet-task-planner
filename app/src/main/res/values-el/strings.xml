@@ -88,4 +88,13 @@
         <item>@string/status_completed</item>
     </string-array>
 
+    <string name="sort_latest_first">Νεότερα πρώτα</string>
+    <string name="sort_oldest_first">Παλαιότερα πρώτα</string>
+    <string name="sort_duration_longest">Διάρκεια (μεγαλύτερη)</string>
+    <string name="sort_created_asc">Δημιουργήθηκε (αύξουσα)</string>
+    <string name="sort_created_desc">Δημιουργήθηκε (φθίνουσα)</string>
+
+    <string name="attach">Επισύναψη</string>
+    <string name="attach_files">Επισύναψη αρχείων</string>
+
 </resources>

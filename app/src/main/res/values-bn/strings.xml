@@ -88,4 +88,13 @@
         <item>@string/status_completed</item>
     </string-array>
 
+    <string name="sort_latest_first">সর্বশেষ আগে</string>
+    <string name="sort_oldest_first">সবচেয়ে পুরনো আগে</string>
+    <string name="sort_duration_longest">সময়কাল (সবচেয়ে দীর্ঘ)</string>
+    <string name="sort_created_asc">তৈরি (ঊর্ধ্বক্রমে)</string>
+    <string name="sort_created_desc">তৈরি (অধঃক্রমে)</string>
+
+    <string name="attach">সংযুক্ত করুন</string>
+    <string name="attach_files">ফাইল সংযুক্ত করুন</string>
+
 </resources>

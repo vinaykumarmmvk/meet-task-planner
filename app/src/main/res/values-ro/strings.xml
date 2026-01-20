@@ -88,4 +88,13 @@
         <item>@string/status_completed</item>
     </string-array>
 
+    <string name="sort_latest_first">Cele mai noi întâi</string>
+    <string name="sort_oldest_first">Cele mai vechi întâi</string>
+    <string name="sort_duration_longest">Durată (cea mai lungă)</string>
+    <string name="sort_created_asc">Creat (crescător)</string>
+    <string name="sort_created_desc">Creat (descrescător)</string>
+
+    <string name="attach">Atașează</string>
+    <string name="attach_files">Atașează fișiere</string>
+
 </resources>

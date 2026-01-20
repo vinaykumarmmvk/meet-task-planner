@@ -88,4 +88,13 @@
         <item>@string/status_completed</item>
     </string-array>
 
+    <string name="sort_latest_first">નવી પહેલા</string>
+    <string name="sort_oldest_first">જૂની પહેલા</string>
+    <string name="sort_duration_longest">અવધિ (સૌથી લાંબી)</string>
+    <string name="sort_created_asc">બનાવ્યું (આરોહી)</string>
+    <string name="sort_created_desc">બનાવ્યું (અવરોહી)</string>
+
+    <string name="attach">જોડો</string>
+    <string name="attach_files">ફાઇલો જોડો</string>
+
 </resources>
