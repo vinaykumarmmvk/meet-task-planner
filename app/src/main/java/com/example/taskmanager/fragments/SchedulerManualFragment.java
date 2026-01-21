@@ -28,6 +28,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.taskmanager.utils.AttachmentUtils;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -262,6 +264,7 @@ public class SchedulerManualFragment extends Fragment {
             tv.setSingleLine(true);
             tv.setEllipsize(TextUtils.TruncateAt.END);
             tv.setText(displayName);
+            tv.setOnClickListener(v -> AttachmentUtils.viewOnly(ctx, uri, displayName));
             row.addView(tv);
 
             ImageView imgDelete = new ImageView(ctx);

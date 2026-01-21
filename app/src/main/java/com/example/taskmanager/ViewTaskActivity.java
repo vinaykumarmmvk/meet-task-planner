@@ -35,6 +35,7 @@ import com.example.taskmanager.MainActivity;
 import com.example.taskmanager.database.AppDatabase;
 import com.example.taskmanager.models.Task;
 import com.example.taskmanager.utils.DateUtils;
+import com.example.taskmanager.utils.AttachmentUtils;
 import com.example.taskmanager.utils.DialogUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -630,7 +631,22 @@ public class ViewTaskActivity extends BaseActivity {
             tv.setSingleLine(true);
             tv.setEllipsize(TextUtils.TruncateAt.END);
             tv.setText(displayName);
+            tv.setOnClickListener(v -> AttachmentUtils.viewOnly(ctx, uri, displayName));
             row.addView(tv);
+
+            // Download icon (always available)
+            ImageView imgDownload = new ImageView(ctx);
+            LinearLayout.LayoutParams dlParams = new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+            );
+            imgDownload.setLayoutParams(dlParams);
+            imgDownload.setImageResource(android.R.drawable.stat_sys_download);
+            imgDownload.setColorFilter(0xFF444444);
+
+            imgDownload.setPadding(paddingPx, paddingPx, paddingPx, paddingPx);
+            imgDownload.setOnClickListener(v -> AttachmentUtils.downloadAndOpen(ctx, uri, displayName));
+            row.addView(imgDownload);
 
             ImageView imgDelete = new ImageView(ctx);
             LinearLayout.LayoutParams delParams = new LinearLayout.LayoutParams(
