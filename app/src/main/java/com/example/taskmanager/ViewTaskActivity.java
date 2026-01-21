@@ -52,6 +52,8 @@ public class ViewTaskActivity extends BaseActivity {
     private static final int REQ_PICK_FILE = 3002;
     private static final int REQ_TAKE_PHOTO = 3003;
     private static final int REQ_CAMERA_PERMISSION = 3004;
+    private static final int ATTACH_TYPE_IMAGE = 1;
+    private static final int ATTACH_TYPE_FILE = 2;
 
     private EditText editTitle, editDescription, editCreatedAt, textType;
     private LinearLayout layoutAllDay, layoutDuration, layoutClockin;
@@ -309,16 +311,39 @@ public class ViewTaskActivity extends BaseActivity {
         // Attachments: build list from URIs and generate display names
         attachmentUris.clear();
         attachmentNames.clear();
-        if (task.attachmentUris != null && !task.attachmentUris.trim().isEmpty()) {
-            String[] parts = task.attachmentUris.split(";");
-            for (String p : parts) {
-                if (!p.trim().isEmpty()) {
-                    Uri uri = Uri.parse(p.trim());
-                    attachmentUris.add(uri);
-                    attachmentNames.add(generateAttachmentDisplayName(uri));
+
+        /* 1️⃣ Read attachment NAMES saved by Scheduler */
+        List<String> savedNames = new ArrayList<>();
+        if (task.attachmentNames != null && !task.attachmentNames.trim().isEmpty()) {
+            String[] nameParts = task.attachmentNames.split(";");
+            for (String n : nameParts) {
+                if (!n.trim().isEmpty()) {
+                    savedNames.add(n.trim());
                 }
             }
         }
+
+        /* 2️⃣ Read attachment URIs */
+        if (task.attachmentUris != null && !task.attachmentUris.trim().isEmpty()) {
+            String[] uriParts = task.attachmentUris.split(";");
+
+            for (int i = 0; i < uriParts.length; i++) {
+                String p = uriParts[i].trim();
+                if (p.isEmpty()) continue;
+
+                Uri uri = Uri.parse(p);
+                attachmentUris.add(uri);
+
+                // ✅ USE NAME FROM SCHEDULER (same index)
+                if (i < savedNames.size()) {
+                    attachmentNames.add(savedNames.get(i));
+                } else {
+                    // fallback for old tasks
+                    attachmentNames.add("attachment");
+                }
+            }
+        }
+
 
         renderAttachments();
     }
@@ -495,17 +520,28 @@ public class ViewTaskActivity extends BaseActivity {
             // Clock-in: only title/description
         }
 
-        // Attachments => join URIs
+        // Attachments => join URIs + join Names
         if (attachmentUris.isEmpty()) {
             task.attachmentUris = null;
+            task.attachmentNames = null;
         } else {
-            StringBuilder sb = new StringBuilder();
+            // URIs
+            StringBuilder sbUris = new StringBuilder();
             for (int i = 0; i < attachmentUris.size(); i++) {
-                if (i > 0) sb.append(";");
-                sb.append(attachmentUris.get(i).toString());
+                if (i > 0) sbUris.append(";");
+                sbUris.append(attachmentUris.get(i).toString());
             }
-            task.attachmentUris = sb.toString();
+            task.attachmentUris = sbUris.toString();
+
+            // Names (must match same index order)
+            StringBuilder sbNames = new StringBuilder();
+            for (int i = 0; i < attachmentNames.size(); i++) {
+                if (i > 0) sbNames.append(";");
+                sbNames.append(attachmentNames.get(i));
+            }
+            task.attachmentNames = sbNames.toString();
         }
+
 
         SimpleDateFormat sdfFull = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault());
         task.dateTime = sdfFull.format(new Date());
@@ -571,7 +607,7 @@ public class ViewTaskActivity extends BaseActivity {
             Uri uri = attachmentUris.get(i);
             String displayName = (i < attachmentNames.size())
                     ? attachmentNames.get(i)
-                    : generateAttachmentDisplayName(uri);
+                    : getStableAttachmentDisplayName(uri);
 
             LinearLayout row = new LinearLayout(ctx);
             row.setOrientation(LinearLayout.HORIZONTAL);
@@ -627,67 +663,6 @@ public class ViewTaskActivity extends BaseActivity {
         }
     }
 
-    /**
-     * Generate display name in the pattern:
-     * img_YYMMDD_HHMMSS.jpg  for images
-     * doc_YYMMDD_HHMMSS.ext for other documents
-     */
-    private String generateAttachmentDisplayName(Uri uri) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd_HHmmss", Locale.getDefault());
-        String ts = sdf.format(new Date());
-
-        boolean isImage = false;
-        try {
-            String mime = getContentResolver().getType(uri);
-            if (mime != null && mime.startsWith("image/")) {
-                isImage = true;
-            }
-        } catch (Exception ignored) {
-        }
-
-        String uriStr = uri != null ? uri.toString().toLowerCase() : "";
-        if (!isImage) {
-            if (uriStr.endsWith(".jpg") || uriStr.endsWith(".jpeg")
-                    || uriStr.endsWith(".png") || uriStr.endsWith(".webp")) {
-                isImage = true;
-            }
-        }
-
-        if (isImage) {
-            return "img_" + ts + ".jpg";
-        }
-
-        // other docs: figure out extension
-        String ext = "";
-
-        try {
-            if ("content".equals(uri.getScheme())) {
-                Cursor c = getContentResolver().query(uri,
-                        new String[]{OpenableColumns.DISPLAY_NAME},
-                        null, null, null);
-                if (c != null) {
-                    if (c.moveToFirst()) {
-                        String originalName = c.getString(0);
-                        int dot = originalName != null ? originalName.lastIndexOf('.') : -1;
-                        if (dot >= 0 && dot < originalName.length() - 1) {
-                            ext = originalName.substring(dot);
-                        }
-                    }
-                    c.close();
-                }
-            }
-        } catch (Exception ignored) {
-        }
-
-        if (ext.isEmpty() && uriStr.contains(".")) {
-            int dot = uriStr.lastIndexOf('.');
-            if (dot >= 0 && dot < uriStr.length() - 1) {
-                ext = uriStr.substring(dot);
-            }
-        }
-
-        return "doc_" + ts + ext;
-    }
 
     // --------------- Attachment pickers -------------------
 
@@ -755,6 +730,91 @@ public class ViewTaskActivity extends BaseActivity {
         }
     }
 
+    /**
+     * Returns a STABLE display name for an attachment.
+     *
+     * IMPORTANT:
+     * - Do NOT generate a timestamp-based name here.
+     * - View/Edit screens can be opened multiple times; timestamp-based names will change on every reload.
+     *
+     * Strategy:
+     * 1) For content:// URIs -> use OpenableColumns.DISPLAY_NAME (original filename)
+     * 2) For file:// or FileProvider URIs -> use lastPathSegment / file name
+     * 3) Fallback -> "attachment"
+     */
+    private String getStableAttachmentDisplayName(Uri uri) {
+        if (uri == null) return "attachment";
+
+        // 1) content:// -> query the display name
+        if ("content".equalsIgnoreCase(uri.getScheme())) {
+            Cursor c = null;
+            try {
+                c = getContentResolver().query(uri,
+                        new String[]{OpenableColumns.DISPLAY_NAME},
+                        null, null, null);
+                if (c != null && c.moveToFirst()) {
+                    String name = c.getString(0);
+                    if (name != null && !name.trim().isEmpty()) {
+                        return name.trim();
+                    }
+                }
+            } catch (Exception ignored) {
+            } finally {
+                if (c != null) c.close();
+            }
+        }
+
+        // 2) file:// or FileProvider -> try lastPathSegment
+        String last = uri.getLastPathSegment();
+        if (last != null && !last.trim().isEmpty()) {
+            // Some providers may return a path-like segment; keep only the file name part.
+            int slash = last.lastIndexOf('/');
+            if (slash >= 0 && slash < last.length() - 1) {
+                last = last.substring(slash + 1);
+            }
+            return last.trim();
+        }
+
+        return "attachment";
+    }
+
+    private String generateAttachmentDisplayName(Uri uri, int attachType) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd_HHmmss", Locale.getDefault());
+        String ts = sdf.format(new Date());
+
+        if (attachType == ATTACH_TYPE_IMAGE) {
+            return "img_" + ts + ".jpg";
+        } else {
+            String ext = "";
+            String originalName = null;
+
+            try {
+                if (uri != null && "content".equals(uri.getScheme())) {
+                    Cursor c = getContentResolver().query(uri,
+                            new String[]{OpenableColumns.DISPLAY_NAME},
+                            null, null, null);
+                    if (c != null) {
+                        if (c.moveToFirst()) originalName = c.getString(0);
+                        c.close();
+                    }
+                }
+            } catch (Exception ignored) {}
+
+            if (originalName == null && uri != null) {
+                originalName = uri.getLastPathSegment();
+            }
+
+            if (originalName != null) {
+                int dot = originalName.lastIndexOf('.');
+                if (dot >= 0 && dot < originalName.length() - 1) {
+                    ext = originalName.substring(dot);
+                }
+            }
+
+            return "doc_" + ts + ext;
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode,
                                     int resultCode,
@@ -771,9 +831,14 @@ public class ViewTaskActivity extends BaseActivity {
         }
 
         if (uri != null) {
+            int type = (requestCode == REQ_PICK_IMAGE || requestCode == REQ_TAKE_PHOTO)
+                    ? ATTACH_TYPE_IMAGE
+                    : ATTACH_TYPE_FILE;
+
             attachmentUris.add(uri);
-            attachmentNames.add(generateAttachmentDisplayName(uri));
+            attachmentNames.add(generateAttachmentDisplayName(uri, type));
             renderAttachments();
         }
+
     }
 }

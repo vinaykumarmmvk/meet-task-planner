@@ -32,6 +32,9 @@ public class Task {
     @androidx.room.ColumnInfo(name = "attachment_uris")
     public String attachmentUris; // URIs separated by ';'
 
+    @ColumnInfo(name = "attachment_names")
+    public String attachmentNames;
+
     @ColumnInfo(name = "status")
     public String status;   // "Not started", "In Progress", "Completed"
 
