@@ -243,21 +243,7 @@ public class ViewTaskActivity extends BaseActivity {
 
         // ---------- Status ----------
         String status = task.status;
-        boolean isClockInType = !task.isAllDay && task.fromDate == null && task.toDate == null;
-
-// For clock-in: derive status from isOngoing if missing
-        if (isClockInType) {
-            if (task.isOngoing) {
-                status = Task.STATUS_IN_PROGRESS;
-            } else {
-                status = Task.STATUS_COMPLETED;
-            }
-        }
-
-        if (status == null || status.trim().isEmpty()) {
-            status = Task.STATUS_NOT_STARTED;
-        }
-        spinnerStatus.setSelection(com.example.taskmanager.utils.StatusUi.codeToIndex(status), false);
+        //boolean isClockInType = !task.isAllDay && task.fromDate == null && task.toDate == null;
 
         ArrayAdapter<CharSequence> adapter =
                 ArrayAdapter.createFromResource(
@@ -268,6 +254,7 @@ public class ViewTaskActivity extends BaseActivity {
 
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item_black);
         spinnerStatus.setAdapter(adapter);
+        spinnerStatus.setSelection(com.example.taskmanager.utils.StatusUi.codeToIndex(status), false);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
@@ -378,6 +365,11 @@ public class ViewTaskActivity extends BaseActivity {
         applyFieldBg(editCreatedAt, R.drawable.bg_field_view);
         applyFieldBg(textType, R.drawable.bg_field_view);
 
+        if (textType.getText().toString().equals("Clock-in"))
+            spinnerStatus.setBackgroundResource(R.drawable.bg_status_spinner_grey);
+        else
+            spinnerStatus.setBackgroundResource(spinnerBg);
+
         // All-day / Duration fields
         applyFieldBg(editAllDayDate, fieldBg);
         applyFieldBg(editFromDate, fieldBg);
@@ -385,10 +377,6 @@ public class ViewTaskActivity extends BaseActivity {
         applyFieldBg(editToDate, fieldBg);
         applyFieldBg(editToTime, fieldBg);
 
-        // Spinner background
-        if (spinnerStatus != null) {
-            spinnerStatus.setBackgroundResource(spinnerBg);
-        }
     }
 
     private void applyFieldBg(EditText et, int bgRes) {
