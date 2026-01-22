@@ -63,7 +63,9 @@ public class ViewTaskActivity extends BaseActivity {
     private TextView textClockinDate, textClockinDuration;
     private Spinner spinnerStatus;
 
-    private ImageView imgAddAttachment;
+    private TextView textHeader;
+
+    private TextView imgAddAttachment;
     private LinearLayout layoutAttachmentList;
     private ImageButton btnBack;
     private FloatingActionButton fabEdit, fabSave, fabDelete;
@@ -219,6 +221,7 @@ public class ViewTaskActivity extends BaseActivity {
         textClockinDate = findViewById(R.id.text_clockin_date);
         textClockinDuration = findViewById(R.id.text_clockin_duration);
         spinnerStatus = findViewById(R.id.spinner_status);
+        textHeader = findViewById(R.id.text_header);
         imgAddAttachment = findViewById(R.id.img_add_attachment);
         layoutAttachmentList = findViewById(R.id.layout_attachment_list);
         btnBack = findViewById(R.id.btn_back);
@@ -356,8 +359,47 @@ public class ViewTaskActivity extends BaseActivity {
         return sdf.format(new java.util.Date(ts));
     }
 
-    private void setModeView() {
+    private void applyModeUi(boolean editMode) {
+        // Badge + subtle background distinction between View and Edit modes
+        if (textHeader != null) {
+            if (editMode) {
+                textHeader.setText("Edit Task Details");
+            } else {
+                textHeader.setText("View Task Details");
+            }
+        }
+
+        int fieldBg = editMode ? R.drawable.bg_field_edit : R.drawable.bg_field_view;
+        int spinnerBg = editMode ? R.drawable.spinner_bg_white : R.drawable.spinner_bg_grey;
+
+        // Common fields
+        applyFieldBg(editTitle, fieldBg);
+        applyFieldBg(editDescription, fieldBg);
+        applyFieldBg(editCreatedAt, R.drawable.bg_field_view);
+        applyFieldBg(textType, R.drawable.bg_field_view);
+
+        // All-day / Duration fields
+        applyFieldBg(editAllDayDate, fieldBg);
+        applyFieldBg(editFromDate, fieldBg);
+        applyFieldBg(editFromTime, fieldBg);
+        applyFieldBg(editToDate, fieldBg);
+        applyFieldBg(editToTime, fieldBg);
+
+        // Spinner background
+        if (spinnerStatus != null) {
+            spinnerStatus.setBackgroundResource(spinnerBg);
+        }
+    }
+
+    private void applyFieldBg(EditText et, int bgRes) {
+        if (et == null) return;
+        et.setBackgroundResource(bgRes);
+        et.setPadding(et.getPaddingLeft(), et.getPaddingTop(), et.getPaddingRight(), et.getPaddingBottom());
+    }
+
+    void setModeView() {
         isEditMode = false;
+        applyModeUi(false);
         fabEdit.setVisibility(View.VISIBLE);
         fabSave.setVisibility(View.GONE);
 
@@ -380,6 +422,7 @@ public class ViewTaskActivity extends BaseActivity {
 
     private void setModeEdit() {
         isEditMode = true;
+        applyModeUi(true);
         fabEdit.setVisibility(View.GONE);
         fabSave.setVisibility(View.VISIBLE);
 

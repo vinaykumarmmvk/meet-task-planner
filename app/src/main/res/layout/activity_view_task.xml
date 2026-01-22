@@ -51,7 +51,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="16dp">
-
                 <!-- Title -->
                 <TextView
                     android:layout_width="match_parent"
@@ -150,8 +149,8 @@
                         android:entries="@array/task_status_options"
                         android:spinnerMode="dropdown"
                         android:background="@drawable/spinner_bg_white"
-                        app:popupTheme="@style/SpinnerPopupTheme"
-                        />
+                        app:popupTheme="@style/SpinnerPopupTheme"/>
+
                 </LinearLayout>
 
                 <!-- All-day block -->
@@ -177,7 +176,9 @@
                         android:focusable="false"
                         android:clickable="true"
                         android:textColor="#808080"
-                        android:textColorHint="#808080" />
+                        android:textColorHint="#808080"
+                        android:drawableEnd="@drawable/ic_tab_calendar"
+                        android:drawablePadding="6dp"/>
                 </LinearLayout>
 
                 <!-- Duration block -->
@@ -210,7 +211,9 @@
                             android:focusable="false"
                             android:clickable="true"
                             android:textColor="#808080"
-                            android:textColorHint="#808080" />
+                            android:textColorHint="#808080"
+                            android:drawableEnd="@drawable/ic_tab_calendar"
+                            android:drawablePadding="6dp"/>
 
                         <EditText
                             android:id="@+id/edit_from_time"
@@ -222,7 +225,9 @@
                             android:clickable="true"
                             android:layout_marginStart="8dp"
                             android:textColor="#808080"
-                            android:textColorHint="#808080" />
+                            android:textColorHint="#808080"
+                            android:drawableEnd="@drawable/ic_tab_calendar"
+                            android:drawablePadding="6dp"/>
                     </LinearLayout>
 
                     <TextView
@@ -247,7 +252,9 @@
                             android:focusable="false"
                             android:clickable="true"
                             android:textColor="#808080"
-                            android:textColorHint="#808080" />
+                            android:textColorHint="#808080"
+                            android:drawableEnd="@drawable/ic_tab_calendar"
+                            android:drawablePadding="6dp"/>
 
                         <EditText
                             android:id="@+id/edit_to_time"
@@ -259,7 +266,9 @@
                             android:clickable="true"
                             android:layout_marginStart="8dp"
                             android:textColor="#808080"
-                            android:textColorHint="#808080" />
+                            android:textColorHint="#808080"
+                            android:drawableEnd="@drawable/ic_tab_calendar"
+                            android:drawablePadding="6dp"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -315,13 +324,18 @@
                     android:orientation="horizontal"
                     android:gravity="end">
 
-                    <ImageView
+                    <TextView
                         android:id="@+id/img_add_attachment"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_attach"
-                        android:contentDescription="Add attachment"
-                        android:padding="4dp" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/attach"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:drawableEnd="@drawable/ic_attach"
+                        android:drawablePadding="6dp"
+                        android:padding="6dp"
+                        android:background="@drawable/bg_attach_button"
+                        android:contentDescription="@string/add_attachment" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -329,7 +343,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginTop="4dp" />
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="60dp"/>
 
             </LinearLayout>
         </ScrollView>
