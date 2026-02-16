@@ -12,9 +12,6 @@
     <!-- Needed for Prompt tab (backend calls) -->
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <!-- Needed for voice input (Prompt tab) -->
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
