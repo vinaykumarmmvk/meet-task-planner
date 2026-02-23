@@ -26,7 +26,7 @@
         tools:targetApi="31">
 
         <activity
-            android:name=".MainActivity"
+            android:name="com.enerflowlabs.todoplanner.MainActivity"
             android:configChanges="uiMode|orientation|screenSize"
             android:exported="true">
             <intent-filter>
@@ -35,8 +35,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ViewTaskActivity"
-            android:parentActivityName=".MainActivity"/>
+        <activity android:name="com.enerflowlabs.todoplanner.ViewTaskActivity"
+            android:parentActivityName="com.enerflowlabs.todoplanner.MainActivity"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -49,7 +49,7 @@
         </provider>
 
         <receiver
-            android:name=".notifications.TaskReminderReceiver"
+            android:name="com.enerflowlabs.todoplanner.notifications.TaskReminderReceiver"
             android:exported="false" />
 
     </application>
