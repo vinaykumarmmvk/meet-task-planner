@@ -19,6 +19,11 @@ public interface TaskDao {
     @Query("SELECT * FROM tasks ORDER BY startTimestamp DESC")
     List<Task> getAllTasks();
 
+    // Todo tab: hide repeat occurrences; show only master tasks
+    @Query("SELECT * FROM tasks WHERE repeat_parent_id IS NULL ORDER BY startTimestamp DESC")
+    List<Task> getTodoTasks();
+
+
     @Query("SELECT * FROM tasks WHERE date = :selectedDate OR fromDate = :selectedDate")
     List<Task> getTasksForDate(String selectedDate);
 

@@ -176,10 +176,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         }
 
         // ✅ Show pin if attachments exist
-        if (task.attachmentUris != null && !task.attachmentUris.trim().isEmpty()) {
-            holder.imgAttachmentPin.setVisibility(View.VISIBLE);
-        } else {
-            holder.imgAttachmentPin.setVisibility(View.GONE);
+        boolean hasAttachment = task.attachmentUris != null && !task.attachmentUris.trim().isEmpty();
+        holder.imgAttachmentPin.setVisibility(hasAttachment ? View.VISIBLE : View.GONE);
+
+        boolean isRepeat = "REPEAT".equals(task.taskType);
+        if (holder.imgRepeat != null) {
+            holder.imgRepeat.setVisibility(isRepeat ? View.VISIBLE : View.GONE);
         }
 
         holder.imgDelete.setOnClickListener(v ->
@@ -446,7 +448,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         TextView title, description, duration;
         Spinner statusSpinner;
 
-        ImageView imgDelete, imgEdit, imgAttachmentPin;
+        ImageView imgDelete, imgEdit, imgAttachmentPin, imgRepeat;
 
         TaskViewHolder(View view) {
             super(view);
@@ -456,6 +458,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             imgDelete = view.findViewById(R.id.img_delete);
             imgEdit = view.findViewById(R.id.img_edit);
             imgAttachmentPin = view.findViewById(R.id.img_attachment_pin);
+            imgRepeat = view.findViewById(R.id.img_repeat);
             statusSpinner = itemView.findViewById(R.id.spinner_status_inline);
 
         }

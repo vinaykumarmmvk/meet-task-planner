@@ -63,4 +63,18 @@ public class DateUtils {
             return hours + " hr " + minutes + " min";
         }
     }
+
+    // daysSelected: Mon..Sun as [0..6]
+    public static String joinSelectedWeekdays(boolean[] daysSelected) {
+        if (daysSelected == null || daysSelected.length != 7) return "";
+        String[] labels = new String[]{"MON","TUE","WED","THU","FRI","SAT","SUN"};
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 7; i++) {
+            if (daysSelected[i]) {
+                if (sb.length() > 0) sb.append(",");
+                sb.append(labels[i]);
+            }
+        }
+        return sb.toString();
+    }
 }

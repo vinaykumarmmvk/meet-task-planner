@@ -3,4 +3,6 @@
     <item name="tag_task_id" type="id" />
     <item name="tag_attachment_list" type="id" />
     <item name="tag_attachment_names" type="id" />
+    <item name="tag_repeat_frequency" type="id" />
+    <item name="tag_repeat_days" type="id" />
 </resources>

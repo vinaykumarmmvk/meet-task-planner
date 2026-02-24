@@ -220,11 +220,28 @@ public class CalendarFragment extends Fragment {
 
         textHeader.setText(getString(R.string.tasks_on, selectedDate));
 
-        List<Task> tasks = AppDatabase.getInstance(getContext())
+        // Load tasks for this date (includes repeat occurrences), but show only:
+        // - normal tasks
+        // - repeat master task (deduplicated), even if occurrences exist
+        List<Task> raw = AppDatabase.getInstance(getContext())
                 .taskDao()
                 .getTasksForDate(selectedDate);
 
-        if (tasks == null || tasks.isEmpty()) {
+        java.util.LinkedHashMap<Integer, Task> unique = new java.util.LinkedHashMap<>();
+        if (raw != null) {
+            for (Task t : raw) {
+                if (t.repeatParentId != null) {
+                    Task master = AppDatabase.getInstance(getContext()).taskDao().getTaskById(t.repeatParentId);
+                    if (master != null) unique.put(master.id, master);
+                } else {
+                    unique.put(t.id, t);
+                }
+            }
+        }
+
+        List<Task> tasks = new java.util.ArrayList<>(unique.values());
+
+        if (tasks.isEmpty()) {
             textEmpty.setVisibility(View.VISIBLE);
             textEmpty.setText(getString(R.string.no_tasks_on, selectedDate));
             adapter.setItems(null);

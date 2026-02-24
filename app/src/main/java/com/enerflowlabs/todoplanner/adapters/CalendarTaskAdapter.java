@@ -63,10 +63,11 @@ public class CalendarTaskAdapter extends RecyclerView.Adapter<CalendarTaskAdapte
         // Duration text (Requirement #16) - mimic Tasks tab formatting
         h.duration.setText(buildDurationLine(h.itemView.getContext(), t));
 
-        boolean isClockInType =
-                !t.isAllDay
-                        && t.fromDate == null
-                        && t.toDate == null;
+        boolean isRepeatType = "REPEAT".equals(t.taskType);
+        boolean isClockInType =  "CLOCKIN".equals(t.taskType) || (!isRepeatType
+                && !t.isAllDay
+                && t.fromDate == null
+                && t.toDate == null);
 
         boolean isClockInInProgress = isClockInType && t.isOngoing;
 
@@ -213,7 +214,8 @@ public class CalendarTaskAdapter extends RecyclerView.Adapter<CalendarTaskAdapte
 
     private String buildDurationLine(Context ctx, Task task) {
         // Match Tasks tab formatting exactly
-        boolean isClockInType = !task.isAllDay && task.fromDate == null && task.toDate == null;
+        boolean isRepeatType = "REPEAT".equals(task.taskType);
+        boolean isClockInType =  "CLOCKIN".equals(task.taskType) || (!isRepeatType && !task.isAllDay && task.fromDate == null && task.toDate == null);
 
         if (task.isAllDay) {
             // Same as TaskAdapter: "All day: 20.12.2012"

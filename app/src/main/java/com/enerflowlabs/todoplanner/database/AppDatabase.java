@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase;
 
 import com.enerflowlabs.todoplanner.models.Task;
 
-@Database(entities = {Task.class}, version = 7, exportSchema = false)
+@Database(entities = {Task.class}, version = 8, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase instance;

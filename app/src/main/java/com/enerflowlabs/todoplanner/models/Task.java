@@ -35,6 +35,19 @@ public class Task {
     @ColumnInfo(name = "attachment_names")
     public String attachmentNames;
 
+
+    @ColumnInfo(name = "task_type")
+    public String taskType; // "ALL_DAY", "DURATION", "CLOCK_IN", "REPEAT", "REPEAT_OCCURRENCE"
+
+    @ColumnInfo(name = "repeat_parent_id")
+    public Integer repeatParentId; // null for normal/master, set for occurrences
+
+    @ColumnInfo(name = "repeat_rule")
+    public String repeatRule; // "EVERY_DAY" or "CUSTOM_DAYS"
+
+    @ColumnInfo(name = "repeat_days")
+    public String repeatDays; // comma-separated: MON,TUE,WED,THU,FRI,SAT,SUN
+
     @ColumnInfo(name = "status")
     public String status;   // "Not started", "In Progress", "Completed"
 

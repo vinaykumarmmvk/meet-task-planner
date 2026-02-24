@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <RadioGroup
+        android:id="@+id/rg_frequency"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/rb_every_day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/every_day" />
+
+        <RadioButton
+            android:id="@+id/rb_custom_days"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/custom_days" />
+    </RadioGroup>
+
+    <LinearLayout
+        android:id="@+id/layout_days"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:layout_marginTop="12dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/cb_mon"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Mon" />
+
+            <CheckBox
+                android:id="@+id/cb_tue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Tue" />
+
+            <CheckBox
+                android:id="@+id/cb_wed"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Wed" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/cb_thu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Thu" />
+
+            <CheckBox
+                android:id="@+id/cb_fri"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Fri" />
+
+            <CheckBox
+                android:id="@+id/cb_sat"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Sat" />
+        </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/cb_sun"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sun" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_done"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/done"
+        android:layout_marginTop="16dp" />
+
+</LinearLayout>

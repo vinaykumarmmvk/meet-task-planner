@@ -38,6 +38,18 @@
             app:popupTheme="@style/SpinnerPopupTheme"
             android:background="@drawable/bg_status_spinner_grey" />
 
+
+
+        <!-- Repeat indicator -->
+        <ImageView
+            android:id="@+id/img_repeat"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/ic_repeat"
+            android:contentDescription="Repeat"
+            android:visibility="gone" />
+
         <!-- Attachment pin indicator -->
         <ImageView
             android:id="@+id/img_attachment_pin"

@@ -234,9 +234,29 @@ public class ViewTaskActivity extends BaseActivity {
         editCreatedAt.setText(formatCreatedAt(task.createdAt));
 
         String type;
-        if (task.isAllDay) type = "All-day";
-        else if (task.fromDate != null && task.toDate != null) type = "Duration";
-        else type = "Clock-in";
+        if (task.taskType != null) {
+            switch (task.taskType) {
+                case "REPEAT":
+                case "REPEAT_OCCURRENCE":
+                    type = "Repeat";
+                    break;
+                case "ALL_DAY":
+                    type = "All-day";
+                    break;
+                case "DURATION":
+                    type = "Duration";
+                    break;
+                case "CLOCK_IN":
+                default:
+                    type = "Clock-in";
+                    break;
+            }
+        } else {
+            // Backward compatibility for older tasks
+            if (task.isAllDay) type = "All-day";
+            else if (task.fromDate != null && task.toDate != null) type = "Duration";
+            else type = "Clock-in";
+        }
         textType.setText(type);
 
         // ---------- Status ----------

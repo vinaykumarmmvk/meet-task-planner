@@ -486,12 +486,20 @@ public class SchedulerManualFragment extends Fragment {
         RadioGroup radioGroup = taskView.findViewById(R.id.radio_group);
         RadioButton radioAllDay = taskView.findViewById(R.id.radio_all_day);
         RadioButton radioDuration = taskView.findViewById(R.id.radio_duration);
+        RadioButton radioRepeat = taskView.findViewById(R.id.radio_repeat);
         EditText editDate = taskView.findViewById(R.id.edit_date);
         EditText editFrom = taskView.findViewById(R.id.edit_from);
         EditText editTo = taskView.findViewById(R.id.edit_to);
         EditText editFromTime = taskView.findViewById(R.id.edit_from_time);
         EditText editToTime = taskView.findViewById(R.id.edit_to_time);
         LinearLayout layoutDuration = taskView.findViewById(R.id.layout_duration);
+        LinearLayout layoutRepeat = taskView.findViewById(R.id.layout_repeat);
+
+        EditText editRepeatStartDate = taskView.findViewById(R.id.edit_repeat_start_date);
+        EditText editRepeatEndDate = taskView.findViewById(R.id.edit_repeat_end_date);
+        EditText editRepeatStartTime = taskView.findViewById(R.id.edit_repeat_start_time);
+        EditText editRepeatEndTime = taskView.findViewById(R.id.edit_repeat_end_time);
+        Button btnFrequency = taskView.findViewById(R.id.btn_frequency);
         Button btnSubmit = taskView.findViewById(R.id.btn_submit);
         Button btnRemove = taskView.findViewById(R.id.btn_remove);
         Button btnStop = taskView.findViewById(R.id.btn_stop);
@@ -502,6 +510,43 @@ public class SchedulerManualFragment extends Fragment {
         LinearLayout layoutStatusRow = taskView.findViewById(R.id.layout_status_row);
 
         layoutStatusRow.setVisibility(View.GONE);
+
+        // Repeat frequency defaults: Every day
+        taskView.setTag(R.id.tag_repeat_frequency, true); // everyDay = true
+        taskView.setTag(R.id.tag_repeat_days, new boolean[]{true,true,true,true,true,true,true});
+        if (btnFrequency != null) {
+            btnFrequency.setText(getString(R.string.every_day));
+        }
+
+        if (btnFrequency != null) {
+            btnFrequency.setOnClickListener(v -> {
+                boolean everyDay = true;
+                boolean[] days = new boolean[]{true,true,true,true,true,true,true};
+
+                Object freqTag = taskView.getTag(R.id.tag_repeat_frequency);
+                Object daysTag = taskView.getTag(R.id.tag_repeat_days);
+                if (freqTag instanceof Boolean) {
+                    everyDay = (Boolean) freqTag;
+                }
+                if (daysTag instanceof boolean[]) {
+                    boolean[] tmp = (boolean[]) daysTag;
+                    if (tmp.length == 7) days = tmp;
+                }
+
+                FrequencyBottomSheetDialog sheet = FrequencyBottomSheetDialog.newInstance(everyDay, days);
+                sheet.setCallback((isEveryDay, selectedDays) -> {
+                    taskView.setTag(R.id.tag_repeat_frequency, isEveryDay);
+                    taskView.setTag(R.id.tag_repeat_days, selectedDays);
+
+                    if (isEveryDay) {
+                        btnFrequency.setText(getString(R.string.every_day));
+                    } else {
+                        btnFrequency.setText(getString(R.string.custom_days));
+                    }
+                });
+                sheet.show(getParentFragmentManager(), "frequency_sheet");
+            });
+        }
 
         if (prefillTitle != null) {
             editTitle.setText(prefillTitle);
@@ -526,21 +571,31 @@ public class SchedulerManualFragment extends Fragment {
             if (checkedId == -1) {
                 editDate.setVisibility(View.GONE);
                 layoutDuration.setVisibility(View.GONE);
+                layoutRepeat.setVisibility(View.GONE);
                 btnSubmit.setText(getString(R.string.start));
                 layoutStatusRow.setVisibility(View.GONE);
             } else if (checkedId == R.id.radio_clockin) {
                 editDate.setVisibility(View.GONE);
                 layoutDuration.setVisibility(View.GONE);
+                layoutRepeat.setVisibility(View.GONE);
                 btnSubmit.setText(getString(R.string.start));
                 layoutStatusRow.setVisibility(View.GONE);
             } else if (checkedId == R.id.radio_all_day) {
                 editDate.setVisibility(View.VISIBLE);
                 layoutDuration.setVisibility(View.GONE);
+                layoutRepeat.setVisibility(View.GONE);
                 btnSubmit.setText(getString(R.string.submit));
                 layoutStatusRow.setVisibility(View.VISIBLE);
             } else if (checkedId == R.id.radio_duration) {
                 editDate.setVisibility(View.GONE);
                 layoutDuration.setVisibility(View.VISIBLE);
+                layoutRepeat.setVisibility(View.GONE);
+                btnSubmit.setText(getString(R.string.submit));
+                layoutStatusRow.setVisibility(View.VISIBLE);
+            } else if (checkedId == R.id.radio_repeat) {
+                editDate.setVisibility(View.GONE);
+                layoutDuration.setVisibility(View.GONE);
+                layoutRepeat.setVisibility(View.VISIBLE);
                 btnSubmit.setText(getString(R.string.submit));
                 layoutStatusRow.setVisibility(View.VISIBLE);
             }
@@ -575,6 +630,11 @@ public class SchedulerManualFragment extends Fragment {
         editFromTime.setOnClickListener(v -> DialogUtils.showTimePicker(getContext(), editFromTime));
         editToTime.setOnClickListener(v -> DialogUtils.showTimePicker(getContext(), editToTime));
 
+        editRepeatStartDate.setOnClickListener(v -> DialogUtils.showDatePicker(getContext(), editRepeatStartDate));
+        editRepeatEndDate.setOnClickListener(v -> DialogUtils.showDatePicker(getContext(), editRepeatEndDate));
+        editRepeatStartTime.setOnClickListener(v -> DialogUtils.showTimePicker(getContext(), editRepeatStartTime));
+        editRepeatEndTime.setOnClickListener(v -> DialogUtils.showTimePicker(getContext(), editRepeatEndTime));
+
         btnRemove.setOnClickListener(v -> taskContainer.removeView(taskView));
 
         btnSubmit.setOnClickListener(v -> {
@@ -583,11 +643,17 @@ public class SchedulerManualFragment extends Fragment {
 
             boolean isAllDay = radioAllDay.isChecked();
             boolean isDuration = radioDuration.isChecked();
+            boolean isRepeat = radioRepeat != null && radioRepeat.isChecked();
             String dateStr = editDate.getText().toString().trim();
             String fromStr = editFrom.getText().toString().trim();
             String toStr = editTo.getText().toString().trim();
             String fromTimeStr = editFromTime.getText().toString().trim();
             String toTimeStr = editToTime.getText().toString().trim();
+
+            String repeatStartDateStr = editRepeatStartDate != null ? editRepeatStartDate.getText().toString().trim() : "";
+            String repeatEndDateStr = editRepeatEndDate != null ? editRepeatEndDate.getText().toString().trim() : "";
+            String repeatStartTimeStr = editRepeatStartTime != null ? editRepeatStartTime.getText().toString().trim() : "";
+            String repeatEndTimeStr = editRepeatEndTime != null ? editRepeatEndTime.getText().toString().trim() : "";
 
             long currentTimeMillis = System.currentTimeMillis();
             SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault());
@@ -599,7 +665,7 @@ public class SchedulerManualFragment extends Fragment {
             }
 
             // CASE 1: Manual Timer (no radio selected)
-            if (!isAllDay && !isDuration) {
+            if (!isAllDay && !isDuration && !isRepeat) {
                 radioGroup.setVisibility(View.GONE);
                 long startTime = System.currentTimeMillis();
 
@@ -651,6 +717,209 @@ public class SchedulerManualFragment extends Fragment {
                 textStart.setVisibility(View.VISIBLE);
                 textStart.setText(getString(R.string.started_on, formattedDateTime));
                 taskView.setTag(R.id.tag_task_id, task.id);
+                return;
+            }
+
+
+            // CASE 2: Repeat selected
+            if (isRepeat) {
+                if (repeatStartDateStr.isEmpty() || repeatEndDateStr.isEmpty()) {
+                    Toast.makeText(getContext(), getString(R.string.select_date_range), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (repeatStartTimeStr.isEmpty()) repeatStartTimeStr = "00:00";
+                if (repeatEndTimeStr.isEmpty()) repeatEndTimeStr = "23:59";
+
+                // Frequency selection
+                boolean everyDay = true;
+                boolean[] daysSelected = new boolean[]{true,true,true,true,true,true,true};
+                Object freqTag = taskView.getTag(R.id.tag_repeat_frequency);
+                Object daysTag = taskView.getTag(R.id.tag_repeat_days);
+                if (freqTag instanceof Boolean) everyDay = (Boolean) freqTag;
+                if (daysTag instanceof boolean[]) {
+                    boolean[] tmp = (boolean[]) daysTag;
+                    if (tmp.length == 7) daysSelected = tmp;
+                }
+
+                if (!everyDay) {
+                    boolean any = false;
+                    for (boolean b : daysSelected) {
+                        if (b) { any = true; break; }
+                    }
+                    if (!any) {
+                        Toast.makeText(getContext(), getString(R.string.select_custom_days), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+
+                // Parse start/end dates
+                SimpleDateFormat dayFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+                SimpleDateFormat dtFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault());
+
+                Date startDay;
+                Date endDay;
+                try {
+                    startDay = dayFormat.parse(repeatStartDateStr);
+                    endDay = dayFormat.parse(repeatEndDateStr);
+                } catch (ParseException e) {
+                    Toast.makeText(getContext(), getString(R.string.invalid_date_format), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (startDay == null || endDay == null) {
+                    Toast.makeText(getContext(), getString(R.string.invalid_date_format), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (startDay.after(endDay)) {
+                    Toast.makeText(getContext(), getString(R.string.from_before_to), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // Attachments copied to each created task
+                ArrayList<Uri> attachments = (ArrayList<Uri>) taskView.getTag(R.id.tag_attachment_list);
+                String attachmentUrisJoined = null;
+                String attachmentNamesJoined = null;
+                if (attachments != null && !attachments.isEmpty()) {
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = 0; i < attachments.size(); i++) {
+                        if (i > 0) sb.append(";");
+                        sb.append(attachments.get(i).toString());
+                    }
+                    attachmentUrisJoined = sb.toString();
+                    attachmentNamesJoined = joinAttachmentNamesFromView(taskView);
+                }
+
+                int statusPos = spinnerStatus.getSelectedItemPosition();
+                //int statusCode = com.enerflowlabs.todoplanner.utils.StatusUi.indexToCode(statusPos);
+
+                // Iterate days
+                long oneDay = 24L * 60L * 60L * 1000L;
+                long startMs = startDay.getTime();
+                long endMs = endDay.getTime();
+
+
+
+                // Create master Repeat task (shown in Todo tab)
+                Task master = new Task();
+                master.title = title;
+                master.description = desc;
+                master.isAllDay = false;
+                master.fromDate = repeatStartDateStr; // range start
+                master.toDate = repeatEndDateStr;     // range end
+                master.date = null;
+                master.dateTime = formattedDateTime;
+                master.createdAt = System.currentTimeMillis();
+                master.status = com.enerflowlabs.todoplanner.utils.StatusUi.indexToCode(statusPos);
+
+                master.taskType = "REPEAT";
+                master.repeatParentId = null;
+                master.repeatRule = everyDay ? "EVERY_DAY" : "CUSTOM_DAYS";
+                master.repeatDays = everyDay ? "MON,TUE,WED,THU,FRI,SAT,SUN" : DateUtils.joinSelectedWeekdays(daysSelected);
+
+                // Use start/end time of the first day for sorting
+                try {
+                    Date masterStartDt = dtFormat.parse(repeatStartDateStr + " " + repeatStartTimeStr);
+                    Date masterEndDt = dtFormat.parse(repeatStartDateStr + " " + repeatEndTimeStr);
+                    if (masterStartDt != null) master.startTimestamp = masterStartDt.getTime();
+                    if (masterEndDt != null) master.stopTimestamp = masterEndDt.getTime();
+                    if (masterStartDt != null && masterEndDt != null) master.durationMillis = masterEndDt.getTime() - masterStartDt.getTime();
+                } catch (ParseException ignored) {}
+
+                master.attachmentUris = attachmentUrisJoined;
+                master.attachmentNames = attachmentNamesJoined;
+
+                long masterIdLong = AppDatabase.getInstance(getContext()).taskDao().insertAndReturnId(master);
+                int masterId = (int) masterIdLong;
+                master.id = masterId;
+
+                int createdCount = 0;
+                long firstDuration = 0L;
+
+                for (long dayMs = startMs; dayMs <= endMs; dayMs += oneDay) {
+                    Date d = new Date(dayMs);
+
+                    // Map Java Date day-of-week to Mon-Sun index (0..6)
+                    java.util.Calendar cal = java.util.Calendar.getInstance();
+                    cal.setTime(d);
+                    int dow = cal.get(java.util.Calendar.DAY_OF_WEEK); // 1=Sun..7=Sat
+                    int idx;
+                    if (dow == java.util.Calendar.SUNDAY) idx = 6;
+                    else idx = dow - 2; // Mon=2 -> 0 ... Sat=7 -> 5
+
+                    if (!everyDay && !daysSelected[idx]) {
+                        continue;
+                    }
+
+                    String dayStr = dayFormat.format(d);
+
+                    Date startDt;
+                    Date endDt;
+                    try {
+                        startDt = dtFormat.parse(dayStr + " " + repeatStartTimeStr);
+                        endDt = dtFormat.parse(dayStr + " " + repeatEndTimeStr);
+                    } catch (ParseException e) {
+                        Toast.makeText(getContext(), getString(R.string.invalid_date_time_format), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    if (startDt == null || endDt == null || startDt.after(endDt)) {
+                        Toast.makeText(getContext(), getString(R.string.from_before_to), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    long eventStartMillis = startDt.getTime();
+                    long eventEndMillis = endDt.getTime();
+                    long duration = eventEndMillis - eventStartMillis;
+
+                    Task task = new Task();
+                    task.title = title;
+                    task.description = desc;
+                    task.isAllDay = false;
+
+                    // Mark as repeat occurrence (hidden in Todo tab; Calendar will map it back to master)
+                    task.taskType = "REPEAT_OCCURRENCE";
+                    task.repeatParentId = masterId;
+                    task.repeatRule = null;
+                    task.repeatDays = null;
+
+                    task.fromDate = dayStr;
+                    task.toDate = dayStr;
+                    task.date = null;
+
+                    task.startTimestamp = eventStartMillis;
+                    task.stopTimestamp = eventEndMillis;
+                    task.durationMillis = duration;
+
+                    task.dateTime = formattedDateTime;
+                    task.createdAt = System.currentTimeMillis();
+                    task.status = com.enerflowlabs.todoplanner.utils.StatusUi.indexToCode(statusPos);
+
+                    task.attachmentUris = attachmentUrisJoined;
+                    task.attachmentNames = attachmentNamesJoined;
+
+                    long taskId = AppDatabase.getInstance(getContext()).taskDao().insertAndReturnId(task);
+                    task.id = (int) taskId;
+
+                    // Reminder per occurrence
+                    ReminderUtils.scheduleReminderForTask(requireContext(), task);
+                    createdCount++;
+                    if (createdCount == 1) firstDuration = duration;
+                }
+
+                if (createdCount == 0) {
+                    Toast.makeText(getContext(), getString(R.string.select_custom_days), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                String durationStr = DateUtils.formatDuration(firstDuration);
+                DialogUtils.showSuccessDialog(getContext(),
+                        "Title: " + title +
+                                "\nDescription: " + desc +
+                                "\nDuration: " + durationStr +
+                                "\n\n" + createdCount + " occurrences created successfully!");
+
+                taskContainer.removeView(taskView);
                 return;
             }
 

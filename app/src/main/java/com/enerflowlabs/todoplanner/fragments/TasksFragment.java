@@ -557,7 +557,7 @@ public class TasksFragment extends Fragment {
         Context ctx = getContext();
         if (ctx == null) return;
 
-        List<Task> tasks = AppDatabase.getInstance(ctx).taskDao().getAllTasks();
+        List<Task> tasks = AppDatabase.getInstance(ctx).taskDao().getTodoTasks();
         // or getAll(), use whatever you currently use
 
         StringBuilder sb = new StringBuilder();
@@ -799,7 +799,7 @@ public class TasksFragment extends Fragment {
         List<Task> latestFromDb = AppDatabase
                 .getInstance(getContext())
                 .taskDao()
-                .getAllTasks();
+                .getTodoTasks(); // hides repeat occurrences
         if (latestFromDb != null) {
             allTasks.addAll(latestFromDb);
         }
@@ -816,6 +816,8 @@ public class TasksFragment extends Fragment {
         // 1) Filter by title (in-memory)
         List<Task> filtered = new ArrayList<>();
         for (Task task : allTasks) {
+
+            if (task.repeatParentId != null) continue; // never show occurrences in Todotab
 
             // --- Type detection (same logic style as your exportTasksToCsv) ---
             boolean isClockIn = !task.isAllDay && task.fromDate == null && task.toDate == null;
