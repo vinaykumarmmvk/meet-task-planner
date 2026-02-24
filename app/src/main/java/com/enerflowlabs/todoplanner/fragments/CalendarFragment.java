@@ -29,6 +29,7 @@ import com.prolificinteractive.materialcalendarview.format.TitleFormatter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -101,14 +102,68 @@ public class CalendarFragment extends Fragment {
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy", Locale.US);
 
         for (Task task : allTasks) {
-            String d = (task.date != null && !task.date.isEmpty()) ? task.date : task.fromDate;
-            if (d == null || d.isEmpty()) continue;
 
             try {
-                java.util.Date date = sdf.parse(d);
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(date);
-                taskDates.add(CalendarDay.from(cal));
+
+                // ✅ 1) Repeat occurrences: dot only their own date
+                // (occurrences are already created only on selected weekdays)
+                if (task.repeatParentId != null || "REPEAT_OCCURRENCE".equals(task.taskType)) {
+                    if (task.fromDate != null && !task.fromDate.trim().isEmpty()) {
+                        Date d = sdf.parse(task.fromDate);
+                        if (d != null) {
+                            Calendar c = Calendar.getInstance();
+                            c.setTime(d);
+                            taskDates.add(CalendarDay.from(c));
+                        }
+                    }
+                    continue;
+                }
+
+                // ✅ 2) Repeat master: DO NOT expand range for dots
+                if ("REPEAT".equals(task.taskType)) {
+                    // skip master here; occurrences will provide the correct dots
+                    continue;
+                }
+
+                // ✅ 3) All-day task dot
+                if (task.isAllDay) {
+                    if (task.date != null && !task.date.trim().isEmpty()) {
+                        Date d = sdf.parse(task.date);
+                        if (d != null) {
+                            Calendar c = Calendar.getInstance();
+                            c.setTime(d);
+                            taskDates.add(CalendarDay.from(c));
+                        }
+                    }
+                    continue;
+                }
+
+                // ✅ 4) Duration tasks: expand dots across fromDate -> toDate
+                if (task.fromDate != null && task.toDate != null) {
+                    Date start = sdf.parse(task.fromDate);
+                    Date end = sdf.parse(task.toDate);
+                    if (start == null || end == null) continue;
+
+                    Calendar c = Calendar.getInstance();
+                    c.setTime(start);
+
+                    Calendar endCal = Calendar.getInstance();
+                    endCal.setTime(end);
+
+                    while (!c.after(endCal)) {
+                        taskDates.add(CalendarDay.from(c));
+                        c.add(Calendar.DAY_OF_MONTH, 1);
+                    }
+                    continue;
+                }
+
+                // ✅ 5) Clock-in / fallback: dot on startTimestamp day
+                if (task.startTimestamp > 0) {
+                    Calendar c = Calendar.getInstance();
+                    c.setTimeInMillis(task.startTimestamp);
+                    taskDates.add(CalendarDay.from(c));
+                }
+
             } catch (ParseException ignored) { }
         }
 
@@ -223,9 +278,18 @@ public class CalendarFragment extends Fragment {
         // Load tasks for this date (includes repeat occurrences), but show only:
         // - normal tasks
         // - repeat master task (deduplicated), even if occurrences exist
+        Calendar cal = Calendar.getInstance();
+        cal.set(date.getYear(), date.getMonth(), date.getDay(), 0, 0, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        long dayStart = cal.getTimeInMillis();
+
+        cal.set(date.getYear(), date.getMonth(), date.getDay(), 23, 59, 59);
+        cal.set(Calendar.MILLISECOND, 999);
+        long dayEnd = cal.getTimeInMillis();
+
         List<Task> raw = AppDatabase.getInstance(getContext())
                 .taskDao()
-                .getTasksForDate(selectedDate);
+                .getTasksForDate(dayStart, dayEnd);
 
         java.util.LinkedHashMap<Integer, Task> unique = new java.util.LinkedHashMap<>();
         if (raw != null) {

@@ -31,6 +31,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import com.enerflowlabs.todoplanner.database.AppDatabase;
+import com.enerflowlabs.todoplanner.fragments.FrequencyBottomSheetDialog;
 import com.enerflowlabs.todoplanner.models.Task;
 import com.enerflowlabs.todoplanner.utils.DateUtils;
 import com.enerflowlabs.todoplanner.utils.AttachmentUtils;
@@ -41,6 +42,7 @@ import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -55,9 +57,9 @@ public class ViewTaskActivity extends BaseActivity {
     private static final int ATTACH_TYPE_FILE = 2;
 
     private EditText editTitle, editDescription, editCreatedAt, textType;
-    private LinearLayout layoutAllDay, layoutDuration, layoutClockin;
+    private LinearLayout layoutAllDay, layoutDuration, layoutClockin, layoutFrequency;
     private EditText editAllDayDate;
-    private EditText editFromDate, editFromTime, editToDate, editToTime;
+    private EditText editFromDate, editFromTime, editToDate, editToTime, editFrequency;
     private TextView textClockinDate, textClockinDuration;
     private Spinner spinnerStatus;
 
@@ -103,6 +105,36 @@ public class ViewTaskActivity extends BaseActivity {
         }
 
         setupPickerTouchHandlers();
+
+        editFrequency.setOnClickListener(v -> {
+            if (!isEditMode) return;
+
+            boolean isRepeatMaster = "REPEAT".equals(task.taskType) && task.repeatParentId == null;
+            if (!isRepeatMaster) return;
+
+            boolean everyDay = !"CUSTOM_DAYS".equals(task.repeatRule);
+            boolean[] daysSelected = parseRepeatDaysToBoolArray(task.repeatDays);
+
+            FrequencyBottomSheetDialog sheet =
+                    FrequencyBottomSheetDialog.newInstance(everyDay, daysSelected);
+
+            sheet.setCallback((isEveryDay, selectedDays) -> {
+                task.repeatRule = isEveryDay ? "EVERY_DAY" : "CUSTOM_DAYS";
+                task.repeatDays = isEveryDay ? "" : boolArrayToRepeatDaysCsv(selectedDays);
+
+                // Update UI
+                if (isEveryDay) {
+                    editFrequency.setText("Every day");
+                } else {
+                    String csv = task.repeatDays;
+                    editFrequency.setText(csv == null || csv.isEmpty()
+                            ? "Custom days"
+                            : "Custom days: " + csv);
+                }
+            });
+
+            sheet.show(getSupportFragmentManager(), "freq_sheet");
+        });
 
         btnBack.setOnClickListener(v -> {
             if (isEditMode) {
@@ -152,6 +184,43 @@ public class ViewTaskActivity extends BaseActivity {
         });
     }
 
+    private String boolArrayToRepeatDaysCsv(boolean[] days) {
+        if (days == null || days.length < 7) return "";
+        StringBuilder sb = new StringBuilder();
+        if (days[0]) sb.append("MON,");
+        if (days[1]) sb.append("TUE,");
+        if (days[2]) sb.append("WED,");
+        if (days[3]) sb.append("THU,");
+        if (days[4]) sb.append("FRI,");
+        if (days[5]) sb.append("SAT,");
+        if (days[6]) sb.append("SUN,");
+        if (sb.length() > 0) sb.setLength(sb.length() - 1);
+        return sb.toString();
+    }
+
+    private boolean[] parseRepeatDaysToBoolArray(String csv) {
+        // Index: 0=Mon, 1=Tue, 2=Wed, 3=Thu, 4=Fri, 5=Sat, 6=Sun
+        boolean[] arr = new boolean[7];
+        if (csv == null) return arr;
+
+        String s = csv.trim();
+        if (s.isEmpty()) return arr;
+
+        String[] parts = s.split(",");
+        for (String p : parts) {
+            String day = p.trim().toUpperCase();
+            switch (day) {
+                case "MON": arr[0] = true; break;
+                case "TUE": arr[1] = true; break;
+                case "WED": arr[2] = true; break;
+                case "THU": arr[3] = true; break;
+                case "FRI": arr[4] = true; break;
+                case "SAT": arr[5] = true; break;
+                case "SUN": arr[6] = true; break;
+            }
+        }
+        return arr;
+    }
     @SuppressLint("ClickableViewAccessibility")
     private void setupPickerTouchHandlers() {
         // Handles date fields
@@ -216,6 +285,8 @@ public class ViewTaskActivity extends BaseActivity {
         editFromTime = findViewById(R.id.edit_from_time);
         editToDate = findViewById(R.id.edit_to_date);
         editToTime = findViewById(R.id.edit_to_time);
+        layoutFrequency = findViewById(R.id.layout_frequency);
+        editFrequency = findViewById(R.id.edit_frequency);
         textClockinDate = findViewById(R.id.text_clockin_date);
         textClockinDuration = findViewById(R.id.text_clockin_duration);
         spinnerStatus = findViewById(R.id.spinner_status);
@@ -317,6 +388,27 @@ public class ViewTaskActivity extends BaseActivity {
             textClockinDuration.setText(durStr);
         }
 
+        boolean isRepeatMaster = "REPEAT".equals(task.taskType) && task.repeatParentId == null;
+
+        if (layoutFrequency != null) {
+            layoutFrequency.setVisibility(isRepeatMaster ? View.VISIBLE : View.GONE);
+        }
+
+        if (isRepeatMaster && editFrequency != null) {
+            // Show a readable value
+            // Example mapping:
+            // task.repeatRule = "EVERY_DAY" or "CUSTOM_DAYS"
+            // task.repeatDays = "MON,TUE,WED" (or whatever you store)
+            String freqText;
+
+            if ("CUSTOM_DAYS".equals(task.repeatRule) && task.repeatDays != null && !task.repeatDays.trim().isEmpty()) {
+                freqText = "Custom days: " + task.repeatDays;
+            } else {
+                freqText = "Every day";
+            }
+
+            editFrequency.setText(freqText);
+        }
         // Attachments: build list from URIs and generate display names
         attachmentUris.clear();
         attachmentNames.clear();
@@ -423,6 +515,11 @@ public class ViewTaskActivity extends BaseActivity {
         spinnerStatus.setEnabled(false);
         spinnerStatus.setAlpha(0.6f);
 
+        if (editFrequency != null) {
+            editFrequency.setEnabled(false);
+            editFrequency.setAlpha(0.6f);
+        }
+
         renderAttachments(); // delete icons disabled in view mode
     }
 
@@ -483,6 +580,21 @@ public class ViewTaskActivity extends BaseActivity {
         imgAddAttachment.setEnabled(true);
         imgAddAttachment.setAlpha(1f);
 
+        boolean isRepeatMaster = "REPEAT".equals(task.taskType) && task.repeatParentId == null;
+
+        if (layoutFrequency != null) {
+            layoutFrequency.setVisibility(isRepeatMaster ? View.VISIBLE : View.GONE);
+        }
+
+        if (editFrequency != null) {
+            if (isRepeatMaster) {
+                editFrequency.setEnabled(true);
+                editFrequency.setAlpha(1f);
+            } else {
+                editFrequency.setEnabled(false);
+                editFrequency.setAlpha(0.6f);
+            }
+        }
         renderAttachments(); // delete icons become active
     }
 
@@ -597,6 +709,12 @@ public class ViewTaskActivity extends BaseActivity {
         task.dateTime = sdfFull.format(new Date());
 
         AppDatabase.getInstance(this).taskDao().update(task);
+
+        boolean isRepeatMaster = "REPEAT".equals(task.taskType) && task.repeatParentId == null;
+        if (isRepeatMaster) {
+            rebuildRepeatOccurrences(task);   // delete old occurrences + create new ones based on custom days
+        }
+
         return true;
     }
 
@@ -610,6 +728,104 @@ public class ViewTaskActivity extends BaseActivity {
         }
     }
 
+    private void rebuildRepeatOccurrences(Task master) {
+
+        // 1) Remove old occurrences
+        AppDatabase db = AppDatabase.getInstance(this);
+        db.taskDao().deleteOccurrencesForMaster(master.id);
+
+        // 2) Determine selected weekdays
+        // If your master.repeatRule / master.repeatDays are updated from Frequency callback, use them:
+        boolean everyDay = !"CUSTOM_DAYS".equals(master.repeatRule);
+
+        boolean[] daysSelected;
+        if (everyDay) {
+            daysSelected = new boolean[]{true,true,true,true,true,true,true}; // Mon..Sun
+        } else {
+            daysSelected = parseRepeatDaysToBoolArray(master.repeatDays); // Mon..Sun
+        }
+
+        // 3) Loop dates from master.fromDate -> master.toDate
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+        SimpleDateFormat dtFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault());
+
+        Date startDate, endDate;
+        try {
+            startDate = sdf.parse(master.fromDate);
+            endDate = sdf.parse(master.toDate);
+            if (startDate == null || endDate == null) return;
+        } catch (Exception e) {
+            return;
+        }
+
+        Calendar c = Calendar.getInstance();
+        c.setTime(startDate);
+
+        Calendar end = Calendar.getInstance();
+        end.setTime(endDate);
+
+        String startTimeStr = editFromTime.getText().toString().trim();
+        String endTimeStr   = editToTime.getText().toString().trim();
+
+        while (!c.after(end)) {
+
+            int dayIndexMon0 = calendarDayToMon0Index(c.get(Calendar.DAY_OF_WEEK));
+            if (daysSelected[dayIndexMon0]) {
+
+                String dayStr = sdf.format(c.getTime());
+
+                try {
+                    Date startDt = dtFormat.parse(dayStr + " " + startTimeStr);
+                    Date endDt   = dtFormat.parse(dayStr + " " + endTimeStr);
+                    if (startDt == null || endDt == null) {
+                        c.add(Calendar.DAY_OF_MONTH, 1);
+                        continue;
+                    }
+
+                    Task occ = new Task();
+                    occ.title = master.title;
+                    occ.description = master.description;
+                    occ.status = master.status;
+
+                    occ.isAllDay = false;
+                    occ.taskType = "REPEAT_OCCURRENCE";
+                    occ.repeatParentId = master.id;          // ✅ critical: keep this non-null
+                    occ.repeatRule = null;
+                    occ.repeatDays = null;
+
+                    occ.fromDate = dayStr;                   // ✅ used for calendar queries + dots
+                    occ.toDate = dayStr;
+                    occ.date = null;
+
+                    occ.startTimestamp = startDt.getTime();
+                    occ.stopTimestamp  = endDt.getTime();
+                    occ.durationMillis = occ.stopTimestamp - occ.startTimestamp;
+
+                    occ.createdAt = System.currentTimeMillis();
+                    occ.attachmentUris = master.attachmentUris; // if you want attachments copied
+
+                    db.taskDao().insert(occ);
+
+                } catch (Exception ignored) {}
+            }
+
+            c.add(Calendar.DAY_OF_MONTH, 1);
+        }
+    }
+
+    // Calendar.DAY_OF_WEEK: Sun=1..Sat=7 -> convert to Mon=0..Sun=6
+    private int calendarDayToMon0Index(int dayOfWeek) {
+        switch (dayOfWeek) {
+            case Calendar.MONDAY: return 0;
+            case Calendar.TUESDAY: return 1;
+            case Calendar.WEDNESDAY: return 2;
+            case Calendar.THURSDAY: return 3;
+            case Calendar.FRIDAY: return 4;
+            case Calendar.SATURDAY: return 5;
+            case Calendar.SUNDAY: return 6;
+        }
+        return 0;
+    }
     private void goBackToTabIfNeeded() {
         int returnTab = getIntent().getIntExtra("return_tab", -1);
         if (returnTab >= 0) {

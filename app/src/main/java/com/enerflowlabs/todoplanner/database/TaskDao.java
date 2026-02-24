@@ -20,12 +20,18 @@ public interface TaskDao {
     List<Task> getAllTasks();
 
     // Todo tab: hide repeat occurrences; show only master tasks
-    @Query("SELECT * FROM tasks WHERE repeat_parent_id IS NULL ORDER BY startTimestamp DESC")
+    @Query("SELECT * FROM tasks " +
+            "WHERE repeat_parent_id IS NULL " +
+            "AND (task_type IS NULL OR task_type != 'REPEAT_OCCURRENCE') " +
+            "ORDER BY created_at DESC")
     List<Task> getTodoTasks();
 
-
-    @Query("SELECT * FROM tasks WHERE date = :selectedDate OR fromDate = :selectedDate")
-    List<Task> getTasksForDate(String selectedDate);
+    @Query("SELECT * FROM tasks WHERE " +
+            " (isAllDay = 1 AND startTimestamp BETWEEN :dayStart AND :dayEnd) " +
+            " OR " +
+            " (isAllDay = 0 AND startTimestamp <= :dayEnd AND " +
+            "   (CASE WHEN stopTimestamp = 0 THEN :dayEnd ELSE stopTimestamp END) >= :dayStart)")
+    List<Task> getTasksForDate(long dayStart, long dayEnd);
 
     @Query("SELECT * FROM tasks WHERE title LIKE '%' || :query || '%'")
     List<Task> searchByTitle(String query);
@@ -51,6 +57,12 @@ public interface TaskDao {
 
     @Update
     void update(Task task);
+
+    @Query("DELETE FROM tasks WHERE repeat_parent_id = :masterId")
+    void deleteOccurrencesForMaster(int masterId);
+
+    @Query("SELECT * FROM tasks WHERE repeat_parent_id = :masterId ORDER BY startTimestamp ASC")
+    List<Task> getOccurrencesForMaster(int masterId);
 
     @Delete
     void delete(Task task);
