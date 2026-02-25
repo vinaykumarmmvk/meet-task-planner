@@ -776,6 +776,21 @@ public class SchedulerManualFragment extends Fragment {
                     return;
                 }
 
+                // IMPORTANT: Validate the time range BEFORE creating any DB rows.
+                // Otherwise an invalid time range (e.g., 17:00 -> 13:00) would still create
+                // the master REPEAT task in the background.
+                try {
+                    Date tmpStart = dtFormat.parse(repeatStartDateStr + " " + repeatStartTimeStr);
+                    Date tmpEnd = dtFormat.parse(repeatStartDateStr + " " + repeatEndTimeStr);
+                    if (tmpStart == null || tmpEnd == null || tmpStart.after(tmpEnd)) {
+                        Toast.makeText(getContext(), getString(R.string.from_before_to), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                } catch (ParseException e) {
+                    Toast.makeText(getContext(), getString(R.string.invalid_date_time_format), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 // Attachments copied to each created task
                 ArrayList<Uri> attachments = (ArrayList<Uri>) taskView.getTag(R.id.tag_attachment_list);
                 String attachmentUrisJoined = null;
@@ -865,6 +880,14 @@ public class SchedulerManualFragment extends Fragment {
 
                     if (startDt == null || endDt == null || startDt.after(endDt)) {
                         Toast.makeText(getContext(), getString(R.string.from_before_to), Toast.LENGTH_SHORT).show();
+
+                        // Rollback: ensure we don't leave the master task (and any previously-created
+                        // occurrences) behind if validation fails mid-way.
+                        try {
+                            AppDatabase.getInstance(getContext()).taskDao().deleteOccurrencesForMaster(masterId);
+                            AppDatabase.getInstance(getContext()).taskDao().delete(master);
+                        } catch (Exception ignored) {
+                        }
                         return;
                     }
 

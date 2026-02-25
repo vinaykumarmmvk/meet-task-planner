@@ -222,7 +222,17 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                 .setTitle(R.string.delete_task_q)
                 .setMessage(R.string.delete_task_confirm)
                 .setPositiveButton(R.string.yes, (dialog, which) -> {
-                    AppDatabase.getInstance(context).taskDao().delete(task);
+                    AppDatabase db = AppDatabase.getInstance(context);
+                    if ("REPEAT".equals(task.taskType) && task.repeatParentId == null) {
+                        db.taskDao().deleteOccurrencesForMaster(task.id);
+                        db.taskDao().delete(task);
+                    } else if ("REPEAT_OCCURRENCE".equals(task.taskType) && task.repeatParentId != null) {
+                        Task master = db.taskDao().getTaskById(task.repeatParentId);
+                        db.taskDao().deleteOccurrencesForMaster(task.repeatParentId);
+                        if (master != null) db.taskDao().delete(master);
+                    } else {
+                        db.taskDao().delete(task);
+                    }
                     taskList.remove(position);
                     notifyItemRemoved(position);
                 })

@@ -26,11 +26,17 @@ public interface TaskDao {
             "ORDER BY created_at DESC")
     List<Task> getTodoTasks();
 
+    // Calendar: include tasks that occur/overlap within the selected day.
+    // Important: ongoing clock-in tasks (stopTimestamp=0) must NOT appear on future dates.
+    // For ongoing tasks, show only on the day they started (startTimestamp within day).
     @Query("SELECT * FROM tasks WHERE " +
             " (isAllDay = 1 AND startTimestamp BETWEEN :dayStart AND :dayEnd) " +
             " OR " +
-            " (isAllDay = 0 AND startTimestamp <= :dayEnd AND " +
-            "   (CASE WHEN stopTimestamp = 0 THEN :dayEnd ELSE stopTimestamp END) >= :dayStart)")
+            " (isAllDay = 0 AND (" +
+            "     ((stopTimestamp IS NULL OR stopTimestamp = 0) AND startTimestamp BETWEEN :dayStart AND :dayEnd) " +
+            "     OR " +
+            "     (stopTimestamp IS NOT NULL AND stopTimestamp != 0 AND startTimestamp <= :dayEnd AND stopTimestamp >= :dayStart)" +
+            " ))")
     List<Task> getTasksForDate(long dayStart, long dayEnd);
 
     @Query("SELECT * FROM tasks WHERE title LIKE '%' || :query || '%'")

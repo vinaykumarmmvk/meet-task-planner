@@ -844,7 +844,17 @@ public class ViewTaskActivity extends BaseActivity {
                 .setTitle(getString(R.string.delete_task))
                 .setMessage(getString(R.string.delete_task_confirm))
                 .setPositiveButton(getString(R.string.delete), (dialog, which) -> {
-                    AppDatabase.getInstance(this).taskDao().delete(task);
+                    AppDatabase db = AppDatabase.getInstance(this);
+                    if ("REPEAT".equals(task.taskType) && task.repeatParentId == null) {
+                        db.taskDao().deleteOccurrencesForMaster(task.id);
+                        db.taskDao().delete(task);
+                    } else if ("REPEAT_OCCURRENCE".equals(task.taskType) && task.repeatParentId != null) {
+                        Task master = db.taskDao().getTaskById(task.repeatParentId);
+                        db.taskDao().deleteOccurrencesForMaster(task.repeatParentId);
+                        if (master != null) db.taskDao().delete(master);
+                    } else {
+                        db.taskDao().delete(task);
+                    }
                     Toast.makeText(this, getString(R.string.task_deleted), Toast.LENGTH_SHORT).show();
                     finish(); // back to tabs / list
                 })

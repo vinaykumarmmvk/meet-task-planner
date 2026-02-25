@@ -205,7 +205,18 @@ public class CalendarFragment extends Fragment {
             @Override
             public void onDelete(Task task) {
                 if (getContext() == null) return;
-                AppDatabase.getInstance(getContext()).taskDao().delete(task);
+                AppDatabase db = AppDatabase.getInstance(getContext());
+                // If user deletes a REPEAT series (master or any occurrence), remove the full series
+                if ("REPEAT".equals(task.taskType) && task.repeatParentId == null) {
+                    db.taskDao().deleteOccurrencesForMaster(task.id);
+                    db.taskDao().delete(task);
+                } else if ("REPEAT_OCCURRENCE".equals(task.taskType) && task.repeatParentId != null) {
+                    Task master = db.taskDao().getTaskById(task.repeatParentId);
+                    db.taskDao().deleteOccurrencesForMaster(task.repeatParentId);
+                    if (master != null) db.taskDao().delete(master);
+                } else {
+                    db.taskDao().delete(task);
+                }
                 Toast.makeText(getContext(), getString(R.string.task_deleted), Toast.LENGTH_SHORT).show();
                 // Refresh dots + list
                 refreshCalendarDecorators();
@@ -294,12 +305,25 @@ public class CalendarFragment extends Fragment {
         java.util.LinkedHashMap<Integer, Task> unique = new java.util.LinkedHashMap<>();
         if (raw != null) {
             for (Task t : raw) {
+                // Skip any kind of repeat "master" in Calendar list; occurrences decide visibility.
+                // (Dots are also driven by occurrences.)
+                boolean isRepeatMaster = (t.repeatParentId == null)
+                        && ("REPEAT".equals(t.taskType)
+                        || (t.repeatRule != null && !t.repeatRule.trim().isEmpty())
+                        || (t.repeatDays != null && !t.repeatDays.trim().isEmpty()));
+                if (isRepeatMaster) {
+                    continue;
+                }
+
+                // For occurrences, show the master task (deduplicated) so user edits the series.
                 if (t.repeatParentId != null) {
                     Task master = AppDatabase.getInstance(getContext()).taskDao().getTaskById(t.repeatParentId);
                     if (master != null) unique.put(master.id, master);
-                } else {
-                    unique.put(t.id, t);
+                    continue;
                 }
+
+                // Normal tasks
+                unique.put(t.id, t);
             }
         }
 
