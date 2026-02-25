@@ -573,12 +573,15 @@ public class TasksFragment extends Fragment {
 
         for (Task task : tasks) {
             // ---- Type detection ----
+            boolean isRepeat = "REPEAT".equals(task.taskType) || "REPEAT_OCCURRENCE".equals(task.taskType);
             boolean isClockIn = !task.isAllDay
                     && task.fromDate == null
                     && task.toDate == null;
 
             String type;
-            if (task.isAllDay) {
+            if (isRepeat) {
+                type = "Repeat";
+            } else if (task.isAllDay) {
                 type = "All-day";
             } else if (!isClockIn && task.fromDate != null && task.toDate != null) {
                 type = "Duration";
@@ -607,7 +610,22 @@ public class TasksFragment extends Fragment {
             String fromCol = "";
             String toCol = "";
 
-            if (isClockIn) {
+            if (isRepeat) {
+                // Repeat series: keep Date as range (fromDate - toDate) but show ONLY time in From/To
+                if (task.fromDate != null && task.toDate != null) {
+                    if (task.fromDate.equals(task.toDate)) {
+                        dateCol = task.fromDate;
+                    } else {
+                        dateCol = task.fromDate + " - " + task.toDate;
+                    }
+                }
+                if (task.startTimestamp > 0) {
+                    fromCol = timeHm.format(new Date(task.startTimestamp));
+                }
+                if (task.stopTimestamp > 0) {
+                    toCol = timeHm.format(new Date(task.stopTimestamp));
+                }
+            } else if (isClockIn) {
                 if (task.startTimestamp > 0) {
                     Date start = new Date(task.startTimestamp);
 
@@ -662,8 +680,45 @@ public class TasksFragment extends Fragment {
             // ---- Duration (human readable) ----
             String durationCol = "";
 
+            // Repeat: Duration column should be "<xh ym> <Everyday|Mon/Tue/...>"
+            if (isRepeat) {
+                String dur = formatDurationHoursMinutes(task.durationMillis);
+                if (dur == null) dur = "";
+
+                String freqLabel = "";
+                if ("EVERY_DAY".equals(task.repeatRule)) {
+                    freqLabel = "Everyday";
+                } else if (task.repeatDays != null && !task.repeatDays.trim().isEmpty()) {
+                    // stored as MON,TUE,... -> output Mon/Tue/...
+                    String[] parts = task.repeatDays.split(",");
+                    StringBuilder f = new StringBuilder();
+                    for (String p : parts) {
+                        String s = p == null ? "" : p.trim();
+                        if (s.isEmpty()) continue;
+                        String pretty;
+                        switch (s) {
+                            case "MON": pretty = "Mon"; break;
+                            case "TUE": pretty = "Tue"; break;
+                            case "WED": pretty = "Wed"; break;
+                            case "THU": pretty = "Thu"; break;
+                            case "FRI": pretty = "Fri"; break;
+                            case "SAT": pretty = "Sat"; break;
+                            case "SUN": pretty = "Sun"; break;
+                            default: pretty = s;
+                        }
+                        if (f.length() > 0) f.append("/");
+                        f.append(pretty);
+                    }
+                    freqLabel = f.toString();
+                }
+
+                if (!dur.isEmpty() && !freqLabel.isEmpty()) durationCol = dur + " " + freqLabel;
+                else if (!dur.isEmpty()) durationCol = dur;
+                else durationCol = freqLabel;
+            }
+
 // ✅ For CLOCK-IN ongoing, Duration column should be empty
-            if (!(isClockIn && task.isOngoing)) {
+            if (durationCol.isEmpty() && !(isClockIn && task.isOngoing)) {
                 long durationMillis = task.durationMillis;
                 if (durationMillis > 0) {
                     durationCol = formatDurationHuman(durationMillis);
@@ -735,7 +790,29 @@ public class TasksFragment extends Fragment {
         return "\"" + v + "\"";
     }
 
-    private String formatDurationHuman(long millis) {
+    private
+    /**
+     * Repeat tasks should always show duration as hours/minutes (e.g., "4h 30m", "6h"),
+     * never as weeks/days and never including seconds.
+     */
+    String formatDurationHoursMinutes(long millis) {
+        if (millis <= 0) return "";
+        long totalMinutes = millis / (60L * 1000L);
+        long hours = totalMinutes / 60L;
+        long minutes = totalMinutes % 60L;
+
+        StringBuilder sb = new StringBuilder();
+        if (hours > 0) sb.append(hours).append("h");
+        if (minutes > 0) {
+            if (sb.length() > 0) sb.append(" ");
+            sb.append(minutes).append("m");
+        }
+        // If < 1 hour and < 1 minute, keep it as 0m (better than blank)
+        if (sb.length() == 0) sb.append("0m");
+        return sb.toString();
+    }
+
+    String formatDurationHuman(long millis) {
         if (millis <= 0) return "";
 
         long totalSeconds = millis / 1000;

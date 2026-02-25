@@ -608,6 +608,7 @@ public class ViewTaskActivity extends BaseActivity {
     private boolean saveChanges() {
         String newTitle = editTitle.getText().toString().trim();
         String newDesc = editDescription.getText().toString().trim();
+        boolean isRepeatMaster = "REPEAT".equals(task.taskType) && task.repeatParentId == null;
 
         if (newTitle.isEmpty()) {
             Toast.makeText(this, "Title is required", Toast.LENGTH_SHORT).show();
@@ -660,7 +661,13 @@ public class ViewTaskActivity extends BaseActivity {
 
             try {
                 Date from = dateTimeFormat.parse(fromDateStr + " " + fromTimeStr);
-                Date to = dateTimeFormat.parse(toDateStr + " " + toTimeStr);
+                Date to;
+                if (isRepeatMaster) {
+                    to = dateTimeFormat.parse(fromDateStr + " " + toTimeStr); // same day end time
+                } else {
+                    to = dateTimeFormat.parse(toDateStr + " " + toTimeStr);
+                }
+
                 if (from == null || to == null) throw new ParseException("null", 0);
 
                 if (from.after(to)) {
@@ -710,7 +717,6 @@ public class ViewTaskActivity extends BaseActivity {
 
         AppDatabase.getInstance(this).taskDao().update(task);
 
-        boolean isRepeatMaster = "REPEAT".equals(task.taskType) && task.repeatParentId == null;
         if (isRepeatMaster) {
             rebuildRepeatOccurrences(task);   // delete old occurrences + create new ones based on custom days
         }
