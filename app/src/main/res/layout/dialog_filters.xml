@@ -23,7 +23,7 @@
             android:id="@+id/cb_select_all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="25dp"
             android:text="@string/select_all" />
     </LinearLayout>
 
@@ -31,14 +31,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_gravity="center"
-        android:padding="10dp">
+        android:layout_marginStart="0dp"
+        android:padding="0dp">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="15dp">
+        android:padding="5dp">
 
     <TextView
         android:layout_width="wrap_content"
@@ -67,10 +67,10 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="15dp">
+        android:padding="5dp">
 
     <TextView
         android:layout_width="wrap_content"
