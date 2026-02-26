@@ -108,7 +108,7 @@
 
         <RadioButton
             android:id="@+id/radio_clockin"
-            android:layout_width="wrap_content"
+            android:layout_width="170dp"
             android:layout_height="wrap_content"
             android:text="@string/clockin"
             android:layout_marginRight="10dp"
@@ -116,22 +116,25 @@
 
         <RadioButton
             android:id="@+id/radio_all_day"
-            android:layout_width="wrap_content"
+            android:layout_width="170dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
             android:text="@string/all_day" />
 
         <RadioButton
             android:id="@+id/radio_duration"
-            android:layout_width="100dp"
+            android:layout_width="170dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="-360dp"
             android:text="@string/enter_duration" />
 
         <RadioButton
             android:id="@+id/radio_repeat"
-            android:layout_width="wrap_content"
+            android:layout_width="170dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="50dp"
             android:text="@string/repeat" />
     </RadioGroup>
 
@@ -228,11 +231,11 @@
                 android:focusable="false" />
 
             <EditText
-                android:id="@+id/edit_repeat_start_time"
+                android:id="@+id/edit_repeat_end_date"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="@string/start_time"
+                android:hint="@string/end_date"
                 android:focusable="false" />
         </LinearLayout>
 
@@ -243,11 +246,11 @@
             android:layout_marginTop="4dp">
 
             <EditText
-                android:id="@+id/edit_repeat_end_date"
+                android:id="@+id/edit_repeat_start_time"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="@string/end_date"
+                android:hint="@string/start_time"
                 android:focusable="false" />
 
             <EditText

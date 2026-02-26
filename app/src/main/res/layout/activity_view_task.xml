@@ -424,21 +424,21 @@
                 </LinearLayout>
             </LinearLayout>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="10dp"
-                    android:text="@string/attachments"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:textSize="16sp"/>
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="end"
                     android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="10dp"
+                        android:text="@string/attachments"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:textSize="16sp"/>
 
                     <TextView
                         android:id="@+id/img_add_attachment"
@@ -449,6 +449,9 @@
                         android:drawableEnd="@drawable/ic_attach"
                         android:drawablePadding="6dp"
                         android:padding="6dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="30dp"
                         android:text="@string/attach"
                         android:textColor="@color/black"
                         android:textSize="16sp"/>
@@ -459,9 +462,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:layout_marginBottom="60dp"
+                    android:layout_marginBottom="100dp"
                     android:orientation="vertical" />
-
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
