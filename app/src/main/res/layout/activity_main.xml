@@ -5,7 +5,8 @@
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_meeting">
+    android:background="@drawable/bg_meeting"
+    android:fitsSystemWindows="true">
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/view_pager"
