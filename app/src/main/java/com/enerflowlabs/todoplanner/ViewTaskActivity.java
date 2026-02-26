@@ -124,12 +124,12 @@ public class ViewTaskActivity extends BaseActivity {
 
                 // Update UI
                 if (isEveryDay) {
-                    editFrequency.setText("Every day");
+                    editFrequency.setText(getString(R.string.every_day));
                 } else {
                     String csv = task.repeatDays;
                     editFrequency.setText(csv == null || csv.isEmpty()
-                            ? "Custom days"
-                            : "Custom days: " + csv);
+                            ? getString(R.string.custom_days)
+                            : getString(R.string.custom_days_with_list, csv));
                 }
             });
 
@@ -164,9 +164,9 @@ public class ViewTaskActivity extends BaseActivity {
         imgAddAttachment.setOnClickListener(v -> {
             if (!isEditMode) return;
 
-            String[] options = {"Take photo", "Choose photo", "Choose file"};
+            String[] options = {getString(R.string.take_photo), getString(R.string.choose_photo), getString(R.string.choose_file)};
             new AlertDialog.Builder(this)
-                    .setTitle("Add attachment")
+                    .setTitle(getString(R.string.add_attachment))
                     .setItems(options, (dialog, which) -> {
                         switch (which) {
                             case 0:
@@ -304,31 +304,36 @@ public class ViewTaskActivity extends BaseActivity {
         editDescription.setText(task.description == null ? "" : task.description);
         editCreatedAt.setText(formatCreatedAt(task.createdAt));
 
-        String type;
+        String typeLabel;
+
         if (task.taskType != null) {
             switch (task.taskType) {
                 case "REPEAT":
                 case "REPEAT_OCCURRENCE":
-                    type = "Repeat";
+                    typeLabel = getString(R.string.repeat);
                     break;
+
                 case "ALL_DAY":
-                    type = "All-day";
+                    typeLabel = getString(R.string.all_day);
                     break;
+
                 case "DURATION":
-                    type = "Duration";
+                    typeLabel = getString(R.string.enter_duration); // or create @string/duration if you prefer
                     break;
+
                 case "CLOCK_IN":
                 default:
-                    type = "Clock-in";
+                    typeLabel = getString(R.string.clockin);
                     break;
             }
         } else {
             // Backward compatibility for older tasks
-            if (task.isAllDay) type = "All-day";
-            else if (task.fromDate != null && task.toDate != null) type = "Duration";
-            else type = "Clock-in";
+            if (task.isAllDay) typeLabel = getString(R.string.all_day);
+            else if (task.fromDate != null && task.toDate != null) typeLabel = getString(R.string.enter_duration);
+            else typeLabel = getString(R.string.clockin);
         }
-        textType.setText(type);
+
+        textType.setText(typeLabel);
 
         // ---------- Status ----------
         String status = task.status;
@@ -402,9 +407,9 @@ public class ViewTaskActivity extends BaseActivity {
             String freqText;
 
             if ("CUSTOM_DAYS".equals(task.repeatRule) && task.repeatDays != null && !task.repeatDays.trim().isEmpty()) {
-                freqText = "Custom days: " + task.repeatDays;
+                freqText = getString(R.string.custom_days_with_list, task.repeatDays);
             } else {
-                freqText = "Every day";
+                freqText = getString(R.string.every_day);
             }
 
             editFrequency.setText(freqText);
@@ -460,9 +465,9 @@ public class ViewTaskActivity extends BaseActivity {
         // Badge + subtle background distinction between View and Edit modes
         if (textHeader != null) {
             if (editMode) {
-                textHeader.setText("Edit Task Details");
+                textHeader.setText(getString(R.string.edit_task_details_header));
             } else {
-                textHeader.setText("View Task Details");
+                textHeader.setText(getString(R.string.view_task_details_header));
             }
         }
 

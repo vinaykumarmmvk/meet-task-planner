@@ -97,4 +97,62 @@
     <string name="attach">இணைக்க</string>
     <string name="attach_files">கோப்புகளை இணைக்க</string>
 
+    <string name="date_for_all_day">தேதி (முழு நாள்)</string>
+    <string name="from_date">தொடக்க தேதி</string>
+    <string name="to_date">முடிவு தேதி</string>
+    <string name="from_time">தொடக்க நேரம்</string>
+    <string name="to_time">முடிவு நேரம்</string>
+    <string name="from_label">இருந்து</string>
+    <string name="to_label">வரை</string>
+    <string name="custom_days_with_list">தனிப்பயன் நாட்கள்: %1$s</string>
+    <string name="mon">தி</string>
+    <string name="tue">செ</string>
+    <string name="wed">பு</string>
+    <string name="thu">வி</string>
+    <string name="fri">வெ</string>
+    <string name="sat">ச</string>
+    <string name="sun">ஞா</string>
+    <string name="take_photo">புகைப்படம் எடு</string>
+    <string name="choose_photo">புகைப்படத்தை தேர்வு செய்</string>
+    <string name="choose_file">கோப்பை தேர்வு செய்</string>
+    <string name="view_task_details_header">பணி விவரங்களை காண்க</string>
+    <string name="edit_task_details_header">பணி விவரங்களை திருத்துக</string>
+    <string name="upload_download">பதிவேற்றம்/பதிவிறக்கம்</string>
+    <string name="repeat">மீண்டும்</string>
+    <string name="frequency">அடிக்கடி</string>
+    <string name="every_day">ஒவ்வொரு நாள்</string>
+    <string name="custom_days">தனிப்பயன் நாட்கள்</string>
+    <string name="start_date">தொடக்க தேதி</string>
+    <string name="end_date">முடிவு தேதி</string>
+    <string name="start_time">தொடக்க நேரம்</string>
+    <string name="end_time">முடிவு நேரம்</string>
+    <string name="select_date_range">தொடக்கம் மற்றும் முடிவு தேதியை தேர்வு செய்</string>
+    <string name="select_time_range">தொடக்கம் மற்றும் முடிவு நேரத்தை தேர்வு செய்</string>
+    <string name="select_custom_days">குறைந்தது ஒரு நாளை தேர்வு செய்யவும்</string>
+    <string name="done">முடிந்தது</string>
+
+    <string name="tab_prompt">ப்ராம்ப்ட்</string>
+    <string name="tab_manual">கைமுறை</string>
+    <string name="prompt_info">இப்படி ஒரு ப்ராம்ப்ட் டைப்/பேசவும்: “நாளை காலை 10 முதல் மாலை 6 வரை மீட்டிங் அமை” அல்லது “meetup weekly ஐ அடுத்த திங்கள்கிழமை 10–11க்கு மாற்று”.</string>
+    <string name="prompt_hint">எதை உருவாக்க/புதுப்பிக்க வேண்டும் என்பதைக் குறிப்பிடவும்…</string>
+    <string name="speak">பேசு</string>
+    <string name="run_prompt">இயக்கு</string>
+    <string name="speak_now">இப்போது பேசு</string>
+    <string name="speech_not_available">இந்த சாதனத்தில் குரல் உள்ளீடு கிடைக்கவில்லை</string>
+    <string name="ai_disabled_message">AI ப்ராம்ப்ட் தற்காலிகமாக முடக்கப்பட்டுள்ளது. கைமுறை முறையை பயன்படுத்தவும்.</string>
+    <string name="ai_status_failed">AI நிலை சரிபார்ப்பு தோல்வி: %1$s</string>
+    <string name="prompt_empty">ப்ராம்ப்ட் உள்ளிடவும்</string>
+    <string name="prompt_request_failed">AI கோரிக்கை தோல்வி: %1$s</string>
+    <string name="prompt_parse_failed">ப்ராம்ப்டை புரியவில்லை. மீண்டும் முயற்சிக்கவும்.</string>
+    <string name="prompt_invalid_intent">AI தவறான intent வழங்கியது</string>
+    <string name="prompt_missing_title">AI பதிலில் தலைப்பு இல்லை</string>
+    <string name="prompt_missing_time">AI பதிலில் தொடக்கம்/முடிவு நேரம் இல்லை</string>
+    <string name="prompt_invalid_time_range">முடிவு நேரம் தொடக்கம் நேரத்திற்குப் பிறகு இருக்க வேண்டும்</string>
+    <string name="prompt_update_not_found">இந்த தலைப்பில் பணி இல்லை: %1$s</string>
+    <string name="prompt_update_ongoing_not_allowed">இயங்கும் (clock-in) பணியை மாற்ற முடியாது. முதலில் நிறுத்தவும்.</string>
+
+    <string name="downloaded_to_downloads">Downloads-ல் சேமிக்கப்பட்டது</string>
+    <string name="download_failed">பதிவிறக்கம் தோல்வி</string>
+    <string name="open_file">கோப்பை திற</string>
+
 </resources>

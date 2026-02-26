@@ -97,4 +97,56 @@
     <string name="attach">Ekle</string>
     <string name="attach_files">Dosya ekle</string>
 
+    <string name="date_for_all_day">Tarih (Tüm gün için)</string>
+    <string name="from_date">Başlangıç tarihi</string>
+    <string name="to_date">Bitiş tarihi</string>
+    <string name="from_time">Başlangıç saati</string>
+    <string name="to_time">Bitiş saati</string>
+    <string name="from_label">Başlangıç</string>
+    <string name="to_label">Bitiş</string>
+    <string name="custom_days_with_list">Özel günler: %1$s</string>
+    <string name="mon">Pzt</string><string name="tue">Sal</string><string name="wed">Çar</string><string name="thu">Per</string><string name="fri">Cum</string><string name="sat">Cmt</string><string name="sun">Paz</string>
+    <string name="take_photo">Fotoğraf çek</string>
+    <string name="choose_photo">Fotoğraf seç</string>
+    <string name="choose_file">Dosya seç</string>
+    <string name="view_task_details_header">Görev detaylarını görüntüle</string>
+    <string name="edit_task_details_header">Görev detaylarını düzenle</string>
+    <string name="upload_download">Yükle/İndir</string>
+    <string name="repeat">Tekrar</string>
+    <string name="frequency">Sıklık</string>
+    <string name="every_day">Her gün</string>
+    <string name="custom_days">Özel günler</string>
+    <string name="start_date">Başlangıç tarihi</string>
+    <string name="end_date">Bitiş tarihi</string>
+    <string name="start_time">Başlangıç saati</string>
+    <string name="end_time">Bitiş saati</string>
+    <string name="select_date_range">Başlangıç ve bitiş tarihini seçin</string>
+    <string name="select_time_range">Başlangıç ve bitiş saatini seçin</string>
+    <string name="select_custom_days">En az bir gün seçin</string>
+    <string name="done">Bitti</string>
+
+    <string name="tab_prompt">Prompt</string>
+    <string name="tab_manual">Manuel</string>
+    <string name="prompt_info">Şu gibi bir prompt yazın veya söyleyin: “Yarın 10:00’dan 18:00’a toplantı ayarla” veya “meetup weekly toplantısını gelecek Pazartesi 10–11’e ertele”.</string>
+    <string name="prompt_hint">Ne oluşturulacağını veya güncelleneceğini açıklayın…</string>
+    <string name="speak">Konuş</string>
+    <string name="run_prompt">Çalıştır</string>
+    <string name="speak_now">Şimdi konuş</string>
+    <string name="speech_not_available">Bu cihazda sesli giriş kullanılamıyor</string>
+    <string name="ai_disabled_message">AI promptları geçici olarak devre dışı. Lütfen Manuel modu kullanın.</string>
+    <string name="ai_status_failed">AI durum kontrolü başarısız: %1$s</string>
+    <string name="prompt_empty">Lütfen bir prompt girin</string>
+    <string name="prompt_request_failed">AI isteği başarısız: %1$s</string>
+    <string name="prompt_parse_failed">Prompt çözümlenemedi. Yeniden ifade edin.</string>
+    <string name="prompt_invalid_intent">AI geçersiz bir intent döndürdü</string>
+    <string name="prompt_missing_title">AI yanıtında başlık eksik</string>
+    <string name="prompt_missing_time">AI yanıtında başlangıç/bitiş zamanı eksik</string>
+    <string name="prompt_invalid_time_range">Bitiş saati başlangıçtan sonra olmalı</string>
+    <string name="prompt_update_not_found">Şu başlığa sahip görev bulunamadı: %1$s</string>
+    <string name="prompt_update_ongoing_not_allowed">Çalışan (clock-in) görev yeniden planlanamaz. Önce durdurun.</string>
+
+    <string name="downloaded_to_downloads">İndirilenler’e kaydedildi</string>
+    <string name="download_failed">İndirme başarısız</string>
+    <string name="open_file">Dosyayı aç</string>
+
 </resources>

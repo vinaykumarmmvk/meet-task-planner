@@ -97,4 +97,62 @@
     <string name="attach">Επισύναψη</string>
     <string name="attach_files">Επισύναψη αρχείων</string>
 
+    <string name="date_for_all_day">Ημερομηνία (για Όλη την ημέρα)</string>
+    <string name="from_date">Ημερομηνία από</string>
+    <string name="to_date">Ημερομηνία έως</string>
+    <string name="from_time">Ώρα από</string>
+    <string name="to_time">Ώρα έως</string>
+    <string name="from_label">Από</string>
+    <string name="to_label">Έως</string>
+    <string name="custom_days_with_list">Προσαρμοσμένες ημέρες: %1$s</string>
+    <string name="mon">Δευ</string>
+    <string name="tue">Τρι</string>
+    <string name="wed">Τετ</string>
+    <string name="thu">Πεμ</string>
+    <string name="fri">Παρ</string>
+    <string name="sat">Σαβ</string>
+    <string name="sun">Κυρ</string>
+    <string name="take_photo">Λήψη φωτογραφίας</string>
+    <string name="choose_photo">Επιλογή φωτογραφίας</string>
+    <string name="choose_file">Επιλογή αρχείου</string>
+    <string name="view_task_details_header">Προβολή λεπτομερειών εργασίας</string>
+    <string name="edit_task_details_header">Επεξεργασία λεπτομερειών εργασίας</string>
+    <string name="upload_download">Μεταφόρτωση/Λήψη</string>
+    <string name="repeat">Επανάληψη</string>
+    <string name="frequency">Συχνότητα</string>
+    <string name="every_day">Κάθε μέρα</string>
+    <string name="custom_days">Προσαρμοσμένες ημέρες</string>
+    <string name="start_date">Ημερομηνία έναρξης</string>
+    <string name="end_date">Ημερομηνία λήξης</string>
+    <string name="start_time">Ώρα έναρξης</string>
+    <string name="end_time">Ώρα λήξης</string>
+    <string name="select_date_range">Επιλέξτε ημερομηνία έναρξης και λήξης</string>
+    <string name="select_time_range">Επιλέξτε ώρα έναρξης και λήξης</string>
+    <string name="select_custom_days">Επιλέξτε τουλάχιστον μία ημέρα</string>
+    <string name="done">Τέλος</string>
+
+    <string name="tab_prompt">Prompt</string>
+    <string name="tab_manual">Χειροκίνητα</string>
+    <string name="prompt_info">Πληκτρολογήστε ή μιλήστε ένα prompt όπως: «Ορίστε μια συνάντηση αύριο στις 10πμ έως τις 6μμ» ή «Μεταθέστε το meetup weekly για την επόμενη Δευτέρα 10πμ–11πμ».</string>
+    <string name="prompt_hint">Περιγράψτε τι να δημιουργηθεί ή να ενημερωθεί…</string>
+    <string name="speak">Ομιλία</string>
+    <string name="run_prompt">Εκτέλεση</string>
+    <string name="speak_now">Μιλήστε τώρα</string>
+    <string name="speech_not_available">Η φωνητική εισαγωγή δεν είναι διαθέσιμη σε αυτή τη συσκευή</string>
+    <string name="ai_disabled_message">Τα AI prompts είναι προσωρινά απενεργοποιημένα. Χρησιμοποιήστε τη Χειροκίνητη λειτουργία.</string>
+    <string name="ai_status_failed">Αποτυχία ελέγχου κατάστασης AI: %1$s</string>
+    <string name="prompt_empty">Παρακαλώ εισάγετε ένα prompt</string>
+    <string name="prompt_request_failed">Αποτυχία αιτήματος AI: %1$s</string>
+    <string name="prompt_parse_failed">Δεν ήταν δυνατή η ανάλυση. Δοκιμάστε να το διατυπώσετε αλλιώς.</string>
+    <string name="prompt_invalid_intent">Το AI επέστρεψε μη έγκυρο intent</string>
+    <string name="prompt_missing_title">Λείπει ο τίτλος από την απάντηση του AI</string>
+    <string name="prompt_missing_time">Λείπουν ώρες έναρξης/λήξης</string>
+    <string name="prompt_invalid_time_range">Η ώρα λήξης πρέπει να είναι μετά την ώρα έναρξης</string>
+    <string name="prompt_update_not_found">Δεν βρέθηκε εργασία με τίτλο: %1$s</string>
+    <string name="prompt_update_ongoing_not_allowed">Δεν μπορείτε να μεταπρογραμματίσετε μια ενεργή (clock-in) εργασία. Σταματήστε τη πρώτα.</string>
+
+    <string name="downloaded_to_downloads">Αποθηκεύτηκε στις Λήψεις</string>
+    <string name="download_failed">Η λήψη απέτυχε</string>
+    <string name="open_file">Άνοιγμα αρχείου</string>
+
 </resources>

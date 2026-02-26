@@ -378,7 +378,7 @@ public class SchedulerManualFragment extends Fragment {
             currentAttachmentTaskView = taskView;
             currentAttachmentTaskIndex = taskContainer != null ? taskContainer.indexOfChild(taskView) : -1;
 
-            String[] options = {"Take photo", "Choose photo", "Choose file"};
+            String[] options = {getString(R.string.take_photo), getString(R.string.choose_photo), getString(R.string.choose_file)};
             new AlertDialog.Builder(requireContext())
                     .setTitle(getString(R.string.add_attachment))
                     .setItems(options, (dialog, which) -> {
@@ -605,7 +605,7 @@ public class SchedulerManualFragment extends Fragment {
             currentAttachmentTaskView = taskView;
             currentAttachmentTaskIndex = taskContainer != null ? taskContainer.indexOfChild(taskView) : -1;
 
-            String[] options = {"Take photo", "Choose photo", "Choose file"};
+            String[] options = {getString(R.string.take_photo), getString(R.string.choose_photo), getString(R.string.choose_file)};
             new AlertDialog.Builder(requireContext())
                     .setTitle(getString(R.string.add_attachment))
                     .setItems(options, (dialog, which) -> {

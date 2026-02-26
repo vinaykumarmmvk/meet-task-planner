@@ -95,6 +95,36 @@
     <string name="all_day_date">All day: %1$s</string>
     <string name="from_to_date">From %1$s to %2$s</string>
 
+    <!-- Scheduler / View: common field hints & labels -->
+    <string name="date_for_all_day">Date (for All Day)</string>
+    <string name="from_date">From date</string>
+    <string name="to_date">To date</string>
+    <string name="from_time">From time</string>
+    <string name="to_time">To time</string>
+    <string name="from_label">From</string>
+    <string name="to_label">To</string>
+
+    <!-- Repeat frequency display -->
+    <string name="custom_days_with_list">Custom days: %1$s</string>
+
+    <!-- Weekday short labels -->
+    <string name="mon">Mon</string>
+    <string name="tue">Tue</string>
+    <string name="wed">Wed</string>
+    <string name="thu">Thu</string>
+    <string name="fri">Fri</string>
+    <string name="sat">Sat</string>
+    <string name="sun">Sun</string>
+
+    <!-- Attachment popup -->
+    <string name="take_photo">Take photo</string>
+    <string name="choose_photo">Choose photo</string>
+    <string name="choose_file">Choose file</string>
+
+    <!-- View/Edit page header -->
+    <string name="view_task_details_header">View Task Details</string>
+    <string name="edit_task_details_header">Edit Task Details</string>
+
     <!-- Scheduler: internal tabs -->
     <string name="tab_prompt" translatable="false">Prompt</string>
     <string name="tab_manual" translatable="false">Manual</string>

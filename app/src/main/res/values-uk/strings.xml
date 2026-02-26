@@ -97,4 +97,55 @@
     <string name="attach">Додати</string>
     <string name="attach_files">Додати файли</string>
 
+    <string name="date_for_all_day">Дата (для Весь день)</string>
+    <string name="from_date">Дата початку</string>
+    <string name="to_date">Дата завершення</string>
+    <string name="from_time">Час початку</string>
+    <string name="to_time">Час завершення</string>
+    <string name="from_label">З</string>
+    <string name="to_label">До</string>
+    <string name="custom_days_with_list">Користувацькі дні: %1$s</string>
+    <string name="mon">Пн</string><string name="tue">Вт</string><string name="wed">Ср</string><string name="thu">Чт</string><string name="fri">Пт</string><string name="sat">Сб</string><string name="sun">Нд</string>
+    <string name="take_photo">Зробити фото</string>
+    <string name="choose_photo">Вибрати фото</string>
+    <string name="choose_file">Вибрати файл</string>
+    <string name="view_task_details_header">Перегляд деталей завдання</string>
+    <string name="edit_task_details_header">Редагування деталей завдання</string>
+    <string name="upload_download">Завантажити/Скачати</string>
+    <string name="repeat">Повтор</string>
+    <string name="frequency">Частота</string>
+    <string name="every_day">Щодня</string>
+    <string name="custom_days">Користувацькі дні</string>
+    <string name="start_date">Дата початку</string>
+    <string name="end_date">Дата завершення</string>
+    <string name="start_time">Час початку</string>
+    <string name="end_time">Час завершення</string>
+    <string name="select_date_range">Виберіть дату початку та завершення</string>
+    <string name="select_time_range">Виберіть час початку та завершення</string>
+    <string name="select_custom_days">Виберіть хоча б один день</string>
+    <string name="done">Готово</string>
+
+    <string name="tab_prompt">Промпт</string>
+    <string name="tab_manual">Вручну</string>
+    <string name="prompt_info">Введіть або продиктуйте промпт, наприклад: «Заплануй зустріч завтра о 10:00 до 18:00» або «Перенеси meetup weekly на наступний понеділок 10:00–11:00».</string>
+    <string name="prompt_hint">Опишіть, що створити або оновити…</string>
+    <string name="speak">Говорити</string>
+    <string name="run_prompt">Запустити</string>
+    <string name="speak_now">Говоріть зараз</string>
+    <string name="speech_not_available">Голосове введення недоступне на цьому пристрої</string>
+    <string name="ai_disabled_message">AI промпти тимчасово вимкнені. Використовуйте ручний режим.</string>
+    <string name="ai_status_failed">Перевірка статусу AI не вдалася: %1$s</string>
+    <string name="prompt_empty">Будь ласка, введіть промпт</string>
+    <string name="prompt_request_failed">Запит до AI не вдався: %1$s</string>
+    <string name="prompt_parse_failed">Не вдалося розпізнати промпт. Спробуйте перефразувати.</string>
+    <string name="prompt_invalid_intent">AI повернув некоректний intent</string>
+    <string name="prompt_missing_title">У відповіді AI відсутній заголовок</string>
+    <string name="prompt_missing_time">У відповіді AI відсутній час початку/завершення</string>
+    <string name="prompt_invalid_time_range">Час завершення має бути після часу початку</string>
+    <string name="prompt_update_not_found">Не знайдено завдання з назвою: %1$s</string>
+    <string name="prompt_update_ongoing_not_allowed">Неможливо перенести активне (clock-in) завдання. Спочатку зупиніть його.</string>
+
+    <string name="downloaded_to_downloads">Збережено в Завантаженнях</string>
+    <string name="download_failed">Помилка завантаження</string>
+    <string name="open_file">Відкрити файл</string>
 </resources>

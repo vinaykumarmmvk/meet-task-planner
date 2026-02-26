@@ -125,4 +125,62 @@
     <string name="attach">ಲಗತ್ತಿಸಿ</string>
     <string name="attach_files">ಫೈಲ್‌ಗಳನ್ನು ಲಗತ್ತಿಸಿ</string>
 
+    <string name="date_for_all_day">ದಿನಾಂಕ (ಪೂರ್ಣ ದಿನಕ್ಕಾಗಿ)</string>
+    <string name="from_date">ಆರಂಭ ದಿನಾಂಕ</string>
+    <string name="to_date">ಅಂತ್ಯ ದಿನಾಂಕ</string>
+    <string name="from_time">ಆರಂಭ ಸಮಯ</string>
+    <string name="to_time">ಅಂತ್ಯ ಸಮಯ</string>
+    <string name="from_label">ರಿಂದ</string>
+    <string name="to_label">ವರೆಗೆ</string>
+    <string name="custom_days_with_list">ಕಸ್ಟಮ್ ದಿನಗಳು: %1$s</string>
+    <string name="mon">ಸೋಮ</string>
+    <string name="tue">ಮಂಗಳ</string>
+    <string name="wed">ಬುಧ</string>
+    <string name="thu">ಗುರು</string>
+    <string name="fri">ಶುಕ್ರ</string>
+    <string name="sat">ಶನಿ</string>
+    <string name="sun">ರವಿ</string>
+    <string name="take_photo">ಫೋಟೋ ತೆಗೆದುಕೊಳ್ಳಿ</string>
+    <string name="choose_photo">ಫೋಟೋ ಆಯ್ಕೆಮಾಡಿ</string>
+    <string name="choose_file">ಫೈಲ್ ಆಯ್ಕೆಮಾಡಿ</string>
+    <string name="view_task_details_header">ಕಾರ್ಯ ವಿವರಗಳನ್ನು ನೋಡಿ</string>
+    <string name="edit_task_details_header">ಕಾರ್ಯ ವಿವರಗಳನ್ನು ಸಂಪಾದಿಸಿ</string>
+    <string name="upload_download">ಅಪ್‌ಲೋಡ್/ಡೌನ್‌ಲೋಡ್</string>
+    <string name="repeat">ಮರುಕಳಿಸಿ</string>
+    <string name="frequency">ಆವೃತ್ತಿ</string>
+    <string name="every_day">ಪ್ರತಿ ದಿನ</string>
+    <string name="custom_days">ಕಸ್ಟಮ್ ದಿನಗಳು</string>
+    <string name="start_date">ಆರಂಭ ದಿನಾಂಕ</string>
+    <string name="end_date">ಅಂತ್ಯ ದಿನಾಂಕ</string>
+    <string name="start_time">ಆರಂಭ ಸಮಯ</string>
+    <string name="end_time">ಅಂತ್ಯ ಸಮಯ</string>
+    <string name="select_date_range">ಆರಂಭ ಮತ್ತು ಅಂತ್ಯದ ದಿನಾಂಕ ಆಯ್ಕೆಮಾಡಿ</string>
+    <string name="select_time_range">ಆರಂಭ ಮತ್ತು ಅಂತ್ಯದ ಸಮಯ ಆಯ್ಕೆಮಾಡಿ</string>
+    <string name="select_custom_days">ಕನಿಷ್ಠ ಒಂದು ದಿನ ಆಯ್ಕೆಮಾಡಿ</string>
+    <string name="done">ಆಯಿತು</string>
+
+    <string name="tab_prompt">ಪ್ರಾಂಪ್ಟ್</string>
+    <string name="tab_manual">ಮ್ಯಾನುಯಲ್</string>
+    <string name="prompt_info">ಈ ರೀತಿಯ ಪ್ರಾಂಪ್ಟ್ ಟೈಪ್ ಅಥವಾ ಮಾತನಾಡಿ: “ನಾಳೆ ಬೆಳಗ್ಗೆ 10 ರಿಂದ ಸಂಜೆ 6 ರವರೆಗೆ ಮೀಟಿಂಗ್ ಸೆಟ್ ಮಾಡಿ” ಅಥವಾ “meetup weekly ಅನ್ನು ಮುಂದಿನ ಸೋಮವಾರ 10–11ಕ್ಕೆ ಮುಂದೂಡಿ”.</string>
+    <string name="prompt_hint">ಏನು ರಚಿಸಬೇಕು ಅಥವಾ ಅಪ್‌ಡೇಟ್ ಮಾಡಬೇಕು ಎಂದು ವಿವರಿಸಿ…</string>
+    <string name="speak">ಮಾತನಾಡಿ</string>
+    <string name="run_prompt">ಚಾಲನೆ</string>
+    <string name="speak_now">ಇಗ ಮಾತನಾಡಿ</string>
+    <string name="speech_not_available">ಈ ಸಾಧನದಲ್ಲಿ ಧ್ವನಿ ಇನ್‌ಪುಟ್ ಲಭ್ಯವಿಲ್ಲ</string>
+    <string name="ai_disabled_message">AI ಪ್ರಾಂಪ್ಟ್‌ಗಳು ತಾತ್ಕಾಲಿಕವಾಗಿ ನಿಷ್ಕ್ರಿಯವಾಗಿವೆ. ಮ್ಯಾನುಯಲ್ ಮೋಡ್ ಬಳಸಿ.</string>
+    <string name="ai_status_failed">AI ಸ್ಥಿತಿ ಪರಿಶೀಲನೆ ವಿಫಲ: %1$s</string>
+    <string name="prompt_empty">ದಯವಿಟ್ಟು ಪ್ರಾಂಪ್ಟ್ ನಮೂದಿಸಿ</string>
+    <string name="prompt_request_failed">AI ವಿನಂತಿ ವಿಫಲ: %1$s</string>
+    <string name="prompt_parse_failed">ಪ್ರಾಂಪ್ಟ್ ಪಾರ್ಸ್ ಮಾಡಲಾಗಲಿಲ್ಲ. ಮರುಸೂಚಿಸಿ.</string>
+    <string name="prompt_invalid_intent">AI ಅಮಾನ್ಯ intent ಅನ್ನು ಮರಳಿಸಿದೆ</string>
+    <string name="prompt_missing_title">AI ಉತ್ತರದಲ್ಲಿ ಶೀರ್ಷಿಕೆ ಇಲ್ಲ</string>
+    <string name="prompt_missing_time">AI ಉತ್ತರದಲ್ಲಿ ಆರಂಭ/ಅಂತ್ಯ ಸಮಯ ಇಲ್ಲ</string>
+    <string name="prompt_invalid_time_range">ಅಂತ್ಯ ಸಮಯವು ಆರಂಭ ಸಮಯದ ನಂತರ ಇರಬೇಕು</string>
+    <string name="prompt_update_not_found">ಈ ಶೀರ್ಷಿಕೆಯ ಕಾರ್ಯ ಕಂಡುಬಂದಿಲ್ಲ: %1$s</string>
+    <string name="prompt_update_ongoing_not_allowed">ಚಾಲುವಿರುವ (clock-in) ಕಾರ್ಯವನ್ನು ಮರುಶೆಡ್ಯೂಲ್ ಮಾಡಲಾಗುವುದಿಲ್ಲ. ಮೊದಲು ನಿಲ್ಲಿಸಿ.</string>
+
+    <string name="downloaded_to_downloads">Downloads ಗೆ ಉಳಿಸಲಾಗಿದೆ</string>
+    <string name="download_failed">ಡೌನ್‌ಲೋಡ್ ವಿಫಲ</string>
+    <string name="open_file">ಫೈಲ್ ತೆರೆಯಿರಿ</string>
+
 </resources>

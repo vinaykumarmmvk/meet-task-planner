@@ -97,4 +97,62 @@
     <string name="attach">Csatolás</string>
     <string name="attach_files">Fájlok csatolása</string>
 
+    <string name="date_for_all_day">Dátum (Egész naphoz)</string>
+    <string name="from_date">Kezdő dátum</string>
+    <string name="to_date">Befejező dátum</string>
+    <string name="from_time">Kezdő idő</string>
+    <string name="to_time">Befejező idő</string>
+    <string name="from_label">Tól</string>
+    <string name="to_label">Ig</string>
+    <string name="custom_days_with_list">Egyéni napok: %1$s</string>
+    <string name="mon">H</string>
+    <string name="tue">K</string>
+    <string name="wed">Sze</string>
+    <string name="thu">Cs</string>
+    <string name="fri">P</string>
+    <string name="sat">Szo</string>
+    <string name="sun">V</string>
+    <string name="take_photo">Fotó készítése</string>
+    <string name="choose_photo">Fotó kiválasztása</string>
+    <string name="choose_file">Fájl kiválasztása</string>
+    <string name="view_task_details_header">Feladat részletei</string>
+    <string name="edit_task_details_header">Feladat szerkesztése</string>
+    <string name="upload_download">Feltöltés/Letöltés</string>
+    <string name="repeat">Ismétlés</string>
+    <string name="frequency">Gyakoriság</string>
+    <string name="every_day">Minden nap</string>
+    <string name="custom_days">Egyéni napok</string>
+    <string name="start_date">Kezdő dátum</string>
+    <string name="end_date">Befejező dátum</string>
+    <string name="start_time">Kezdő idő</string>
+    <string name="end_time">Befejező idő</string>
+    <string name="select_date_range">Válassza ki a kezdő és záró dátumot</string>
+    <string name="select_time_range">Válassza ki a kezdő és záró időt</string>
+    <string name="select_custom_days">Válasszon legalább egy napot</string>
+    <string name="done">Kész</string>
+
+    <string name="tab_prompt">Prompt</string>
+    <string name="tab_manual">Kézi</string>
+    <string name="prompt_info">Írjon vagy mondjon be egy promptot, pl.: „Állíts be egy meetinget holnap 10-től 18-ig” vagy „Halasszd a meetup weekly meetinget jövő hét hétfőre 10–11-re”.</string>
+    <string name="prompt_hint">Írd le, mit hozzon létre vagy frissítsen…</string>
+    <string name="speak">Beszéd</string>
+    <string name="run_prompt">Futtatás</string>
+    <string name="speak_now">Beszéljen most</string>
+    <string name="speech_not_available">A hangbevitel nem érhető el ezen az eszközön</string>
+    <string name="ai_disabled_message">Az AI promptok ideiglenesen le vannak tiltva. Használja a kézi módot.</string>
+    <string name="ai_status_failed">AI állapot ellenőrzése sikertelen: %1$s</string>
+    <string name="prompt_empty">Kérjük, adjon meg egy promptot</string>
+    <string name="prompt_request_failed">AI kérés sikertelen: %1$s</string>
+    <string name="prompt_parse_failed">Nem sikerült értelmezni. Próbálja újrafogalmazni.</string>
+    <string name="prompt_invalid_intent">Az AI érvénytelen intentet adott vissza</string>
+    <string name="prompt_missing_title">Hiányzik a cím az AI válaszból</string>
+    <string name="prompt_missing_time">Hiányzik a kezdő/befejező idő</string>
+    <string name="prompt_invalid_time_range">A befejező időnek a kezdő után kell lennie</string>
+    <string name="prompt_update_not_found">Nem található feladat ezzel a címmel: %1$s</string>
+    <string name="prompt_update_ongoing_not_allowed">Futó (clock-in) feladat nem ütemezhető át. Előbb állítsa le.</string>
+
+    <string name="downloaded_to_downloads">Mentve a Letöltések mappába</string>
+    <string name="download_failed">Letöltés sikertelen</string>
+    <string name="open_file">Fájl megnyitása</string>
+
 </resources>

@@ -97,4 +97,55 @@
     <string name="attach">Anexar</string>
     <string name="attach_files">Anexar arquivos</string>
 
+    <string name="date_for_all_day">Data (para Dia inteiro)</string>
+    <string name="from_date">Data inicial</string>
+    <string name="to_date">Data final</string>
+    <string name="from_time">Hora inicial</string>
+    <string name="to_time">Hora final</string>
+    <string name="from_label">De</string>
+    <string name="to_label">Até</string>
+    <string name="custom_days_with_list">Dias personalizados: %1$s</string>
+    <string name="mon">Seg</string><string name="tue">Ter</string><string name="wed">Qua</string><string name="thu">Qui</string><string name="fri">Sex</string><string name="sat">Sáb</string><string name="sun">Dom</string>
+    <string name="take_photo">Tirar foto</string>
+    <string name="choose_photo">Escolher foto</string>
+    <string name="choose_file">Escolher arquivo</string>
+    <string name="view_task_details_header">Ver detalhes da tarefa</string>
+    <string name="edit_task_details_header">Editar detalhes da tarefa</string>
+    <string name="upload_download">Enviar/Baixar</string>
+    <string name="repeat">Repetir</string>
+    <string name="frequency">Frequência</string>
+    <string name="every_day">Todos os dias</string>
+    <string name="custom_days">Dias personalizados</string>
+    <string name="start_date">Data inicial</string>
+    <string name="end_date">Data final</string>
+    <string name="start_time">Hora inicial</string>
+    <string name="end_time">Hora final</string>
+    <string name="select_date_range">Selecione a data inicial e final</string>
+    <string name="select_time_range">Selecione a hora inicial e final</string>
+    <string name="select_custom_days">Selecione pelo menos um dia</string>
+    <string name="done">Concluído</string>
+
+    <string name="tab_prompt">Prompt</string>
+    <string name="tab_manual">Manual</string>
+    <string name="prompt_info">Digite ou fale um prompt como: “Marque uma reunião amanhã às 10h até às 18h” ou “Adie meetup weekly para a próxima segunda 10h–11h”.</string>
+    <string name="prompt_hint">Descreva o que criar ou atualizar…</string>
+    <string name="speak">Falar</string>
+    <string name="run_prompt">Executar</string>
+    <string name="speak_now">Fale agora</string>
+    <string name="speech_not_available">Entrada de voz não disponível neste dispositivo</string>
+    <string name="ai_disabled_message">Prompts de IA desativados temporariamente. Use o modo Manual.</string>
+    <string name="ai_status_failed">Falha ao verificar status da IA: %1$s</string>
+    <string name="prompt_empty">Digite um prompt</string>
+    <string name="prompt_request_failed">Falha na solicitação de IA: %1$s</string>
+    <string name="prompt_parse_failed">Não foi possível interpretar o prompt. Tente reformular.</string>
+    <string name="prompt_invalid_intent">A IA retornou um intent inválido</string>
+    <string name="prompt_missing_title">Resposta da IA sem título</string>
+    <string name="prompt_missing_time">Resposta da IA sem horário de início/fim</string>
+    <string name="prompt_invalid_time_range">A hora final deve ser após a hora inicial</string>
+    <string name="prompt_update_not_found">Não foi possível encontrar uma tarefa com o título: %1$s</string>
+    <string name="prompt_update_ongoing_not_allowed">Não é possível reagendar uma tarefa em andamento (clock-in). Pare primeiro.</string>
+
+    <string name="downloaded_to_downloads">Salvo em Downloads</string>
+    <string name="download_failed">Falha no download</string>
+    <string name="open_file">Abrir arquivo</string>
 </resources>

@@ -149,7 +149,7 @@
         android:id="@+id/edit_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Date (for All Day)"
+        android:hint="@string/date_for_all_day"
         android:focusable="false"
         android:visibility="gone" />
 
@@ -172,7 +172,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="From date"
+                android:hint="@string/from_date"
                 android:focusable="false" />
 
             <EditText
@@ -180,7 +180,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="From time"
+                android:hint="@string/from_time"
                 android:focusable="false" />
         </LinearLayout>
 
@@ -196,7 +196,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="To date"
+                android:hint="@string/to_date"
                 android:focusable="false" />
 
             <EditText
@@ -204,7 +204,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="To time"
+                android:hint="@string/to_time"
                 android:focusable="false" />
         </LinearLayout>
     </LinearLayout>
@@ -294,7 +294,7 @@
         android:id="@+id/btn_stop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="STOP"
+        android:text="@string/stop"
         android:visibility="gone" />
 
     <!-- Submit & Remove -->

@@ -43,21 +43,21 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Mon" />
+                android:text="@string/mon" />
 
             <CheckBox
                 android:id="@+id/cb_tue"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Tue" />
+                android:text="@string/tue" />
 
             <CheckBox
                 android:id="@+id/cb_wed"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Wed" />
+                android:text="@string/wed" />
         </LinearLayout>
 
         <LinearLayout
@@ -70,28 +70,28 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Thu" />
+                android:text="@string/thu" />
 
             <CheckBox
                 android:id="@+id/cb_fri"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Fri" />
+                android:text="@string/fri" />
 
             <CheckBox
                 android:id="@+id/cb_sat"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Sat" />
+                android:text="@string/sat" />
         </LinearLayout>
 
         <CheckBox
             android:id="@+id/cb_sun"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sun" />
+            android:text="@string/sun" />
     </LinearLayout>
 
     <Button

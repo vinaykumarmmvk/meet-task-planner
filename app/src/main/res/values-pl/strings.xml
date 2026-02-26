@@ -97,4 +97,56 @@
     <string name="attach">Dołącz</string>
     <string name="attach_files">Dołącz pliki</string>
 
+    <string name="date_for_all_day">Data (dla Całego dnia)</string>
+    <string name="from_date">Data od</string>
+    <string name="to_date">Data do</string>
+    <string name="from_time">Godzina od</string>
+    <string name="to_time">Godzina do</string>
+    <string name="from_label">Od</string>
+    <string name="to_label">Do</string>
+    <string name="custom_days_with_list">Niestandardowe dni: %1$s</string>
+    <string name="mon">Pon</string><string name="tue">Wto</string><string name="wed">Śro</string><string name="thu">Czw</string><string name="fri">Pią</string><string name="sat">Sob</string><string name="sun">Nie</string>
+    <string name="take_photo">Zrób zdjęcie</string>
+    <string name="choose_photo">Wybierz zdjęcie</string>
+    <string name="choose_file">Wybierz plik</string>
+    <string name="view_task_details_header">Podgląd szczegółów zadania</string>
+    <string name="edit_task_details_header">Edycja szczegółów zadania</string>
+    <string name="upload_download">Wyślij/Pobierz</string>
+    <string name="repeat">Powtarzaj</string>
+    <string name="frequency">Częstotliwość</string>
+    <string name="every_day">Codziennie</string>
+    <string name="custom_days">Niestandardowe dni</string>
+    <string name="start_date">Data rozpoczęcia</string>
+    <string name="end_date">Data zakończenia</string>
+    <string name="start_time">Godzina rozpoczęcia</string>
+    <string name="end_time">Godzina zakończenia</string>
+    <string name="select_date_range">Wybierz datę rozpoczęcia i zakończenia</string>
+    <string name="select_time_range">Wybierz godzinę rozpoczęcia i zakończenia</string>
+    <string name="select_custom_days">Wybierz co najmniej jeden dzień</string>
+    <string name="done">Gotowe</string>
+
+    <string name="tab_prompt">Prompt</string>
+    <string name="tab_manual">Ręcznie</string>
+    <string name="prompt_info">Wpisz lub powiedz prompt, np.: „Ustaw spotkanie jutro od 10:00 do 18:00” albo „Przełóż meetup weekly na następny poniedziałek 10:00–11:00”.</string>
+    <string name="prompt_hint">Opisz, co utworzyć lub zaktualizować…</string>
+    <string name="speak">Mów</string>
+    <string name="run_prompt">Uruchom</string>
+    <string name="speak_now">Mów teraz</string>
+    <string name="speech_not_available">Wprowadzanie głosowe jest niedostępne na tym urządzeniu</string>
+    <string name="ai_disabled_message">Prompty AI są tymczasowo wyłączone. Użyj trybu Ręcznie.</string>
+    <string name="ai_status_failed">Błąd sprawdzania statusu AI: %1$s</string>
+    <string name="prompt_empty">Wpisz prompt</string>
+    <string name="prompt_request_failed">Żądanie AI nie powiodło się: %1$s</string>
+    <string name="prompt_parse_failed">Nie udało się zrozumieć promptu. Spróbuj inaczej.</string>
+    <string name="prompt_invalid_intent">AI zwróciło nieprawidłowy intent</string>
+    <string name="prompt_missing_title">Brakuje tytułu w odpowiedzi AI</string>
+    <string name="prompt_missing_time">Brakuje czasu start/koniec w odpowiedzi AI</string>
+    <string name="prompt_invalid_time_range">Czas zakończenia musi być po czasie rozpoczęcia</string>
+    <string name="prompt_update_not_found">Nie znaleziono zadania o tytule: %1$s</string>
+    <string name="prompt_update_ongoing_not_allowed">Nie można przełożyć trwającego zadania (clock-in). Najpierw je zatrzymaj.</string>
+
+    <string name="downloaded_to_downloads">Zapisano w Pobranych</string>
+    <string name="download_failed">Pobieranie nie powiodło się</string>
+    <string name="open_file">Otwórz plik</string>
+
 </resources>

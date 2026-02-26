@@ -97,4 +97,62 @@
     <string name="attach">সংযুক্ত করুন</string>
     <string name="attach_files">ফাইল সংযুক্ত করুন</string>
 
+    <string name="date_for_all_day">তারিখ (সারাদিনের জন্য)</string>
+    <string name="from_date">শুরুর তারিখ</string>
+    <string name="to_date">শেষ তারিখ</string>
+    <string name="from_time">শুরুর সময়</string>
+    <string name="to_time">শেষ সময়</string>
+    <string name="from_label">থেকে</string>
+    <string name="to_label">পর্যন্ত</string>
+    <string name="custom_days_with_list">কাস্টম দিন: %1$s</string>
+    <string name="mon">সোম</string>
+    <string name="tue">মঙ্গল</string>
+    <string name="wed">বুধ</string>
+    <string name="thu">বৃহ</string>
+    <string name="fri">শুক্র</string>
+    <string name="sat">শনি</string>
+    <string name="sun">রবি</string>
+    <string name="take_photo">ছবি তুলুন</string>
+    <string name="choose_photo">ছবি নির্বাচন করুন</string>
+    <string name="choose_file">ফাইল নির্বাচন করুন</string>
+    <string name="view_task_details_header">টাস্কের বিস্তারিত দেখুন</string>
+    <string name="edit_task_details_header">টাস্কের বিস্তারিত সম্পাদনা করুন</string>
+    <string name="upload_download">আপলোড/ডাউনলোড</string>
+    <string name="repeat">পুনরাবৃত্তি</string>
+    <string name="frequency">ফ্রিকোয়েন্সি</string>
+    <string name="every_day">প্রতিদিন</string>
+    <string name="custom_days">কাস্টম দিন</string>
+    <string name="start_date">শুরুর তারিখ</string>
+    <string name="end_date">শেষ তারিখ</string>
+    <string name="start_time">শুরুর সময়</string>
+    <string name="end_time">শেষ সময়</string>
+    <string name="select_date_range">শুরু ও শেষ তারিখ নির্বাচন করুন</string>
+    <string name="select_time_range">শুরু ও শেষ সময় নির্বাচন করুন</string>
+    <string name="select_custom_days">কমপক্ষে একটি দিন নির্বাচন করুন</string>
+    <string name="done">সম্পন্ন</string>
+
+    <string name="tab_prompt">প্রম্পট</string>
+    <string name="tab_manual">ম্যানুয়াল</string>
+    <string name="prompt_info">এমন একটি প্রম্পট টাইপ বা বলুন: “কাল সকাল ১০টা থেকে সন্ধ্যা ৬টা পর্যন্ত একটি মিটিং সেট করুন” অথবা “meetup weekly মিটিংটি পরের সোমবার সকাল ১০টা থেকে ১১টা পর্যন্ত পিছিয়ে দিন”।</string>
+    <string name="prompt_hint">কী তৈরি বা আপডেট করতে চান তা লিখুন…</string>
+    <string name="speak">বলুন</string>
+    <string name="run_prompt">চালান</string>
+    <string name="speak_now">এখন বলুন</string>
+    <string name="speech_not_available">এই ডিভাইসে ভয়েস ইনপুট উপলব্ধ নয়</string>
+    <string name="ai_disabled_message">AI প্রম্পট সাময়িকভাবে নিষ্ক্রিয়। অনুগ্রহ করে ম্যানুয়াল মোড ব্যবহার করুন।</string>
+    <string name="ai_status_failed">AI স্ট্যাটাস চেক ব্যর্থ: %1$s</string>
+    <string name="prompt_empty">অনুগ্রহ করে একটি প্রম্পট লিখুন</string>
+    <string name="prompt_request_failed">AI অনুরোধ ব্যর্থ: %1$s</string>
+    <string name="prompt_parse_failed">প্রম্পটটি বুঝতে পারিনি। আবার অন্যভাবে লিখুন।</string>
+    <string name="prompt_invalid_intent">AI একটি অবৈধ intent ফেরত দিয়েছে</string>
+    <string name="prompt_missing_title">AI রেসপন্সে শিরোনাম নেই</string>
+    <string name="prompt_missing_time">AI রেসপন্সে শুরু/শেষ সময় নেই</string>
+    <string name="prompt_invalid_time_range">শেষ সময় শুরু সময়ের পরে হতে হবে</string>
+    <string name="prompt_update_not_found">এই শিরোনামের কোনো টাস্ক পাওয়া যায়নি: %1$s</string>
+    <string name="prompt_update_ongoing_not_allowed">চলমান (clock-in) টাস্ক পুনঃনির্ধারণ করা যাবে না। আগে বন্ধ করুন।</string>
+
+    <string name="downloaded_to_downloads">Downloads এ সংরক্ষিত</string>
+    <string name="download_failed">ডাউনলোড ব্যর্থ</string>
+    <string name="open_file">ফাইল খুলুন</string>
+
 </resources>
