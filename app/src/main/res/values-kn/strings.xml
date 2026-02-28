@@ -183,4 +183,34 @@
     <string name="download_failed">ಡೌನ್‌ಲೋಡ್ ವಿಫಲ</string>
     <string name="open_file">ಫೈಲ್ ತೆರೆಯಿರಿ</string>
 
+    <string name="menu_about_app">ಆ್ಯಪ್ ಬಗ್ಗೆ</string>
+    <string name="menu_developer">ಡೆವಲಪರ್</string>
+    <string name="about_app_title">Todo Planner ಬಗ್ಗೆ</string>
+    <string name="about_app_message">Todo Planner ಒಂದು ಸ್ಥಳದಲ್ಲಿ ಕೆಲಸಗಳು ಮತ್ತು ಮೀಟಿಂಗ್‌ಗಳ ಮೂಲಕ ನಿಮ್ಮ ದಿನವನ್ನು ಯೋಜಿಸಲು ಸಹಾಯ ಮಾಡುತ್ತದೆ. ನೀವು Clock-in, All-day, Duration ಮತ್ತು Repeat ಟಾಸ್ಕ್‌ಗಳನ್ನು ರಚಿಸಬಹುದು, ಅಟ್ಯಾಚ್‌ಮೆಂಟ್‌ಗಳು (ಫೋಟೋ/ಫೈಲ್) ಸೇರಿಸಬಹುದು ಮತ್ತು ಕ್ಯಾಲೆಂಡರ್‌ನಲ್ಲಿ ಟ್ರ್ಯಾಕ್ ಮಾಡಬಹುದು.
+
+ಬಳಕೆ ವಿಧಾನ:
+1. Scheduler ಟ್ಯಾಬ್ ತೆರೆಯಿರಿ.
+2. ಪ್ರಕಾರ ಆಯ್ಕೆಮಾಡಿ:
+   • Clock-in: ಪ್ರಾರಂಭಕ್ಕೆ Submit, ಮುಗಿದ ನಂತರ Stop.
+   • All-day: ದಿನಾಂಕ ಆಯ್ಕೆ ಮಾಡಿ ಉಳಿಸಿ.
+   • Duration: From/To ದಿನಾಂಕ ಮತ್ತು ಸಮಯ ಆಯ್ಕೆ ಮಾಡಿ ಉಳಿಸಿ.
+   • Repeat: ಆರಂಭ/ಅಂತ್ಯ ದಿನಾಂಕ ಮತ್ತು ಸಮಯ ಸೆಟ್ ಮಾಡಿ, Every day ಅಥವಾ Custom days ಆಯ್ಕೆ ಮಾಡಿ Done.
+3. Calendar ಟ್ಯಾಬ್‌ನಲ್ಲಿ ಟಾಸ್ಕ್ ಮತ್ತು ಕೆಂಪು ಡಾಟ್‌ಗಳನ್ನು ನೋಡಿ.
+4. ದಿನದ ಟಾಸ್ಕ್‌ಗಳನ್ನು ನೋಡಲು ದಿನಾಂಕ ಟ್ಯಾಪ್ ಮಾಡಿ.
+5. View/Edit/Delete ಅಥವಾ ಅಟ್ಯಾಚ್‌ಮೆಂಟ್ ಸೇರಿಸಲು ಟಾಸ್ಕ್ ಟ್ಯಾಪ್ ಮಾಡಿ.
+6. Todo ಟ್ಯಾಬ್‌ನಲ್ಲಿ ಹುಡುಕಿ ಮತ್ತು Excel/CSV ಎಕ್ಸ್‌ಪೋರ್ಟ್ ಮಾಡಿ.</string>
+    <string name="about_dev_title" translatable="false">Vinay Kumar</string>
+    <string name="about_dev_intro">ಹಾಯ್!
+
+ನಾನು Todo Planner ಅನ್ನು ದೈನಂದಿನ ಟಾಸ್ಕ್ ಮತ್ತು ಮೀಟಿಂಗ್‌ಗಳನ್ನು ಸುಲಭವಾಗಿ ನಿರ್ವಹಿಸಲು ನಿರ್ಮಿಸಿದ್ದೇನೆ.
+ಸಹಾಯ ಅಥವಾ feedbackಗಾಗಿ ಸಂಪರ್ಕಿಸಿ.</string>
+    <string name="reach_me">ಸಂಪರ್ಕ:</string>
+    <string name="label_email">ಇಮೇಲ್</string>
+    <string name="label_linkedin">LinkedIn</string>
+    <string name="got_it">ಸರಿ</string>
+    <string name="cd_info">ಮಾಹಿತಿ</string>
+    <string name="cd_developer">ಡೆವಲಪರ್</string>
+    <string name="cd_email">ಇಮೇಲ್</string>
+    <string name="cd_linkedin">LinkedIn</string>
+
 </resources>

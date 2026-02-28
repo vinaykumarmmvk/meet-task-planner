@@ -155,4 +155,33 @@
     <string name="download_failed">Η λήψη απέτυχε</string>
     <string name="open_file">Άνοιγμα αρχείου</string>
 
+    <string name="menu_about_app">Σχετικά με την εφαρμογή</string>
+    <string name="menu_developer">Προγραμματιστής</string>
+    <string name="about_app_title">Σχετικά με το Todo Planner</string>
+    <string name="about_app_message">Το Todo Planner σας βοηθά να οργανώνετε την ημέρα σας με εργασίες και συναντήσεις σε ένα μέρος. Μπορείτε να δημιουργείτε Clock-in, Ολοήμερες, Διάρκειας και Επανάληψης εργασίες, να προσθέτετε συνημμένα (φωτο/αρχεία) και να τα παρακολουθείτε στο Ημερολόγιο.
+
+Πώς να το χρησιμοποιήσετε:
+1. Ανοίξτε την καρτέλα Scheduler.
+2. Επιλέξτε τύπο:
+   • Clock-in: Submit για έναρξη, Stop για τέλος.
+   • Ολοήμερο: επιλέξτε ημερομηνία και αποθήκευση.
+   • Διάρκεια: επιλέξτε From/To ημερομηνία και ώρα και αποθήκευση.
+   • Επανάληψη: ορίστε αρχή/τέλος, Every day ή Custom days και Done.
+3. Στο Ημερολόγιο δείτε εργασίες και κόκκινες τελείες.
+4. Πατήστε ημερομηνία για τις εργασίες της ημέρας.
+5. Πατήστε εργασία για Προβολή/Επεξεργασία/Διαγραφή ή συνημμένα.
+6. Στο Todo μπορείτε να αναζητήσετε και να κάνετε εξαγωγή σε Excel/CSV.</string>
+    <string name="about_dev_title" translatable="false">Vinay Kumar</string>
+    <string name="about_dev_intro">Γεια σας!
+
+Έφτιαξα το Todo Planner για εύκολη διαχείριση καθημερινών εργασιών και συναντήσεων.
+Επικοινωνήστε για βοήθεια, feedback ή συμβουλευτική σχετικά με εφαρμογές και websites.</string>
+    <string name="reach_me">Επικοινωνία:</string>
+    <string name="label_email">Email</string>
+    <string name="label_linkedin">LinkedIn</string>
+    <string name="got_it">Εντάξει</string>
+    <string name="cd_info">Πληροφορίες</string>
+    <string name="cd_developer">Προγραμματιστής</string>
+    <string name="cd_email">Email</string>
+    <string name="cd_linkedin">LinkedIn</string>
 </resources>

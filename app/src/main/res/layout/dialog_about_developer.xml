@@ -20,7 +20,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/ic_person_24"
-            android:contentDescription="Developer" />
+            android:contentDescription="@string/cd_developer" />
 
         <TextView
             android:id="@+id/dialogDevTitle"
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginStart="8dp"
-            android:text="Developer"
+            android:text="@string/about_dev_title"
             android:textColor="#000000"
             android:textStyle="bold"
             android:textSize="18sp" />
@@ -42,16 +42,14 @@
         android:textColor="#1A1A1A"
         android:textSize="16sp"
         android:lineSpacingExtra="4dp"
-        android:text="Hi, I’m Vinay Kumar.
-
-I built Screen Timer to help people stay mindful of how long they’re on their phones and get gentle reminders to take breaks." />
+        android:text="@string/about_dev_intro" />
 
     <!-- Contact label -->
     <TextView
         android:id="@+id/dialogDevContactLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Reach me:"
+        android:text="@string/reach_me"
         android:textColor="#000000"
         android:textStyle="bold"
         android:textSize="16sp"
@@ -84,13 +82,13 @@ I built Screen Timer to help people stay mindful of how long they’re on their 
                 android:layout_height="20dp"
                 android:src="@drawable/ic_email"
                 android:tint="#000000"
-                android:contentDescription="Email" />
+                android:contentDescription="@string/cd_email" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="Email"
+                android:text="@string/label_email"
                 android:textColor="#000000"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -110,13 +108,13 @@ I built Screen Timer to help people stay mindful of how long they’re on their 
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/ic_linkedin"
-                android:contentDescription="LinkedIn" />
+                android:contentDescription="@string/cd_linkedin" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="LinkedIn"
+                android:text="@string/label_linkedin"
                 android:textColor="#000000"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -128,7 +126,7 @@ I built Screen Timer to help people stay mindful of how long they’re on their 
         android:id="@+id/btnDialogClose"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:text="Got it"
+        android:text="@string/got_it"
         android:textAllCaps="false"
         android:textStyle="bold"
         android:textSize="16sp"/>

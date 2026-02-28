@@ -148,5 +148,34 @@
     <string name="downloaded_to_downloads">Enregistré dans Téléchargements</string>
     <string name="download_failed">Échec du téléchargement</string>
     <string name="open_file">Ouvrir le fichier</string>
+    <string name="menu_about_app">À propos de l’application</string>
+    <string name="menu_developer">Développeur</string>
+    <string name="about_app_title">À propos de Todo Planner</string>
+    <string name="about_app_message">Todo Planner vous aide à planifier votre journée avec des tâches et des réunions au même endroit. Vous pouvez créer des tâches Clock-in, Toute la journée, Durée et Répéter, ajouter des pièces jointes (photos/fichiers) et tout suivre dans le Calendrier.
+
+Mode d’emploi :
+1. Ouvrez l’onglet Scheduler.
+2. Choisissez un type :
+   • Clock-in : Submit pour démarrer, Stop pour terminer.
+   • Toute la journée : choisissez une date et enregistrez.
+   • Durée : choisissez les dates/heures De/À et enregistrez.
+   • Répéter : définissez début/fin, choisissez Tous les jours ou Jours personnalisés, puis Done.
+3. Dans Calendrier, vous verrez les tâches et les points rouges.
+4. Touchez une date pour voir les tâches du jour.
+5. Touchez une tâche pour Voir/Modifier/Supprimer ou ajouter des pièces jointes.
+6. Dans Todo, recherchez et exportez en Excel/CSV.</string>
+    <string name="about_dev_title" translatable="false">Vinay Kumar</string>
+    <string name="about_dev_intro">Bonjour !
+
+J’ai créé Todo Planner pour gérer facilement les tâches et réunions quotidiennes.
+Contactez-moi pour de l’aide, des retours ou une consultation sur des apps et sites web.</string>
+    <string name="reach_me">Contact :</string>
+    <string name="label_email">E-mail</string>
+    <string name="label_linkedin">LinkedIn</string>
+    <string name="got_it">Compris</string>
+    <string name="cd_info">Info</string>
+    <string name="cd_developer">Développeur</string>
+    <string name="cd_email">E-mail</string>
+    <string name="cd_linkedin">LinkedIn</string>
 
 </resources>

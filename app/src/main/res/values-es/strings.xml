@@ -148,5 +148,33 @@
     <string name="downloaded_to_downloads">Guardado en Descargas</string>
     <string name="download_failed">Falló la descarga</string>
     <string name="open_file">Abrir archivo</string>
+    <string name="menu_about_app">Acerca de la app</string>
+    <string name="menu_developer">Desarrollador</string>
+    <string name="about_app_title">Acerca de Todo Planner</string>
+    <string name="about_app_message">Todo Planner te ayuda a planificar tu día con tareas y reuniones en un solo lugar. Puedes crear tareas Clock-in, Todo el día, Duración y Repetir, añadir adjuntos (fotos/archivos) y seguir todo en el Calendario.
 
+Cómo usar:
+1. Abre la pestaña Scheduler.
+2. Elige un tipo:
+   • Clock-in: Pulsa Submit para iniciar y Stop al terminar.
+   • Todo el día: Selecciona una fecha y guarda.
+   • Duración: Elige fecha y hora Desde/Hasta y guarda.
+   • Repetir: Configura inicio/fin, elige Todos los días o Días personalizados y pulsa Done.
+3. En Calendario verás tareas y puntos rojos en los días con tareas.
+4. Toca una fecha para ver las tareas del día.
+5. Toca una tarea para Ver/Editar/Eliminar o añadir adjuntos.
+6. En Todo puedes buscar y exportar a Excel/CSV.</string>
+    <string name="about_dev_title" translatable="false">Vinay Kumar</string>
+    <string name="about_dev_intro">¡Hola!
+
+Creé Todo Planner para ayudarte a gestionar tareas y reuniones diarias fácilmente.
+Contáctame para ayuda, feedback o consultoría sobre apps y sitios web.</string>
+    <string name="reach_me">Contacto:</string>
+    <string name="label_email">Correo</string>
+    <string name="label_linkedin">LinkedIn</string>
+    <string name="got_it">Entendido</string>
+    <string name="cd_info">Info</string>
+    <string name="cd_developer">Desarrollador</string>
+    <string name="cd_email">Correo</string>
+    <string name="cd_linkedin">LinkedIn</string>
 </resources>

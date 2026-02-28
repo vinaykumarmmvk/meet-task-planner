@@ -149,4 +149,34 @@
     <string name="download_failed">Download non riuscito</string>
     <string name="open_file">Apri file</string>
 
+    <string name="menu_about_app">Info app</string>
+    <string name="menu_developer">Sviluppatore</string>
+    <string name="about_app_title">Info su Todo Planner</string>
+    <string name="about_app_message">Todo Planner ti aiuta a pianificare la giornata con attività e riunioni in un unico posto. Puoi creare attività Clock-in, Tutto il giorno, Durata e Ripeti, aggiungere allegati (foto/file) e seguire tutto nel Calendario.
+
+Come usare:
+1. Apri la scheda Scheduler.
+2. Scegli un tipo:
+   • Clock-in: Submit per avviare, Stop per terminare.
+   • Tutto il giorno: seleziona una data e salva.
+   • Durata: scegli date/ore Da/A e salva.
+   • Ripeti: imposta inizio/fine, scegli Ogni giorno o Giorni personalizzati, poi Done.
+3. In Calendario vedrai le attività e i puntini rossi.
+4. Tocca una data per vedere le attività del giorno.
+5. Tocca un’attività per Vedere/Modificare/Eliminare o aggiungere allegati.
+6. In Todo puoi cercare ed esportare in Excel/CSV.</string>
+    <string name="about_dev_title" translatable="false">Vinay Kumar</string>
+    <string name="about_dev_intro">Ciao!
+
+Ho creato Todo Planner per gestire facilmente attività e riunioni quotidiane.
+Contattami per aiuto, feedback o consulenza su app e siti web.</string>
+    <string name="reach_me">Contatti:</string>
+    <string name="label_email">Email</string>
+    <string name="label_linkedin">LinkedIn</string>
+    <string name="got_it">Capito</string>
+    <string name="cd_info">Info</string>
+    <string name="cd_developer">Sviluppatore</string>
+    <string name="cd_email">Email</string>
+    <string name="cd_linkedin">LinkedIn</string>
+
 </resources>

@@ -149,4 +149,33 @@
     <string name="download_failed">İndirme başarısız</string>
     <string name="open_file">Dosyayı aç</string>
 
+    <string name="menu_about_app">About App</string>
+    <string name="menu_developer">Developer</string>
+    <string name="about_app_title">About Todo Planner</string>
+    <string name="about_app_message">Todo Planner helps you plan your day with tasks and meetings in one place. You can create Clock-in, All-day, Duration, and Repeat tasks, add attachments (photos/files), and track everything in the Calendar.
+
+How to use:
+1. Open the Scheduler tab.
+2. Choose a type:
+   • Clock-in: Tap Submit to start, then Stop when done.
+   • All-day: Select a date and save.
+   • Duration: Choose From/To date and time, then save.
+   • Repeat: Set start/end date and time, choose Every day or Custom days, then tap Done.
+3. Open the Calendar tab to see your tasks and red dots on dates with tasks.
+4. Tap a date to view tasks for that day.
+5. Tap a task to View / Edit / Delete it, or add attachments.
+6. Use the Todo tab to browse all tasks, search, and export to Excel/CSV if needed.</string>
+    <string name="about_dev_title" translatable="false">Vinay Kumar</string>
+    <string name="about_dev_intro">Hi! Greetings.
+
+I built Todo Planner to help you manage daily tasks and meetings and keep track of them easily.
+Reach out to me for any help, feedback, or consultation related to apps and websites.</string>
+    <string name="reach_me">Reach me:</string>
+    <string name="label_email">Email</string>
+    <string name="label_linkedin">LinkedIn</string>
+    <string name="got_it">Got it</string>
+    <string name="cd_info">Info</string>
+    <string name="cd_developer">Developer</string>
+    <string name="cd_email">Email</string>
+    <string name="cd_linkedin">LinkedIn</string>
 </resources>

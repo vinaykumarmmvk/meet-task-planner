@@ -155,4 +155,33 @@
     <string name="download_failed">Letöltés sikertelen</string>
     <string name="open_file">Fájl megnyitása</string>
 
+    <string name="menu_about_app">Az appról</string>
+    <string name="menu_developer">Fejlesztő</string>
+    <string name="about_app_title">Todo Planner – ismertető</string>
+    <string name="about_app_message">A Todo Planner segít a napod megtervezésében feladatokkal és meetingekkel egy helyen. Létrehozhatsz Clock-in, Egész napos, Időtartam és Ismétlődő feladatokat, csatolmányokat (fotó/fájl) adhatsz hozzá, és mindent a Naptárban követhetsz.
+
+Használat:
+1. Nyisd meg a Scheduler fület.
+2. Válassz típust:
+   • Clock-in: Submit indításhoz, Stop befejezéshez.
+   • Egész nap: dátum kiválasztása és mentés.
+   • Időtartam: From/To dátum és idő kiválasztása és mentés.
+   • Ismétlés: kezdet/vég beállítása, Every day vagy Custom days, majd Done.
+3. A Naptár fülön láthatók a feladatok és piros pontok.
+4. Dátumra koppintva megjelennek aznapi feladatok.
+5. Feladatra koppintva Megtekintés/Szerkesztés/Törlés vagy csatolmányok.
+6. A Todo fülön keresés és export Excel/CSV.</string>
+    <string name="about_dev_title" translatable="false">Vinay Kumar</string>
+    <string name="about_dev_intro">Szia!
+
+A Todo Planner-t azért készítettem, hogy könnyen kezeld a napi feladatokat és meetingeket.
+Keress bátran segítségért, visszajelzésért vagy konzultációért.</string>
+    <string name="reach_me">Elérhetőség:</string>
+    <string name="label_email">E-mail</string>
+    <string name="label_linkedin">LinkedIn</string>
+    <string name="got_it">Rendben</string>
+    <string name="cd_info">Info</string>
+    <string name="cd_developer">Fejlesztő</string>
+    <string name="cd_email">E-mail</string>
+    <string name="cd_linkedin">LinkedIn</string>
 </resources>

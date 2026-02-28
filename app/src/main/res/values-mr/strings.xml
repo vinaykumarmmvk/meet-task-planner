@@ -154,4 +154,34 @@
     <string name="downloaded_to_downloads">Downloads मध्ये जतन झाले</string>
     <string name="download_failed">डाउनलोड अयशस्वी</string>
     <string name="open_file">फाइल उघडा</string>
+
+    <string name="menu_about_app">अ‍ॅप बद्दल</string>
+    <string name="menu_developer">डेव्हलपर</string>
+    <string name="about_app_title">Todo Planner बद्दल</string>
+    <string name="about_app_message">Todo Planner एकाच ठिकाणी टास्क आणि मीटिंग्ससह तुमचा दिवस प्लॅन करण्यास मदत करते. तुम्ही Clock-in, All-day, Duration आणि Repeat टास्क तयार करू शकता, अटॅचमेंट (फोटो/फाईल) जोडू शकता आणि कॅलेंडरमध्ये सर्व ट्रॅक करू शकता.
+
+कसे वापरायचे:
+1. Scheduler टॅब उघडा.
+2. प्रकार निवडा:
+   • Clock-in: सुरू करण्यासाठी Submit, पूर्ण झाल्यावर Stop.
+   • All-day: तारीख निवडा आणि सेव्ह करा.
+   • Duration: From/To तारीख आणि वेळ निवडा आणि सेव्ह करा.
+   • Repeat: सुरू/शेवट तारीख व वेळ सेट करा, Every day किंवा Custom days निवडा आणि Done.
+3. Calendar टॅबमध्ये टास्क आणि लाल डॉट्स दिसतील.
+4. दिवसाचे टास्क पाहण्यासाठी तारीख टॅप करा.
+5. टास्क टॅप करून View/Edit/Delete किंवा अटॅचमेंट जोडा.
+6. Todo टॅबमध्ये शोधा आणि Excel/CSV एक्सपोर्ट करा.</string>
+    <string name="about_dev_title" translatable="false">Vinay Kumar</string>
+    <string name="about_dev_intro">नमस्कार!
+
+दैनंदिन टास्क आणि मीटिंग्स सहज व्यवस्थापित करण्यासाठी मी Todo Planner तयार केले आहे.
+मदत/feedback साठी संपर्क करा.</string>
+    <string name="reach_me">संपर्क:</string>
+    <string name="label_email">ईमेल</string>
+    <string name="label_linkedin">LinkedIn</string>
+    <string name="got_it">ठीक आहे</string>
+    <string name="cd_info">माहिती</string>
+    <string name="cd_developer">डेव्हलपर</string>
+    <string name="cd_email">ईमेल</string>
+    <string name="cd_linkedin">LinkedIn</string>
 </resources>

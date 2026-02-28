@@ -4,12 +4,12 @@
 
     <item
         android:id="@+id/action_about"
-        android:title="About App"
+        android:title="@string/menu_about_app"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/action_developer"
-        android:title="Developer"
+        android:title="@string/menu_developer"
         app:showAsAction="never" />
 
     <item

@@ -155,4 +155,33 @@
     <string name="download_failed">பதிவிறக்கம் தோல்வி</string>
     <string name="open_file">கோப்பை திற</string>
 
+    <string name="menu_about_app">ஆப் பற்றி</string>
+    <string name="menu_developer">டெவலப்பர்</string>
+    <string name="about_app_title">Todo Planner பற்றி</string>
+    <string name="about_app_message">Todo Planner ஒரே இடத்தில் பணிகள் மற்றும் மீட்டிங்களுடன் உங்கள் நாளை திட்டமிட உதவும். நீங்கள் Clock-in, All-day, Duration, Repeat பணிகளை உருவாக்கலாம், இணைப்புகள் (புகைப்படம்/கோப்பு) சேர்க்கலாம் மற்றும் Calendar-ல் அனைத்தையும் கண்காணிக்கலாம்.
+
+பயன்படுத்துவது எப்படி:
+1. Scheduler தாவலை திறக்கவும்.
+2. ஒரு வகையை தேர்வு செய்யவும்:
+   • Clock-in: தொடங்க Submit, முடிக்க Stop.
+   • All-day: தேதியை தேர்வு செய்து சேமிக்கவும்.
+   • Duration: From/To தேதி மற்றும் நேரத்தை தேர்வு செய்து சேமிக்கவும்.
+   • Repeat: தொடக்கம்/முடிவு தேதி மற்றும் நேரம் அமைத்து Every day அல்லது Custom days தேர்வு செய்து Done.
+3. Calendar தாவலில் பணிகளையும் சிவப்பு புள்ளிகளையும் பார்க்கலாம்.
+4. ஒரு தேதியை தட்டி அந்த நாளின் பணிகளை பார்க்கவும்.
+5. பணியை தட்டி View/Edit/Delete அல்லது இணைப்புகள் சேர்க்கவும்.
+6. Todo தாவலில் தேடவும் மற்றும் Excel/CSV ஏற்றுமதி செய்யவும்.</string>
+    <string name="about_dev_title" translatable="false">Vinay Kumar</string>
+    <string name="about_dev_intro">வணக்கம்!
+
+நாளாந்த பணிகள் மற்றும் மீட்டிங்களை எளிதாக நிர்வகிக்க Todo Planner ஐ உருவாக்கினேன்.
+உதவி அல்லது feedback க்கு தொடர்பு கொள்ளுங்கள்.</string>
+    <string name="reach_me">தொடர்பு:</string>
+    <string name="label_email">மின்னஞ்சல்</string>
+    <string name="label_linkedin">LinkedIn</string>
+    <string name="got_it">சரி</string>
+    <string name="cd_info">தகவல்</string>
+    <string name="cd_developer">டெவலப்பர்</string>
+    <string name="cd_email">மின்னஞ்சல்</string>
+    <string name="cd_linkedin">LinkedIn</string>
 </resources>

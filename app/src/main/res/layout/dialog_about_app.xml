@@ -20,7 +20,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/ic_info_24"
-            android:contentDescription="Info"
+            android:contentDescription="@string/cd_info"
             app:tint="#444444" />
 
         <!-- Title -->
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginStart="8dp"
-            android:text="About Screen Timer"
+            android:text="@string/about_app_title"
             android:textColor="#000000"
             android:textStyle="bold"
             android:textSize="18sp"/>
@@ -44,7 +44,7 @@
         android:textColor="#1A1A1A"
         android:textSize="16sp"
         android:lineSpacingExtra="4dp"
-        android:text="This app helps you stay mindful of your screen time by letting you set a daily limit. If you go over your limit, it gently reminds you with a motivational quote. \nIt’s designed to support healthier habits and keep you focused throughout the day. Stay mindful — social media can quietly eat your time."
+        android:text="@string/about_app_message"
         />
 
     <!-- Button -->
@@ -53,7 +53,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginTop="20dp"
-        android:text="Got it"
+        android:text="@string/got_it"
         android:textAllCaps="false"
         android:textStyle="bold"
         android:textSize="16sp"/>

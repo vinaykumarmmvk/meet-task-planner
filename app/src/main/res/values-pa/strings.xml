@@ -154,4 +154,34 @@
     <string name="downloaded_to_downloads">Downloads ਵਿੱਚ ਸੇਵ ਹੋਇਆ</string>
     <string name="download_failed">ਡਾਊਨਲੋਡ ਫੇਲ੍ਹ</string>
     <string name="open_file">ਫਾਇਲ ਖੋਲ੍ਹੋ</string>
+
+    <string name="menu_about_app">ਐਪ ਬਾਰੇ</string>
+    <string name="menu_developer">ਡਿਵੈਲਪਰ</string>
+    <string name="about_app_title">Todo Planner ਬਾਰੇ</string>
+    <string name="about_app_message">Todo Planner ਇੱਕ ਹੀ ਥਾਂ ਤੇ ਟਾਸਕ ਅਤੇ ਮੀਟਿੰਗਾਂ ਨਾਲ ਤੁਹਾਡਾ ਦਿਨ ਪਲਾਨ ਕਰਨ ਵਿੱਚ ਮਦਦ ਕਰਦੀ ਹੈ। ਤੁਸੀਂ Clock-in, All-day, Duration ਅਤੇ Repeat ਟਾਸਕ ਬਣਾ ਸਕਦੇ ਹੋ, ਅਟੈਚਮੈਂਟ (ਫੋਟੋ/ਫਾਈਲ) ਜੋੜ ਸਕਦੇ ਹੋ ਅਤੇ Calendar ਵਿੱਚ ਟ੍ਰੈਕ ਕਰ ਸਕਦੇ ਹੋ।
+
+ਕਿਵੇਂ ਵਰਤਣਾ ਹੈ:
+1. Scheduler ਟੈਬ ਖੋਲ੍ਹੋ।
+2. ਕਿਸਮ ਚੁਣੋ:
+   • Clock-in: ਸ਼ੁਰੂ ਲਈ Submit, ਖਤਮ ਲਈ Stop।
+   • All-day: ਤਾਰੀਖ ਚੁਣੋ ਅਤੇ ਸੇਵ ਕਰੋ।
+   • Duration: From/To ਤਾਰੀਖ ਅਤੇ ਸਮਾਂ ਚੁਣੋ ਅਤੇ ਸੇਵ ਕਰੋ।
+   • Repeat: ਸ਼ੁਰੂ/ਅੰਤ ਤਾਰੀਖ ਅਤੇ ਸਮਾਂ ਸੈੱਟ ਕਰੋ, Every day ਜਾਂ Custom days ਚੁਣੋ ਅਤੇ Done।
+3. Calendar ਟੈਬ ਵਿੱਚ ਟਾਸਕ ਅਤੇ ਲਾਲ ਡਾਟ ਵੇਖੋ।
+4. ਕਿਸੇ ਤਾਰੀਖ ਨੂੰ ਟੈਪ ਕਰਕੇ ਉਸ ਦਿਨ ਦੇ ਟਾਸਕ ਵੇਖੋ।
+5. ਟਾਸਕ ਟੈਪ ਕਰਕੇ View/Edit/Delete ਜਾਂ ਅਟੈਚਮੈਂਟ ਜੋੜੋ।
+6. Todo ਟੈਬ ਵਿੱਚ ਖੋਜੋ ਅਤੇ Excel/CSV ਐਕਸਪੋਰਟ ਕਰੋ।</string>
+    <string name="about_dev_title" translatable="false">Vinay Kumar</string>
+    <string name="about_dev_intro">ਸਤ ਸ੍ਰੀ ਅਕਾਲ!
+
+ਮੈਂ Todo Planner ਦਿਨਚਰੀ ਟਾਸਕ ਅਤੇ ਮੀਟਿੰਗਾਂ ਆਸਾਨੀ ਨਾਲ ਮੈਨੇਜ ਕਰਨ ਲਈ ਬਣਾਈ ਹੈ।
+ਮਦਦ ਜਾਂ feedback ਲਈ ਸੰਪਰਕ ਕਰੋ।</string>
+    <string name="reach_me">ਸੰਪਰਕ:</string>
+    <string name="label_email">ਈਮੇਲ</string>
+    <string name="label_linkedin">LinkedIn</string>
+    <string name="got_it">ਠੀਕ ਹੈ</string>
+    <string name="cd_info">ਜਾਣਕਾਰੀ</string>
+    <string name="cd_developer">ਡਿਵੈਲਪਰ</string>
+    <string name="cd_email">ਈਮੇਲ</string>
+    <string name="cd_linkedin">LinkedIn</string>
 </resources>

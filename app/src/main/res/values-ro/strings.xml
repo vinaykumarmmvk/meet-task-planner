@@ -149,4 +149,33 @@
     <string name="download_failed">Descărcare eșuată</string>
     <string name="open_file">Deschide fișierul</string>
 
+    <string name="menu_about_app">Despre aplicație</string>
+    <string name="menu_developer">Dezvoltator</string>
+    <string name="about_app_title">Despre Todo Planner</string>
+    <string name="about_app_message">Todo Planner te ajută să îți planifici ziua cu sarcini și întâlniri într-un singur loc. Poți crea sarcini Clock-in, Toată ziua, Durată și Repetare, adăuga atașamente (poze/fișiere) și urmări totul în Calendar.
+
+Cum se folosește:
+1. Deschide fila Scheduler.
+2. Alege un tip:
+   • Clock-in: Submit pentru start, Stop la final.
+   • Toată ziua: selectează data și salvează.
+   • Durată: alege De/La data și ora și salvează.
+   • Repetare: setează început/sfârșit, alege În fiecare zi sau Zile personalizate și apasă Done.
+3. În Calendar vezi sarcinile și punctele roșii.
+4. Apasă o dată pentru sarcinile zilei.
+5. Apasă o sarcină pentru Vizualizare/Editare/Ștergere sau atașamente.
+6. În Todo poți căuta și exporta în Excel/CSV.</string>
+    <string name="about_dev_title" translatable="false">Vinay Kumar</string>
+    <string name="about_dev_intro">Salut!
+
+Am creat Todo Planner pentru a gestiona ușor sarcinile și întâlnirile zilnice.
+Contactează-mă pentru ajutor, feedback sau consultanță despre aplicații și site-uri.</string>
+    <string name="reach_me">Contact:</string>
+    <string name="label_email">Email</string>
+    <string name="label_linkedin">LinkedIn</string>
+    <string name="got_it">Am înțeles</string>
+    <string name="cd_info">Info</string>
+    <string name="cd_developer">Dezvoltator</string>
+    <string name="cd_email">Email</string>
+    <string name="cd_linkedin">LinkedIn</string>
 </resources>

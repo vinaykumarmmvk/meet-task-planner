@@ -148,4 +148,35 @@
     <string name="downloaded_to_downloads">Збережено в Завантаженнях</string>
     <string name="download_failed">Помилка завантаження</string>
     <string name="open_file">Відкрити файл</string>
+
+    <string name="menu_about_app">Про застосунок</string>
+    <string name="menu_developer">Розробник</string>
+    <string name="about_app_title">Про Todo Planner</string>
+    <string name="about_app_message">Todo Planner допомагає планувати день із завданнями та зустрічами в одному місці. Ви можете створювати Clock-in, На весь день, Тривалість і Повтор, додавати вкладення (фото/файли) та відстежувати все в Календарі.
+
+Як користуватися:
+1. Відкрийте вкладку Scheduler.
+2. Оберіть тип:
+   • Clock-in: Submit для старту, Stop для завершення.
+   • На весь день: виберіть дату та збережіть.
+   • Тривалість: виберіть From/To дату і час та збережіть.
+   • Повтор: задайте початок/кінець, Every day або Custom days і Done.
+3. У Календарі побачите завдання та червоні точки.
+4. Натисніть дату для завдань дня.
+5. Натисніть завдання для Перегляд/Редагування/Видалення або вкладень.
+6. У Todo можна шукати та експортувати в Excel/CSV.</string>
+    <string name="about_dev_title" translatable="false">Vinay Kumar</string>
+    <string name="about_dev_intro">Привіт!
+
+Я створив Todo Planner, щоб легко керувати щоденними завданнями та зустрічами.
+Звертайтесь за допомогою або відгуками.</string>
+    <string name="reach_me">Контакт:</string>
+    <string name="label_email">Email</string>
+    <string name="label_linkedin">LinkedIn</string>
+    <string name="got_it">Гаразд</string>
+    <string name="cd_info">Інфо</string>
+    <string name="cd_developer">Розробник</string>
+    <string name="cd_email">Email</string>
+    <string name="cd_linkedin">LinkedIn</string>
+
 </resources>

@@ -154,4 +154,34 @@
     <string name="downloaded_to_downloads">Downloads ലേക്ക് സേവ് ചെയ്തു</string>
     <string name="download_failed">ഡൗൺലോഡ് പരാജയപ്പെട്ടു</string>
     <string name="open_file">ഫയൽ തുറക്കുക</string>
+
+    <string name="menu_about_app">ആപ്പിനെ കുറിച്ച്</string>
+    <string name="menu_developer">ഡെവലപ്പർ</string>
+    <string name="about_app_title">Todo Plannerയെ കുറിച്ച്</string>
+    <string name="about_app_message">Todo Planner ഒറ്റ സ്ഥലത്ത് ടാസ്കുകളും മീറ്റിംഗുകളും ഉപയോഗിച്ച് നിങ്ങളുടെ ദിവസം പ്ലാൻ ചെയ്യാൻ സഹായിക്കുന്നു. Clock-in, All-day, Duration, Repeat ടാസ്കുകൾ സൃഷ്ടിക്കാം, അറ്റാച്ച്മെൻറുകൾ (ഫോട്ടോ/ഫയൽ) ചേർക്കാം, Calendar-ൽ എല്ലാം ട്രാക്ക് ചെയ്യാം.
+
+ഉപയോഗിക്കുന്നത്:
+1. Scheduler ടാബ് തുറക്കുക.
+2. ടൈപ്പ് തിരഞ്ഞെടുക്കുക:
+   • Clock-in: ആരംഭിക്കാൻ Submit, കഴിഞ്ഞാൽ Stop.
+   • All-day: തീയതി തിരഞ്ഞെടുക്കി സേവ് ചെയ്യുക.
+   • Duration: From/To തീയതി/സമയം തിരഞ്ഞെടുക്കി സേവ് ചെയ്യുക.
+   • Repeat: ആരംഭ/അവസാന തീയതി/സമയം സജ്ജമാക്കി Every day അല്ലെങ്കിൽ Custom days തിരഞ്ഞെടുക്കി Done.
+3. Calendar ടാബിൽ ടാസ്കുകളും റെഡ് ഡോട്ടുകളും കാണാം.
+4. ഒരു തീയതി ടാപ്പ് ചെയ്ത് ആ ദിവസത്തിലെ ടാസ്കുകൾ കാണുക.
+5. ടാസ്ക് ടാപ്പ് ചെയ്ത് View/Edit/Delete അല്ലെങ്കിൽ അറ്റാച്ച്മെൻറ് ചേർക്കുക.
+6. Todo ടാബിൽ തിരയുകയും Excel/CSV എക്‌സ്‌പോർട്ട് ചെയ്യുകയും ചെയ്യാം.</string>
+    <string name="about_dev_title" translatable="false">Vinay Kumar</string>
+    <string name="about_dev_intro">ഹായ്!
+
+ദൈനംദിന ടാസ്കുകളും മീറ്റിംഗുകളും എളുപ്പത്തിൽ മാനേജ് ചെയ്യാൻ Todo Planner ഞാൻ നിർമ്മിച്ചു.
+സഹായത്തിനോ feedback-നോ ബന്ധപ്പെടുക.</string>
+    <string name="reach_me">ബന്ധപ്പെടുക:</string>
+    <string name="label_email">ഇമെയിൽ</string>
+    <string name="label_linkedin">LinkedIn</string>
+    <string name="got_it">ശരി</string>
+    <string name="cd_info">വിവരം</string>
+    <string name="cd_developer">ഡെവലപ്പർ</string>
+    <string name="cd_email">ഇമെയിൽ</string>
+    <string name="cd_linkedin">LinkedIn</string>
 </resources>

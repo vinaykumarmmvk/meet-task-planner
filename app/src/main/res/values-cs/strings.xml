@@ -154,4 +154,34 @@
     <string name="downloaded_to_downloads">Uloženo do Stažených souborů</string>
     <string name="download_failed">Stažení se nezdařilo</string>
     <string name="open_file">Otevřít soubor</string>
+
+    <string name="menu_about_app">O aplikaci</string>
+    <string name="menu_developer">Vývojář</string>
+    <string name="about_app_title">O  Todo Planner</string>
+    <string name="about_app_message">Todo Planner vám pomůže plánovat den s úkoly a schůzkami na jednom místě. Můžete vytvářet Clock-in, Celý den, Doba trvání a Opakování, přidávat přílohy (fotky/soubory) a vše sledovat v Kalendáři.
+
+Jak používat:
+1. Otevřete kartu Scheduler.
+2. Vyberte typ:
+   • Clock-in: Submit pro start, Stop po dokončení.
+   • Celý den: vyberte datum a uložte.
+   • Doba trvání: vyberte From/To datum a čas a uložte.
+   • Opakování: nastavte začátek/konec, vyberte Každý den nebo Vlastní dny a stiskněte Done.
+3. V Kalendáři uvidíte úkoly a červené tečky.
+4. Klepněte na datum pro úkoly dne.
+5. Klepněte na úkol pro Zobrazit/Upravit/Smazat nebo přidat přílohy.
+6. V Todo můžete hledat a exportovat do Excel/CSV.</string>
+    <string name="about_dev_title" translatable="false">Vinay Kumar</string>
+    <string name="about_dev_intro">Ahoj!
+
+Vytvořil jsem Todo Planner pro snadnou správu denních úkolů a schůzek.
+Kontaktujte mě pro pomoc, zpětnou vazbu nebo konzultaci ohledně aplikací a webů.</string>
+    <string name="reach_me">Kontakt:</string>
+    <string name="label_email">E-mail</string>
+    <string name="label_linkedin">LinkedIn</string>
+    <string name="got_it">Rozumím</string>
+    <string name="cd_info">Info</string>
+    <string name="cd_developer">Vývojář</string>
+    <string name="cd_email">E-mail</string>
+    <string name="cd_linkedin">LinkedIn</string>
 </resources>
