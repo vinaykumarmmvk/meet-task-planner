@@ -31,7 +31,7 @@
     <string name="in_progress">Läuft</string>
     <string name="in_progress_dots">Läuft …</string>
     <string name="all_day">Ganztägig</string>
-    <string name="app_name">Task Manager</string>
+    <string name="app_name">Todo Planner</string>
     <string name="scheduler">Planer</string>
     <string name="calendar">Kalender</string>
     <string name="todo">To-do</string>

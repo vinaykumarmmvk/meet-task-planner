@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Task Manager</string>
+    <string name="app_name">Todo Planner</string>
     <string name="menu_language">Language</string>
     <string name="select_language">Select language</string>
     <string name="search_language">Search language</string>

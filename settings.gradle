@@ -20,5 +20,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Task Manager"
+rootProject.name = "Todo Planner"
 include ':app'
