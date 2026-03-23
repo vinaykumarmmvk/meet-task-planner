@@ -164,6 +164,17 @@ public class MainActivity extends BaseActivity {
 
             LayoutInflater inflater = LayoutInflater.from(this);
             View dialogView = inflater.inflate(R.layout.dialog_about_app, null);
+            TextView versionText = dialogView.findViewById(R.id.versionNumber);
+
+            try {
+                String versionName = getPackageManager()
+                        .getPackageInfo(getPackageName(), 0).versionName;
+
+                versionText.setText("v" + versionName);
+
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
 
             AlertDialog aboutAppDialog = new AlertDialog.Builder(this)
                     .setView(dialogView)
